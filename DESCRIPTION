@@ -67,3 +67,5 @@ Imports:
 RoxygenNote: 7.1.2
 Suggests: 
     hasseDiagram
+URL: https://github.com/georgiosseitidis/viscomp
+BugReports: https://github.com/georgiosseitidis/viscomp/issues
