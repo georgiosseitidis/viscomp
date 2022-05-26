@@ -19,7 +19,9 @@
 #' @export
 #'
 #' @examples
-#' # Artificial data set
+#'
+#' \dontrun{
+#' #' # Artificial data set
 #'
 #' t1 <- c("A", "B", "C", "A+B", "A+C", "B+C", "A")
 #' t2 <- c("C", "A", "A+C", "B+C", "A", "B", "B+C")
@@ -57,6 +59,7 @@
 #' # Hasse plot assuming that the first outcome is beneficial while the second is harmful.
 #'
 #' hassePlot(ls = list(net1, net2), small.values = c("bad", "good"))
+#' }
 #'
 hassePlot <- function(ls, random = NULL, small.values = NULL) {
 

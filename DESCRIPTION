@@ -66,6 +66,7 @@ Imports:
     reshape2
 RoxygenNote: 7.1.2
 Suggests: 
+    covr,
     hasseDiagram
 URL: https://github.com/georgiosseitidis/viscomp
 BugReports: https://github.com/georgiosseitidis/viscomp/issues

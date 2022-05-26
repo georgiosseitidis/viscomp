@@ -9,6 +9,8 @@
 status](https://travis-ci.com/georgiosseitidis/viscomp.svg?branch=main)](https://travis-ci.com/georgiosseitidis/viscomp)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/georgiosseitidis/viscomp?branch=main&svg=true)](https://ci.appveyor.com/project/georgiosseitidis/viscomp)
+[![Codecov test
+coverage](https://codecov.io/gh/georgiosseitidis/viscomp/branch/main/graph/badge.svg)](https://app.codecov.io/gh/georgiosseitidis/viscomp?branch=main)
 <!-- badges: end -->
 
 The goal of viscomp is to provide several visualization tools for

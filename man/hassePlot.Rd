@@ -25,7 +25,9 @@ The function is a wrapper function for R function \code{\link[netmeta]{hasse}} i
 Function \code{hasse} can only be used if R package \bold{hasseDiagram} is installed.
 }
 \examples{
-# Artificial data set
+
+\dontrun{
+#' # Artificial data set
 
 t1 <- c("A", "B", "C", "A+B", "A+C", "B+C", "A")
 t2 <- c("C", "A", "A+C", "B+C", "A", "B", "B+C")
@@ -63,5 +65,6 @@ net2 <- netmeta::netmeta(
 # Hasse plot assuming that the first outcome is beneficial while the second is harmful.
 
 hassePlot(ls = list(net1, net2), small.values = c("bad", "good"))
+}
 
 }
