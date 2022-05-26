@@ -56,9 +56,9 @@
 #'
 #' # Hasse plot assuming that the first outcome is beneficial while the second is harmful.
 #'
-#' hasse(ls = list(net1, net2), small.values = c("bad", "good"))
+#' hassePlot(ls = list(net1, net2), small.values = c("bad", "good"))
 #'
-hasse <- function(ls, random = NULL, small.values = NULL) {
+hassePlot <- function(ls, random = NULL, small.values = NULL) {
 
   ##
   # Check arguments

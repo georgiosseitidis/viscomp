@@ -56,7 +56,7 @@
 #' )
 #' net <- netmeta::netmeta(
 #'   TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-#'   treat2 = treat2, data = NMAdata, ref = "A"
+#'   treat2 = treat2, data = NMAdata, ref = "UC"
 #' )
 #' specc(model = net, combination = c("B", "C", "B + C"))
 specc <- function(model, sep = "+", combination = NULL, components_number = FALSE, groups = NULL, random = TRUE, z_value = TRUE,

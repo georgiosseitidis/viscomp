@@ -36,7 +36,7 @@
 #' )
 #' net <- netmeta::netmeta(
 #'   TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-#'   treat2 = treat2, data = NMAdata, ref = "A"
+#'   treat2 = treat2, data = NMAdata, ref = "UC"
 #' )
 #' watercomp(net)
 watercomp <- function(model, sep = "+", combination = NULL, random = TRUE) {

@@ -2,7 +2,7 @@
 
 export(compGraph)
 export(denscomp)
-export(hasse)
+export(hassePlot)
 export(heatcomp)
 export(loccos)
 export(rankheatplot)

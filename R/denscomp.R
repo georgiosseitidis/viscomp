@@ -48,7 +48,7 @@
 #' )
 #' net <- netmeta::netmeta(
 #'   TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-#'   treat2 = treat2, data = NMAdata, ref = "A"
+#'   treat2 = treat2, data = NMAdata, ref = "UC"
 #' )
 #' denscomp(model = net, combination = "C")
 denscomp <- function(model, sep = "+", combination, violin = FALSE, random = TRUE, z_value = TRUE) {
