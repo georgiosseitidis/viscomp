@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
+^install-rgraphviz.sh$
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^codecov\.yml$

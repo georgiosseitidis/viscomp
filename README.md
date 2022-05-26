@@ -16,15 +16,14 @@ coverage](https://codecov.io/gh/georgiosseitidis/viscomp/branch/main/graph/badge
 The goal of viscomp is to provide several visualization tools for
 exploring the behavior of the components in network meta-analysis:
 
--   heat plot for the two-by-two component combinations
--   leaving one component combination out scatter plot
--   specific component combinations violin plots
--   components density plot
--   waterfall plot for the interventions that differ by a specific
-    component combination
--   components network graph
--   components rank heat plot for multiple outcomes
--   hasse diagram.
+ * heat plot for the two-by-two component combinations 
+ * leaving one component combination out scatter plot 
+ * specific component combinations violin plots
+ * components density plot 
+ * waterfall plot for the interventions that differ by a specific component combination 
+ * components network graph 
+ * components rank heat plot for multiple outcomes 
+ * hasse diagram.
 
 ## Installation
 
