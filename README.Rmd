@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # viscomp
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.com/georgiosseitidis/viscomp.svg?branch=main)](https://travis-ci.com/georgiosseitidis/viscomp)
 <!-- badges: end -->
 
 The goal of viscomp is to provide several visualization tools for exploring the behavior of the components in network meta-analysis: 

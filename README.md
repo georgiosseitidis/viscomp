@@ -4,6 +4,9 @@
 # viscomp
 
 <!-- badges: start -->
+
+[![Travis build
+status](https://travis-ci.com/georgiosseitidis/viscomp.svg?branch=main)](https://travis-ci.com/georgiosseitidis/viscomp)
 <!-- badges: end -->
 
 The goal of viscomp is to provide several visualization tools for
@@ -21,7 +24,7 @@ exploring the behavior of the components in network meta-analysis:
 
 ## Installation
 
-You can install the development version of viscomp like so:
+You can install the development version of **viscomp** like so:
 
 ``` r
 install.packages("devtools")
