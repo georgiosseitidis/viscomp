@@ -74,12 +74,16 @@ the network with the **compGraph** function as follows:
 compGraph(net, mostF = 10)
 ```
 
+<img src="man/figures/compGraph.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
+
 You can visualize the median z-values for all the two-by-two component
 combinations with the **heatcomp** function as follows:
 
 ``` r
 heatcomp(net)
 ```
+
+<img src="man/figures/heatcomp.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
 
 You can explore the effectiveness of specific components combinations
 (e.g. A, A + B, B + C) with the **specc** function as follows:
@@ -88,6 +92,8 @@ You can explore the effectiveness of specific components combinations
 specc(net, combination = c("A", "A + B", "B + C"))
 ```
 
+<img src="man/figures/specc.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
+
 You can explore if the number of components affects the effectiveness of
 the intervention with the function **specc** as follows:
 
@@ -95,12 +101,16 @@ the intervention with the function **specc** as follows:
 specc(net, components_number = TRUE)
 ```
 
+<img src="man/figures/specc_2.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
+
 You can create density plots for the component combination of interest
 (e.g combination A + B) with the function **denscomp** as follows:
 
 ``` r
 denscomp(net, combination = "A + B", z_value = FALSE)
 ```
+
+<img src="man/figures/denscomp.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
 
 You can explore if the inclusion-exclusion of a specific component
 (e.g. component A) or a component combination, affects the effectiveness
@@ -110,6 +120,8 @@ of the intervention with the **loccos** function as follows:
 loccos(net, combination = "A", histogram = FALSE)
 ```
 
+<img src="man/figures/loccos.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
+
 You can also explore if the inclusion-exclusion of a specific component
 (e.g. component A) or a component combination, affects the effectiveness
 of the intervention with the **watercomp** function as follows:
@@ -117,6 +129,8 @@ of the intervention with the **watercomp** function as follows:
 ``` r
 watercomp(net, combination = "A")
 ```
+
+<img src="man/figures/watercomp.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
 
 **Part 2: Multiple outcomes**
 
@@ -174,9 +188,13 @@ the function **rankheatplot** as follows:
 rankheatplot(list(net1, net2))
 ```
 
+<img src="man/figures/rankheatplot.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
+
 You can create the hasse diagramm for the two functions using the
-**hasse** function as follows:
+**hassePlot** function as follows:
 
 ``` r
 hassePlot(ls = list(net1, net2))
 ```
+
+<img src="man/figures/hassePlot.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
