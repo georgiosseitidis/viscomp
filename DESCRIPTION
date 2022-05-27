@@ -69,6 +69,8 @@ Suggests:
     covr,
     hasseDiagram,
     knitr,
+    meta,
+    nloptr,
     rmarkdown
 URL: https://github.com/georgiosseitidis/viscomp,
     https://georgiosseitidis.github.io/viscomp/
