@@ -8,3 +8,6 @@ r: devel
 before_install: sh ./install-rgraphviz.sh
 
 os: osx
+
+after_success:
+  - Rscript -e 'covr::codecov(type = "all")'
