@@ -12,3 +12,6 @@ coverage:
         target: auto
         threshold: 1%
         informational: true
+
+- name: Codecov
+  uses: codecov/codecov-action@v3.1.0
