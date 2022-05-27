@@ -1,12 +1,12 @@
 #' Components Rank Heat Plot
 #'
 #' @description
-#' Rank heat plot summarizes the component's p-scores for multiple outcomes.
+#' Rank heat plot summarizes the components' p-scores for multiple outcomes.
 #'
 #' @details
 #' The function creates a rank heat plot, where the number of circles depend on the number of outcomes.
 #' Each circle is divided by the total number of components, and each sector is colored according
-#' the corresponding component p-score. Component's p-scores are summarized by using either the median (\code{median = TRUE})
+#' the corresponding component p-score. Components' p-scores are summarized by using either the median (\code{median = TRUE})
 #' or the mean (\code{median = FALSE}) of the p-scores obtained from the interventions that include the corresponding component.
 #' The sector's colors reflect the magnitude of the components p-scores. Red color indicates a low p-score (close to zero),
 #' while green color indicates values close to 1. Intervention's p-scores are obtained from the network meta-analysis (NMA) model.
@@ -17,6 +17,7 @@
 #' @param sep A single character that defines the separator between interventions components.
 #' @param median \code{logical}. If \code{TRUE} the median is used as a summary measure instead of the mean.
 #' @param random \code{logical}. If \code{TRUE} the random-effects NMA model is used instead of the fixed-effects NMA model.
+#' @param small.values A \code{character} vector that specifies whether small intervention effects indicate a beneficial (\code{small.values = "good"}) or a harmful (\code{small.values = "bad"}) effect. If \code{small.values = NULL} small values assumed \code{good} for each outcome.
 #' @param outcomeNames A character vector that specifies the names of the outcomes.
 #' @param cex_components Font size of components' names.
 #' @param cex_values Font size of p-scores.
@@ -66,17 +67,21 @@
 #' # Rank heat plot
 #'
 #' rankheatplot(model = list(net1, net2))
-rankheatplot <- function(model, sep = "+", median = TRUE, random = TRUE, outcomeNames = c("Outcome 1", "Outcome 2"),
+rankheatplot <- function(model, sep = "+", median = TRUE, random = TRUE, small.values = NULL, outcomeNames = c("Outcome 1", "Outcome 2"),
                          cex_components = NULL, cex_values = NULL, cex_outcomes = NULL) {
 
   ##
   # Check arguments
   ##
-  random <- check.arguments(model, median, random, outcomeNames, cex_components, cex_values, cex_outcomes)
+  random <- check.arguments(model, median, random, small.values, outcomeNames, cex_components, cex_values, cex_outcomes)
 
   ##
   # Build all components of the network
   ##
+
+  if (is.null(small.values)) {
+    small.values <- rep("good", length(model))
+  }
 
   numOfOutcomes <- length(model)
 
@@ -100,7 +105,7 @@ rankheatplot <- function(model, sep = "+", median = TRUE, random = TRUE, outcome
     stop("No additive treatments are included in the NMA model", call. = FALSE)
   }
 
-  results <- build.data(model, median, random, numOfOutcomes, components, outcomeNames, sep)
+  results <- build.data(model, median, random, small.values, numOfOutcomes, components, outcomeNames, sep)
 
   ##
   # Draw the donughts of the rankheatplot

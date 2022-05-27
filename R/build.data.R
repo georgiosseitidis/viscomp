@@ -1,11 +1,11 @@
-build.data <- function(model, median, random, numOfOutcomes, components, outcomeNames, sep) {
+build.data <- function(model, median, random, small.values, numOfOutcomes, components, outcomeNames, sep) {
 
   # Dataframe to store estimates
   df <- data.frame(matrix(nrow = length(components), ncol = numOfOutcomes))
   rownames(df) <- components
   colnames(df) <- outcomeNames
   for (outcome in 1:numOfOutcomes) {
-    pscores <- netmeta::netrank(model[[outcome]])
+    pscores <- netmeta::netrank(model[[outcome]], small.values = small.values[outcome])
 
     # Components of each node
     nodes <- names(pscores$ranking.fixed)

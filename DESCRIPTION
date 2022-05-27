@@ -67,6 +67,9 @@ Imports:
 RoxygenNote: 7.1.2
 Suggests: 
     covr,
-    hasseDiagram
+    hasseDiagram,
+    knitr,
+    rmarkdown
 URL: https://github.com/georgiosseitidis/viscomp
 BugReports: https://github.com/georgiosseitidis/viscomp/issues
+VignetteBuilder: knitr

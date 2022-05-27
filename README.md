@@ -39,7 +39,7 @@ devtools::install_github("georgiosseitidis/viscomp")
 **Part 1: One single outcome**
 
 Example of an artificial network meta-analysis compering the
-effectiveness of a number of (multicomponent) interventions for major
+efficacy of a number of (multicomponent) interventions for major
 adverse cardiovascular events (MACE). The network meta-analysis model
 uses the odds ratios obtained from the arm level data.
 
@@ -91,7 +91,7 @@ heatcomp(net)
 
 <img src="man/figures/heatcomp.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
 
-You can explore the effectiveness of specific components combinations
+You can explore the efficacy of specific components combinations
 (e.g. A, A + B, B + C) with the **specc** function as follows:
 
 ``` r
@@ -100,7 +100,7 @@ specc(net, combination = c("A", "A + B", "B + C"))
 
 <img src="man/figures/specc.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
 
-You can explore if the number of components affects the effectiveness of
+You can explore if the number of components affects the efficacy of
 the intervention with the function **specc** as follows:
 
 ``` r
@@ -119,7 +119,7 @@ denscomp(net, combination = "A + B", z_value = FALSE)
 <img src="man/figures/denscomp.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
 
 You can explore if the inclusion-exclusion of a specific component
-(e.g. component A) or a component combination, affects the effectiveness
+(e.g. component A) or a component combination, affects the efficacy
 of the intervention with the **loccos** function as follows:
 
 ``` r
@@ -129,7 +129,7 @@ loccos(net, combination = "A", histogram = FALSE)
 <img src="man/figures/loccos.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
 
 You can also explore if the inclusion-exclusion of a specific component
-(e.g. component A) or a component combination, affects the effectiveness
+(e.g. component A) or a component combination, affects the efficacy
 of the intervention with the **watercomp** function as follows:
 
 ``` r

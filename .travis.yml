@@ -6,3 +6,5 @@ warnings_are_errors: false
 r: devel
 
 before_install: sh ./install-rgraphviz.sh
+
+os: osx

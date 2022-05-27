@@ -1,4 +1,4 @@
-check.arguments <- function(model, median, random, outcomeNames, cex_components, cex_values, cex_outcomes) {
+check.arguments <- function(model, median, random, small.values, outcomeNames, cex_components, cex_values, cex_outcomes) {
   if (class(model) != "list") {
     stop("The class of model is not list", call. = FALSE)
   } else if (length(model) < 2) {
@@ -6,7 +6,7 @@ check.arguments <- function(model, median, random, outcomeNames, cex_components,
   }
   numOfOutcomes <- length(model)
 
-  # check random argument
+  # Check random argument
   if (length(random) == 1) {
     if (class(random) != "logical") {
       stop("The class of random is not logical", call. = FALSE)
@@ -16,6 +16,17 @@ check.arguments <- function(model, median, random, outcomeNames, cex_components,
   } else if (length(random) != numOfOutcomes) {
     stop("The length of random must be equal with the number of the outcomes", call. = FALSE)
   }
+
+  # Check small.values argument
+
+  if (!is.null(small.values) & class(small.values) != "character") {
+    stop("The class small.values is not character", call. = FALSE)
+  } else if (!is.null(small.values) & length(small.values) != length(model)) {
+    stop("The length of small.values must be equal with the length of model", call. = FALSE)
+  } else if (!is.null(small.values) & sum(unique(small.values) %in% c("good", "bad")) != length(unique(small.values))) {
+    stop("values of small.values must be either good or bad", call. = FALSE)
+  }
+
 
   # Check cex arguments
   if (!is.null(cex_components)) {

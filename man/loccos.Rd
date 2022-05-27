@@ -41,8 +41,8 @@ interventions that differ by a specific set of components.
 Axis y represents the intervention's effect when the component combination is not included in the
 intervention, while axis x represents the intervention's effect when is included.
 Line \eqn{y = x} splits the plot in two parts. For a beneficial outcome, dots above the line
-indicates that the inclusion of component combination balk the intervention's effectiveness, while
-dots below the line indicate that the inclusion of the component combination increases intervention's effectiveness.
+indicates that the inclusion of component combination balk the intervention's efficacy, while
+dots below the line indicate that the inclusion of the component combination increases intervention's efficacy.
 The opposite holds for harmful outcomes.
 
 The component combination of interest is specified by the argument \code{combination}. For example, if \code{combination = "A"}, the
