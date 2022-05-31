@@ -23,13 +23,13 @@ body {
 text-align: justify}
 </style>
 
-When multicomponent (complex) interventions are present in the network meta-analysis model we usually interested on: 
+When multicomponent (complex) interventions are present in a network meta-analysis model we usually interested on: 
 
  * identifying the most efficacious components
  * identifying which component combination works better
  * understanding the behaviour of the components
 
-The viscomp package provides several visualization tools to adress these issues. This document introduces you to viscomp’s set of tools, and shows you how to apply them on network meta-analysis model when multicomponent interventions (complex data) are present.
+The viscomp package provides several visualization tools to adress these issues. This document makes an introduction to viscomp’s set of tools, and shows you how to apply them on network meta-analysis model when multicomponent (complex) interventions are included.
 
 \
  
@@ -44,7 +44,7 @@ library(viscomp)
 data("MACE")
 ```
 
-Network meta-analysis (NMA) model using the R-package `netmeta`. MACE data are dichotomous, and the NMA model is constructed using the odds ratios (OR) as effect size.
+Network meta-analysis (NMA) model is applied using the R-package `netmeta`. MACE is a dichotomous outcome, and the NMA model is constructed using the odds ratios (OR) as effect size.
 
 ```{r}
 library(netmeta)
@@ -65,7 +65,7 @@ net <- netmeta(TE = TE,
 ```
 ## Explore components geometry with `compGraph()`
 
-`compGraph()` is meant to visualize the frequency of components’ combinations found in the network. The function resembles a network plot where nodes represent the individual components found in the network and edges represent the combination of components found in at least one treatment arm of the trials included in the network meta-analysis model. Each edge’s color represents one of the unique interventions (components’ combination) found in the network of interventions. Edges’ thickness indicate the frequency by which each intervention (combination of components) was observed in the network (number of arms in which the combination was assigned). The number of the most frequent combinations can be modified from the argument `mostF`.
+`compGraph()` is meant to visualize the frequency of components’ combinations found in the network. The function resembles a network plot where nodes represent the individual components found in the network and edges represent the combination of components found in at least one treatment arm of the trials included in the network meta-analysis model. Each edge’s color represents one of the unique interventions (components’ combination) found in the network of interventions. Edges’ thickness indicates the frequency by which each intervention (combination of components) was observed in the network (number of arms in which the combination was assigned). The number of the most frequent combinations can be modified from the argument `mostF`.
 
 \
 
@@ -75,7 +75,7 @@ We  can visualize the 10 most frequent component combinations with:
 compGraph(net, mostF = 10, title = "")
 ```
 
-In NMA we usually have interventions that are used as a potentially inactive reference interventions (e.g. placebo, usual care), and are not combined with other interventions. We can exclude these interventions through the argument `excl`. For example, we can exclude the usual care (UC) from the component network plot with:
+In NMA we usually have interventions that are used as a potentially inactive reference intervention (e.g. placebo, usual care), and are not combined with other interventions. We can exclude these interventions through the argument `excl`. For example, we can exclude the usual care (UC) from the component network plot with:
 
 ```{r, fig.width = 7.2, fig.height = 6}
 compGraph(net, mostF = 10, title = "", excl = "UC")
@@ -83,7 +83,7 @@ compGraph(net, mostF = 10, title = "", excl = "UC")
 
 ## Explore the efficacy of the two-by-two components combinations with `heatcomp()`
 
-`heatcomp()` creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components combinations. Each element summarizes the efficacy of the interventions that includes the corresponding component combination. Combinations that were not observed in the NMA model, are denoted by the letter "X". The magnitude of the efficacy is reflected by the color's intensity. Estimates close to zero are denoted by white color, while above and below zero are denoted by warm colors (such as red) and cold colors (such as blue) respectively. The function by default uses the z-scores and the median as a summary measure. 
+`heatcomp()` creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes the efficacy of the interventions that includes the corresponding component combination. Combinations that were not observed in the NMA model, are denoted by the letter "X". The magnitude of the efficacy is reflected by the color's intensity. Estimates close to zero are denoted by white color, while above and below zero are denoted by warm colors (such as red) and cold colors (such as blue) respectively. The function by default uses the z-scores and the median as a summary measure. 
 
 \
 
@@ -109,7 +109,7 @@ We can visualize the distribution of each component in the network with:
 specc(net)
 ```
 
-Note that in the plot the median estimates of the components are equal with the diagonal elements of the `heatcomp()` function. Also note that we receive a warning message because of the component G, since it was included only in one intervention.
+Note that in the plot the median estimates of the components are equal with the diagonal elements of the `heatcomp()` function. In addition, we receive a warning message because component G was only included in one intervention.
 
 ### Components combinations
 
@@ -137,7 +137,7 @@ specc(net, components_number = TRUE, groups = c(1, 2, "1-2", "2+"))
 
 ## Explore the efficacy of the components with `denscomp()`
 
-The efficacy of a component (combination) can be explored by comparing the corresponding densities. `denscomp()` compares the following densities: one density is constructed by the NMA results referring to the interventions including the component (combination) of interest, while the second density refers to the interventions, not including the underlying component (combination).
+The efficacy of a component (or component combination) can be explored by comparing the corresponding densities. `denscomp()` compares the following densities: one density is constructed by the NMA results referring to the interventions including the component (combination) of interest, while the second density refers to the interventions, not including the underlying component (combination).
 
 \
 
@@ -240,17 +240,6 @@ We can visualize the p-scores for the two outcomes (assuming that the first outc
 rankheatplot(list(net1, net2), small.values = c("good", "bad"))
 ```
 
-## Visualize the interventions' ranking for multiple outcomes with `hassePlot()`
-
-`hassePlot()` is wrapper function of `netmeta::hasse`. More details about hasse plot can be found at <https://cran.r-project.org/web/packages/netmeta/>. 
-
-\
-
-We can create a hasse plot for the two outcomes (using the random-effects model for the first and the fixed-effect model for the second), with
-
-```{r, fig.width = 7.2, fig.height = 6}
-hassePlot(list(net1, net2), random = c(TRUE, FALSE))
-```
 
 ### References
 

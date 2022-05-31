@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![Travis build
-status](https://travis-ci.com/georgiosseitidis/viscomp.svg?branch=main)](https://travis-ci.com/georgiosseitidis/viscomp)
+status](https://travis-ci.com/georgiosseitidis/viscomp.svg?branch=main)](https://app.travis-ci.com/github/georgiosseitidis/viscomp)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/georgiosseitidis/viscomp?branch=main&svg=true)](https://ci.appveyor.com/project/georgiosseitidis/viscomp)
 [![Codecov test
@@ -14,16 +14,15 @@ coverage](https://codecov.io/gh/georgiosseitidis/viscomp/branch/main/graph/badge
 <!-- badges: end -->
 
 The goal of viscomp is to provide several visualization tools for
-exploring the behavior of the components in network meta-analysis:
+exploring the behavior of the components in a network meta-analysis of complex interventions:
 
- * heat plot for the two-by-two component combinations 
+ * heat plot of the two-by-two component combinations 
  * leaving one component combination out scatter plot 
- * specific component combinations violin plots
- * components density plot 
- * waterfall plot for the interventions that differ by a specific component combination 
- * components network graph 
- * components rank heat plot for multiple outcomes 
- * hasse diagram.
+ * violin plot for specific component combinations' effects
+ * density plot for components' effects  
+ * waterfall plot for the interventions' effects that differ by a certain component combination 
+ * network graph of components
+ * rank heat plot of components for multiple outcomes.
 
 ## Installation
 
@@ -38,10 +37,11 @@ devtools::install_github("georgiosseitidis/viscomp")
 
 **Part 1: One single outcome**
 
-Example of an artificial network meta-analysis compering the
-efficacy of a number of (multicomponent) interventions for major
+Example of an network meta-analysis comparing the
+efficacy of multicomponent interventions for major
 adverse cardiovascular events (MACE). The network meta-analysis model
-uses the odds ratios obtained from the arm level data.
+uses the odds ratios obtained from the arm level data. The example is fictional,
+for learning purposes only.
 
 You can load the **viscomp** library
 
@@ -73,15 +73,6 @@ net <- netmeta(TE = TE,
                ref = "UC")
 ```
 
-You can visualize the 10 most frequent components’ combinations found in
-the network with the **compGraph** function as follows:
-
-``` r
-compGraph(net, mostF = 10)
-```
-
-<img src="man/figures/compGraph.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
-
 You can visualize the median z-values for all the two-by-two component
 combinations with the **heatcomp** function as follows:
 
@@ -90,6 +81,16 @@ heatcomp(net)
 ```
 
 <img src="man/figures/heatcomp.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
+
+You can explore if the inclusion-exclusion of a specific component
+(e.g. component A) or a component combination, affects the efficacy
+of the intervention with the **loccos** function as follows:
+
+``` r
+loccos(net, combination = "A", histogram = FALSE)
+```
+
+<img src="man/figures/loccos.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
 
 You can explore the efficacy of specific components combinations
 (e.g. A, A + B, B + C) with the **specc** function as follows:
@@ -109,6 +110,7 @@ specc(net, components_number = TRUE)
 
 <img src="man/figures/specc_2.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
 
+
 You can create density plots for the component combination of interest
 (e.g combination A + B) with the function **denscomp** as follows:
 
@@ -117,16 +119,6 @@ denscomp(net, combination = "A + B", z_value = FALSE)
 ```
 
 <img src="man/figures/denscomp.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
-
-You can explore if the inclusion-exclusion of a specific component
-(e.g. component A) or a component combination, affects the efficacy
-of the intervention with the **loccos** function as follows:
-
-``` r
-loccos(net, combination = "A", histogram = FALSE)
-```
-
-<img src="man/figures/loccos.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
 
 You can also explore if the inclusion-exclusion of a specific component
 (e.g. component A) or a component combination, affects the efficacy
@@ -137,6 +129,18 @@ watercomp(net, combination = "A")
 ```
 
 <img src="man/figures/watercomp.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
+
+
+You can visualize the 10 most frequent components’ combinations found in
+the network with the **compGraph** function as follows:
+
+``` r
+compGraph(net, mostF = 10, title = NULL)
+```
+
+<img src="man/figures/compGraph.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
+
+
 
 **Part 2: Multiple outcomes**
 
@@ -196,11 +200,3 @@ rankheatplot(list(net1, net2))
 
 <img src="man/figures/rankheatplot.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
 
-You can create the hasse diagramm for the two functions using the
-**hassePlot** function as follows:
-
-``` r
-hassePlot(ls = list(net1, net2))
-```
-
-<img src="man/figures/hassePlot.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>

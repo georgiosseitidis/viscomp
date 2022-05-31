@@ -5,7 +5,7 @@
 #' network meta-analysis (NMA) model.
 #'
 #' @details
-#' Diagonal elements refer to components, while off-diagonal to components combinations. Each element summarizes
+#' Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes
 #' the z-values (if \code{z_value = TRUE}) of the interventions that includes the corresponding
 #' component combination. Combinations that were not observed in the NMA model, are
 #' denoted by the letter "X". As a summary measure, the median is used by default (\code{median = TRUE}).

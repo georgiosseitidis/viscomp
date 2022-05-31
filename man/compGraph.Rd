@@ -39,7 +39,7 @@ The Components Network Graph is meant to visualize the frequency of components�
 The function resembles a network plot where nodes represent the individual components found in the network
 and edges represent the combination of components found in at least one treatment arm of the trials included in the
 network meta-analysis model. Each edge’s color represents one of the unique interventions (components’ combination)
-found in the network of interventions. Edges’ thickness indicate the frequency by which each intervention
+found in the network of interventions. Edges’ thickness indicates the frequency by which each intervention
 (combination of components) was observed in the network (number of arms in which the combination was assigned).
 The number of the most frequent combinations can be modified from the argument \code{mostF}. The function by
 default plots the five most frequent components' combinations found in the network.
