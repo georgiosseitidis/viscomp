@@ -3,8 +3,5 @@ pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   viscomp: viscomp.html
-last_built: 2022-05-31T13:02Z
-urls:
-  reference: https://georgiosseitidis.github.io/viscomp/reference
-  article: https://georgiosseitidis.github.io/viscomp/articles
+last_built: 2022-05-31T13:13Z
 
