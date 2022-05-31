@@ -83,13 +83,13 @@
 body {
 text-align: justify}
 </style>
-<p>When multicomponent (complex) interventions are present in the network meta-analysis model we usually interested on:</p>
+<p>When multicomponent (complex) interventions are present in a network meta-analysis model we usually interested on:</p>
 <ul>
 <li>identifying the most efficacious components</li>
 <li>identifying which component combination works better</li>
 <li>understanding the behaviour of the components</li>
 </ul>
-<p>The viscomp package provides several visualization tools to adress these issues. This document introduces you to viscomp’s set of tools, and shows you how to apply them on network meta-analysis model when multicomponent interventions (complex data) are present.</p>
+<p>The viscomp package provides several visualization tools to adress these issues. This document makes an introduction to viscomp’s set of tools, and shows you how to apply them on network meta-analysis model when multicomponent (complex) interventions are included.</p>
 <p><br></p>
 <div class="section level2">
 <h2 id="single-outcome">Single outcome<a class="anchor" aria-label="anchor" href="#single-outcome"></a>
@@ -101,7 +101,7 @@ text-align: justify}
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/georgiosseitidis/viscomp" class="external-link">viscomp</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MACE"</span><span class="op">)</span></code></pre></div>
-<p>Network meta-analysis (NMA) model using the R-package <code>netmeta</code>. MACE data are dichotomous, and the NMA model is constructed using the odds ratios (OR) as effect size.</p>
+<p>Network meta-analysis (NMA) model is applied using the R-package <code>netmeta</code>. MACE is a dichotomous outcome, and the NMA model is constructed using the odds ratios (OR) as effect size.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/guido-s/netmeta" class="external-link">netmeta</a></span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: meta</span>
@@ -131,13 +131,13 @@ text-align: justify}
 <div class="section level3">
 <h3 id="explore-components-geometry-with-compgraph">Explore components geometry with <code>compGraph()</code><a class="anchor" aria-label="anchor" href="#explore-components-geometry-with-compgraph"></a>
 </h3>
-<p><code><a href="../reference/compGraph.html">compGraph()</a></code> is meant to visualize the frequency of components’ combinations found in the network. The function resembles a network plot where nodes represent the individual components found in the network and edges represent the combination of components found in at least one treatment arm of the trials included in the network meta-analysis model. Each edge’s color represents one of the unique interventions (components’ combination) found in the network of interventions. Edges’ thickness indicate the frequency by which each intervention (combination of components) was observed in the network (number of arms in which the combination was assigned). The number of the most frequent combinations can be modified from the argument <code>mostF</code>.</p>
+<p><code><a href="../reference/compGraph.html">compGraph()</a></code> is meant to visualize the frequency of components’ combinations found in the network. The function resembles a network plot where nodes represent the individual components found in the network and edges represent the combination of components found in at least one treatment arm of the trials included in the network meta-analysis model. Each edge’s color represents one of the unique interventions (components’ combination) found in the network of interventions. Edges’ thickness indicates the frequency by which each intervention (combination of components) was observed in the network (number of arms in which the combination was assigned). The number of the most frequent combinations can be modified from the argument <code>mostF</code>.</p>
 <p><br></p>
 <p>We can visualize the 10 most frequent component combinations with:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/compGraph.html">compGraph</a></span><span class="op">(</span><span class="va">net</span>, mostF <span class="op">=</span> <span class="fl">10</span>, title <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-3-1.png" width="691.2"></p>
-<p>In NMA we usually have interventions that are used as a potentially inactive reference interventions (e.g. placebo, usual care), and are not combined with other interventions. We can exclude these interventions through the argument <code>excl</code>. For example, we can exclude the usual care (UC) from the component network plot with:</p>
+<p>In NMA we usually have interventions that are used as a potentially inactive reference intervention (e.g. placebo, usual care), and are not combined with other interventions. We can exclude these interventions through the argument <code>excl</code>. For example, we can exclude the usual care (UC) from the component network plot with:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/compGraph.html">compGraph</a></span><span class="op">(</span><span class="va">net</span>, mostF <span class="op">=</span> <span class="fl">10</span>, title <span class="op">=</span> <span class="st">""</span>, excl <span class="op">=</span> <span class="st">"UC"</span><span class="op">)</span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-4-1.png" width="691.2"></p>
@@ -145,7 +145,7 @@ text-align: justify}
 <div class="section level3">
 <h3 id="explore-the-efficacy-of-the-two-by-two-components-combinations-with-heatcomp">Explore the efficacy of the two-by-two components combinations with <code>heatcomp()</code><a class="anchor" aria-label="anchor" href="#explore-the-efficacy-of-the-two-by-two-components-combinations-with-heatcomp"></a>
 </h3>
-<p><code><a href="../reference/heatcomp.html">heatcomp()</a></code> creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components combinations. Each element summarizes the efficacy of the interventions that includes the corresponding component combination. Combinations that were not observed in the NMA model, are denoted by the letter “X”. The magnitude of the efficacy is reflected by the color’s intensity. Estimates close to zero are denoted by white color, while above and below zero are denoted by warm colors (such as red) and cold colors (such as blue) respectively. The function by default uses the z-scores and the median as a summary measure.</p>
+<p><code><a href="../reference/heatcomp.html">heatcomp()</a></code> creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components’ combinations. Each element summarizes the efficacy of the interventions that includes the corresponding component combination. Combinations that were not observed in the NMA model, are denoted by the letter “X”. The magnitude of the efficacy is reflected by the color’s intensity. Estimates close to zero are denoted by white color, while above and below zero are denoted by warm colors (such as red) and cold colors (such as blue) respectively. The function by default uses the z-scores and the median as a summary measure.</p>
 <p><br></p>
 <p>We can visualize the efficacy of the components, with:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -166,7 +166,7 @@ text-align: justify}
 <code class="sourceCode R"><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span>
 <span class="co">#&gt; Warning: Violin plot requires at least 2 data point</span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-6-1.png" width="691.2"></p>
-<p>Note that in the plot the median estimates of the components are equal with the diagonal elements of the <code><a href="../reference/heatcomp.html">heatcomp()</a></code> function. Also note that we receive a warning message because of the component G, since it was included only in one intervention.</p>
+<p>Note that in the plot the median estimates of the components are equal with the diagonal elements of the <code><a href="../reference/heatcomp.html">heatcomp()</a></code> function. In addition, we receive a warning message because component G was only included in one intervention.</p>
 </div>
 <div class="section level4">
 <h4 id="components-combinations">Components combinations<a class="anchor" aria-label="anchor" href="#components-combinations"></a>
@@ -193,7 +193,7 @@ text-align: justify}
 <div class="section level3">
 <h3 id="explore-the-efficacy-of-the-components-with-denscomp">Explore the efficacy of the components with <code>denscomp()</code><a class="anchor" aria-label="anchor" href="#explore-the-efficacy-of-the-components-with-denscomp"></a>
 </h3>
-<p>The efficacy of a component (combination) can be explored by comparing the corresponding densities. <code><a href="../reference/denscomp.html">denscomp()</a></code> compares the following densities: one density is constructed by the NMA results referring to the interventions including the component (combination) of interest, while the second density refers to the interventions, not including the underlying component (combination).</p>
+<p>The efficacy of a component (or component combination) can be explored by comparing the corresponding densities. <code><a href="../reference/denscomp.html">denscomp()</a></code> compares the following densities: one density is constructed by the NMA results referring to the interventions including the component (combination) of interest, while the second density refers to the interventions, not including the underlying component (combination).</p>
 <p><br></p>
 <p>For example, if we interested on exploring the efficacy of the component combination A+B, we can visualize the densities of the NMA intervention estimates from the interventions that include and not include component A respectively, with</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -284,16 +284,6 @@ text-align: justify}
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/rankheatplot.html">rankheatplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">net1</span>, <span class="va">net2</span><span class="op">)</span>, small.values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"good"</span>, <span class="st">"bad"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-15-1.png" width="691.2"></p>
-</div>
-<div class="section level3">
-<h3 id="visualize-the-interventions-ranking-for-multiple-outcomes-with-hasseplot">Visualize the interventions’ ranking for multiple outcomes with <code>hassePlot()</code><a class="anchor" aria-label="anchor" href="#visualize-the-interventions-ranking-for-multiple-outcomes-with-hasseplot"></a>
-</h3>
-<p><code><a href="../reference/hassePlot.html">hassePlot()</a></code> is wrapper function of <code><a href="https://rdrr.io/pkg/netmeta/man/hasse.html" class="external-link">netmeta::hasse</a></code>. More details about hasse plot can be found at <a href="https://cran.r-project.org/web/packages/netmeta/" class="external-link uri">https://cran.r-project.org/web/packages/netmeta/</a>.</p>
-<p><br></p>
-<p>We can create a hasse plot for the two outcomes (using the random-effects model for the first and the fixed-effect model for the second), with</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/hassePlot.html">hassePlot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">net1</span>, <span class="va">net2</span><span class="op">)</span>, random <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-16-1.png" width="691.2"></p>
 <div class="section level4">
 <h4 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h4>
