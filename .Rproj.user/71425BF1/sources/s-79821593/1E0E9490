@@ -1,0 +1,26 @@
+{
+    "id": "1E0E9490",
+    "path": "~/viscomp/vignettes/viscomp.Rmd",
+    "project_path": "vignettes/viscomp.Rmd",
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1653898680253.0,
+    "source_on_save": false,
+    "relative_order": 7,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "111,228",
+        "scrollLine": "105"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1653991077,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1653991077844,
+    "read_only": false,
+    "read_only_alternatives": []
+}
