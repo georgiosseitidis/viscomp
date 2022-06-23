@@ -68,7 +68,7 @@
 
 
 <script src="viscomp_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>An introduction to network meta-analysis using the viscomp package</h1>
                         <h4 data-toc-skip class="author">Georgios Seitidis</h4>
             
@@ -87,9 +87,9 @@ text-align: justify}
 <ul>
 <li>identifying the most efficacious components</li>
 <li>identifying which component combination works better</li>
-<li>understanding the behaviour of the components</li>
+<li>understanding the behavior of the components</li>
 </ul>
-<p>The viscomp package provides several visualization tools to adress these issues. This document makes an introduction to viscomp’s set of tools, and shows you how to apply them on network meta-analysis model when multicomponent (complex) interventions are included.</p>
+<p>The <strong>viscomp</strong> package provides several visualization tools to address these issues. This document makes an introduction to viscomp’s set of tools, and shows you how to apply them on network meta-analysis when multicomponent (complex) interventions are included.</p>
 <p><br></p>
 <div class="section level2">
 <h2 id="single-outcome">Single outcome<a class="anchor" aria-label="anchor" href="#single-outcome"></a>
@@ -101,18 +101,9 @@ text-align: justify}
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/georgiosseitidis/viscomp" class="external-link">viscomp</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MACE"</span><span class="op">)</span></code></pre></div>
-<p>Network meta-analysis (NMA) model is applied using the R-package <code>netmeta</code>. MACE is a dichotomous outcome, and the NMA model is constructed using the odds ratios (OR) as effect size.</p>
+<p>Network meta-analysis (NMA) model is applied using the R-package <code>netmeta</code>. MACE is a dichotomous harmful outcome and the NMA model is constructed using the odds ratios (OR) as effect size.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/guido-s/netmeta" class="external-link">netmeta</a></span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: meta</span>
-<span class="co">#&gt; Loading 'meta' package (version 5.2-0).</span>
-<span class="co">#&gt; Type 'help(meta)' for a brief overview.</span>
-<span class="co">#&gt; Readers of 'Meta-Analysis with R (Use R!)' should install</span>
-<span class="co">#&gt; older version of 'meta' package: https://tinyurl.com/dt4y5drs</span>
-<span class="co">#&gt; Loading 'netmeta' package (version 2.1-0).</span>
-<span class="co">#&gt; Type 'help("netmeta-package")' for a brief overview.</span>
-<span class="co">#&gt; Readers of 'Meta-Analysis with R (Use R!)' should install</span>
-<span class="co">#&gt; older version of 'netmeta' package: https://tinyurl.com/kyz6wjbb</span>
 <span class="va">data_NMA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/pairwise.html" class="external-link">pairwise</a></span><span class="op">(</span>studlab <span class="op">=</span> <span class="va">Study</span>, 
                       treat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">treat1</span>, <span class="va">treat2</span>, <span class="va">treat3</span>, <span class="va">treat4</span><span class="op">)</span>,
                       n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">n1</span>, <span class="va">n2</span>, <span class="va">n3</span>, <span class="va">n4</span><span class="op">)</span>, 
@@ -129,29 +120,70 @@ text-align: justify}
                ref <span class="op">=</span> <span class="st">"UC"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level3">
+<h3 id="descriptive-analysis-of-components-with-compdesc">Descriptive analysis of components with <code>compdesc</code><a class="anchor" aria-label="anchor" href="#descriptive-analysis-of-components-with-compdesc"></a>
+</h3>
+<p><code>compdesc</code> performs a descriptive analysis for the components observed in the network. It provides 3 items as an output. Item <code>crosstable</code> contains a cross-table with the frequency of the components. Diagonal elements refer to the components, while off-diagonal elements to the components combinations. Each cell represents the number of arms where the corresponding component (combination) was observed. Item <code>heatmat</code> visualizes the item . The intensity of the color is proportional to the frequency of the component combination. Item <code>frequency</code> provides usefull descriptive charactericts about the component’s frequency. In addition, it reports:</p>
+<ul>
+<li>the number of arms where the component was observed (column <em>Frequency</em>)</li>
+<li>the number of studies in which the corresponding component was included in all arms (column <em>A</em>)</li>
+<li>the percentage of studies in which the corresponding component was included in all arms (column <em>A_percent</em>)</li>
+<li>the number of studies in which the corresponding component was included in at least one arm (column <em>B</em>)</li>
+<li>the percentage of studies in which the corresponding component was included in at least one arm (column <em>B_percent</em>)</li>
+<li>the number of studies in which the corresponding component was not included in any arm (column <em>C</em>)</li>
+<li>the percentage of studies in which the corresponding component was not included in any arm (column <em>C_percent</em>)</li>
+<li>the ratio of columns <em>A</em> and <em>B</em> (column <em>A.B</em>).</li>
+</ul>
+<p>We can perform a descriptive analysis of the components with:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/compdesc.html">compdesc</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span>
+<span class="co">#&gt; $crosstable</span>
+<span class="co">#&gt;     A  B  C  D G E UC</span>
+<span class="co">#&gt; A  17  9  9  5 0 2  0</span>
+<span class="co">#&gt; B   9 18  7  5 1 2  0</span>
+<span class="co">#&gt; C   9  7 15  4 0 1  0</span>
+<span class="co">#&gt; D   5  5  4 11 0 0  0</span>
+<span class="co">#&gt; G   0  1  0  0 1 0  0</span>
+<span class="co">#&gt; E   2  2  1  0 0 3  0</span>
+<span class="co">#&gt; UC  0  0  0  0 0 0 15</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $frequency</span>
+<span class="co">#&gt;    Component Frequency A  A_percent  B  B_percent  C C_percent       A.B</span>
+<span class="co">#&gt; A          A        17 2 0.09090909 11 0.50000000 11 0.5000000 0.1818182</span>
+<span class="co">#&gt; B          B        18 3 0.13636364 13 0.59090909  9 0.4090909 0.2307692</span>
+<span class="co">#&gt; C          C        15 2 0.09090909 11 0.50000000 11 0.5000000 0.1818182</span>
+<span class="co">#&gt; D          D        11 1 0.04545455  9 0.40909091 13 0.5909091 0.1111111</span>
+<span class="co">#&gt; G          G         1 0 0.00000000  1 0.04545455 21 0.9545455 0.0000000</span>
+<span class="co">#&gt; E          E         3 0 0.00000000  3 0.13636364 19 0.8636364 0.0000000</span>
+<span class="co">#&gt; UC        UC        15 0 0.00000000 15 0.68181818  7 0.3181818 0.0000000</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $heatmat</span></code></pre></div>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-3-1.png" width="720"></p>
+</div>
+<div class="section level3">
 <h3 id="explore-components-geometry-with-compgraph">Explore components geometry with <code>compGraph()</code><a class="anchor" aria-label="anchor" href="#explore-components-geometry-with-compgraph"></a>
 </h3>
 <p><code><a href="../reference/compGraph.html">compGraph()</a></code> is meant to visualize the frequency of components’ combinations found in the network. The function resembles a network plot where nodes represent the individual components found in the network and edges represent the combination of components found in at least one treatment arm of the trials included in the network meta-analysis model. Each edge’s color represents one of the unique interventions (components’ combination) found in the network of interventions. Edges’ thickness indicates the frequency by which each intervention (combination of components) was observed in the network (number of arms in which the combination was assigned). The number of the most frequent combinations can be modified from the argument <code>mostF</code>.</p>
 <p><br></p>
 <p>We can visualize the 10 most frequent component combinations with:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/compGraph.html">compGraph</a></span><span class="op">(</span><span class="va">net</span>, mostF <span class="op">=</span> <span class="fl">10</span>, title <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-3-1.png" width="691.2"></p>
-<p>In NMA we usually have interventions that are used as a potentially inactive reference intervention (e.g. placebo, usual care), and are not combined with other interventions. We can exclude these interventions through the argument <code>excl</code>. For example, we can exclude the usual care (UC) from the component network plot with:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/compGraph.html">compGraph</a></span><span class="op">(</span><span class="va">net</span>, mostF <span class="op">=</span> <span class="fl">10</span>, title <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-4-1.png" width="720"></p>
+<p>In NMA we usually have interventions that are used as a potentially inactive reference intervention (e.g. placebo, usual care), and are not combined with other interventions. We can exclude these interventions through the argument <code>excl</code>. For example, we can exclude the usual care (UC) from the component network plot with:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/compGraph.html">compGraph</a></span><span class="op">(</span><span class="va">net</span>, mostF <span class="op">=</span> <span class="fl">10</span>, title <span class="op">=</span> <span class="st">""</span>, excl <span class="op">=</span> <span class="st">"UC"</span><span class="op">)</span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-4-1.png" width="691.2"></p>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-5-1.png" width="720"></p>
 </div>
 <div class="section level3">
 <h3 id="explore-the-efficacy-of-the-two-by-two-components-combinations-with-heatcomp">Explore the efficacy of the two-by-two components combinations with <code>heatcomp()</code><a class="anchor" aria-label="anchor" href="#explore-the-efficacy-of-the-two-by-two-components-combinations-with-heatcomp"></a>
 </h3>
-<p><code><a href="../reference/heatcomp.html">heatcomp()</a></code> creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components’ combinations. Each element summarizes the efficacy of the interventions that includes the corresponding component combination. Combinations that were not observed in the NMA model, are denoted by the letter “X”. The magnitude of the efficacy is reflected by the color’s intensity. Estimates close to zero are denoted by white color, while above and below zero are denoted by warm colors (such as red) and cold colors (such as blue) respectively. The function by default uses the z-scores and the median as a summary measure.</p>
+<p><code><a href="../reference/heatcomp.html">heatcomp()</a></code> creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components’ combinations. Each element summarizes the efficacy of the interventions (obtained from the NMA model) that includes the corresponding component combination. The frequency of the components combinations found in the NMA model is printed by default (<code>freq = TRUE</code>). Combinations that were not observed in the NMA model are denoted by the letter “X”. The function by default uses the z-scores (<code>z_value = TRUE</code>) and the median as a summary measure (<code>median = TRUE</code>).</p>
+<p>Z-scores quantify the strength of statistical evidence. The magnitude of the evidence is reflected by the color’s intensity. Estimates close to zero are denoted by white color, and indicates lack of evidence that the corresponding component combination performs better than the reference intervention. In beneficial outcomes, deep green and red colors indicate strong evidence that the corresponding component combination performs better and worse respectively. The opposite holds for harmful outcomes. The nature of the outcome (beneficial, harmful) is controlled by the argument <code>outcome</code>.</p>
 <p><br></p>
 <p>We can visualize the efficacy of the components, with:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/heatcomp.html">heatcomp</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-5-1.png" width="691.2"></p>
-<p>From the plot we see that the most intensive colors are observed for the component E, and the combination between components B and E, and A and E. Thus, these combination seems to be the most efficacious according to the <code><a href="../reference/heatcomp.html">heatcomp()</a></code>.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/heatcomp.html">heatcomp</a></span><span class="op">(</span><span class="va">net</span>, outcome <span class="op">=</span> <span class="st">"harmful"</span><span class="op">)</span></code></pre></div>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-6-1.png" width="691.2"></p>
+<p>From the plot we see that the most intensive colors are observed for the component E, G, and the combination between components B and G. Thus, these combination seems to be the most efficacious according to the <code><a href="../reference/heatcomp.html">heatcomp()</a></code>. We also see that the frequency of component G and the combination of B and G equals one, indicating that their corresponding estimates have been obtained by a single intervention.</p>
 </div>
 <div class="section level3">
 <h3 id="explore-the-efficacy-of-the-components-with-specc">Explore the efficacy of the components with <code>specc()</code><a class="anchor" aria-label="anchor" href="#explore-the-efficacy-of-the-components-with-specc"></a>
@@ -162,32 +194,32 @@ text-align: justify}
 <p><code><a href="../reference/specc.html">specc()</a></code> works similarly to <code><a href="../reference/heatcomp.html">heatcomp()</a></code> except that instead of visualizing the two-by-two component combinations, it can visualize combinations with more than two components. The function by default produces violin plots based on the components z-values.</p>
 <p><br></p>
 <p>We can visualize the distribution of each component in the network with:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span>
 <span class="co">#&gt; Warning: Violin plot requires at least 2 data point</span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-6-1.png" width="691.2"></p>
-<p>Note that in the plot the median estimates of the components are equal with the diagonal elements of the <code><a href="../reference/heatcomp.html">heatcomp()</a></code> function. In addition, we receive a warning message because component G was only included in one intervention.</p>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-7-1.png" width="691.2"></p>
+<p>Note that in the plot the median estimates of the components are equal with the diagonal elements of the <code><a href="../reference/heatcomp.html">heatcomp()</a></code> function. Also, we receive a warning message because component G was included in a single intervention.</p>
 </div>
 <div class="section level4">
 <h4 id="components-combinations">Components combinations<a class="anchor" aria-label="anchor" href="#components-combinations"></a>
 </h4>
 <p>We can visualize the distribution of component combinations (e.g. A, A+B, A+B+C) with:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A + B"</span>, <span class="st">"A + B + C"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-7-1.png" width="691.2"></p>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-8-1.png" width="691.2"></p>
 </div>
 <div class="section level4">
 <h4 id="number-of-components">Number of components<a class="anchor" aria-label="anchor" href="#number-of-components"></a>
 </h4>
-<p>Often we interested on exploring the behavior of intervention’s effect as the number of components increased. We can do that with</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span>, components_number <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-8-1.png" width="691.2"></p>
-<p><br></p>
-<p>We can also group the violins based on the number of components. For example, we can create violins for interventions that includes 1 component, 2 components, 1-2 components and more than 2 components, with</p>
+<p>Often, we interested on exploring the behavior of intervention’s effect as the number of components increased. We can do that with:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span>, components_number <span class="op">=</span> <span class="cn">TRUE</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="st">"1-2"</span>, <span class="st">"2+"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span>, components_number <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-9-1.png" width="691.2"></p>
+<p><br></p>
+<p>We can also group the violins in cluster based on the number of components. For example, we can create violins for interventions that includes 1 component, 2 components, 1-2 components and more than 2 components, with</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span>, components_number <span class="op">=</span> <span class="cn">TRUE</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="st">"1-2"</span>, <span class="st">"2+"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-10-1.png" width="691.2"></p>
 </div>
 </div>
 <div class="section level3">
@@ -196,34 +228,34 @@ text-align: justify}
 <p>The efficacy of a component (or component combination) can be explored by comparing the corresponding densities. <code><a href="../reference/denscomp.html">denscomp()</a></code> compares the following densities: one density is constructed by the NMA results referring to the interventions including the component (combination) of interest, while the second density refers to the interventions, not including the underlying component (combination).</p>
 <p><br></p>
 <p>For example, if we interested on exploring the efficacy of the component combination A+B, we can visualize the densities of the NMA intervention estimates from the interventions that include and not include component A respectively, with</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/denscomp.html">denscomp</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="st">"A+B"</span>, z_value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-10-1.png" width="691.2"></p>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-11-1.png" width="691.2"></p>
 <p><br></p>
 <p><code><a href="../reference/denscomp.html">denscomp()</a></code> can also compare more than two densities. If we interested for example to compare the densities of the interventions that include component A, components A+B, and components A+B+C, we can do it with</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/denscomp.html">denscomp</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A + B"</span>, <span class="st">"A + B + C"</span><span class="op">)</span>, z_value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-11-1.png" width="691.2"></p>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-12-1.png" width="691.2"></p>
 </div>
 <div class="section level3">
 <h3 id="leaving-one-component-out-scatter-plot-with-loccos">Leaving one component out scatter plot with <code>loccos()</code><a class="anchor" aria-label="anchor" href="#leaving-one-component-out-scatter-plot-with-loccos"></a>
 </h3>
-<p>Exploring whether the inclusion or the exclusion of a component (combination) has a positive or negative impact on the efficacy of an intervention could be undertaken by looking at the interventions that differ by this specific component. <code><a href="../reference/loccos.html">loccos()</a></code> creates a scatter plot where the x-axis represents the z-score of the intervention that includes the component and the y-axis represents the z-score of the intervention that does not include the component. A point on the line y = x indicates that the inclusion/exclusion of the underlying component does not affect the efficacy of the interventions. Dots above the y = x line for a beneficial outcome, indicate that the inclusion of a component hampers the treatment effect while dots below this line signify a component that increases efficacy. The opposite holds for a harmful outcome.</p>
+<p>Exploring whether the inclusion or the exclusion of a component (combination) has a positive or negative impact on the efficacy of an intervention could be undertaken by looking at the interventions that differ by this specific component (combination). <code><a href="../reference/loccos.html">loccos()</a></code> creates a scatter plot where the x-axis represents the z-score of the intervention that includes the component and the y-axis represents the z-score of the intervention that does not include the component. A point on the line y = x indicates that the inclusion/exclusion of the underlying component does not affect the efficacy of the interventions. Dots above the y = x line for a beneficial outcome, indicate that the inclusion of a component hampers the treatment effect while dots below this line signify a component that increases efficacy. The opposite holds for a harmful outcome.</p>
 <p><br></p>
-<p>We can explore the impact of component A, with</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<p>We can explore the impact of component A, with:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/loccos.html">loccos</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="st">"A"</span>, histogram <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-12-1.png" width="691.2"></p>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-13-1.png" width="691.2"></p>
 </div>
 <div class="section level3">
 <h3 id="waterfall-plot-with-watercomp">Waterfall plot with <code>watercomp()</code><a class="anchor" aria-label="anchor" href="#waterfall-plot-with-watercomp"></a>
 </h3>
 <p><code><a href="../reference/watercomp.html">watercomp()</a></code> works similarly to <code><a href="../reference/loccos.html">loccos()</a></code> except that instead of visualizing the impact of a component (combination) in a scatter plot, the impact is now visualizing in a waterfall plot. The horizontal y = 0 line represents zero impact on the intervention efficacy if an extra component is added. Bars indicate whether the inclusion of the extra component has an impact on the intervention. The interpretation of the direction of the underlying bars (positive or negative) depends on the nature of the outcome used (beneficial or harmful).</p>
 <p><br></p>
-<p>We can explore the impact of component A, with</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<p>We can explore the impact of component A, with:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/watercomp.html">watercomp</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-13-1.png" width="691.2"></p>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-14-1.png" width="691.2"></p>
 <p><br></p>
 </div>
 </div>
@@ -233,7 +265,7 @@ text-align: justify}
 <div class="section level3">
 <h3 id="artificial-network-meta-analysis-model-1">Artificial network meta-analysis model<a class="anchor" aria-label="anchor" href="#artificial-network-meta-analysis-model-1"></a>
 </h3>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">t1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"A+B"</span>, <span class="st">"A+C"</span>, <span class="st">"B+C"</span>, <span class="st">"A"</span><span class="op">)</span>
 <span class="va">t2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"A"</span>, <span class="st">"A+C"</span>, <span class="st">"B+C"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B+C"</span><span class="op">)</span>
 
@@ -280,10 +312,10 @@ text-align: justify}
 </h3>
 <p><code><a href="../reference/rankheatplot.html">rankheatplot()</a></code> creates a rank heat plot where the ranking of interventions can be presented across multiple outcomes (Veroniki et al., 2016). Circles corresponds to outcomes, while rads to components. Sectors are coloured according to the ranking of the relevant components within the underlying outcomes. Ranking is calculated as the median (or the mean) of the intervention P-scores including the component of interest in the particular outcome. The coloured scale ranges between red (p-score = 0%) and green (p-score = 100%). Uncolored sectors, if any, suggest that the underlying component was not included in any of the interventions in the NMA for the particular outcome.</p>
 <p><br></p>
-<p>We can visualize the p-scores for the two outcomes (assuming that the first outcome is beneficial while the second is harmful), with</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<p>We can visualize the p-scores for the two outcomes (assuming that the first outcome is beneficial while the second is harmful), with:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/rankheatplot.html">rankheatplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">net1</span>, <span class="va">net2</span><span class="op">)</span>, small.values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"good"</span>, <span class="st">"bad"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-15-1.png" width="691.2"></p>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-16-1.png" width="691.2"></p>
 <div class="section level4">
 <h4 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h4>
@@ -307,7 +339,7 @@ text-align: justify}
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer>
