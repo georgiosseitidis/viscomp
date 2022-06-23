@@ -10,6 +10,8 @@ heatcomp(
   median = TRUE,
   random = TRUE,
   z_value = TRUE,
+  freq = TRUE,
+  outcome = "beneficial",
   legend_name = NULL
 )
 }
@@ -24,6 +26,10 @@ heatcomp(
 
 \item{z_value}{\code{logical}. If \code{TRUE} z-values are used instead of interventions effects.}
 
+\item{freq}{\code{logical}. If \code{TRUE} the frequency of component combinations are printed.}
+
+\item{outcome}{A single character that defines the outcome's nature. Either \code{beneficial}, or \code{harmful} can be abbreviated.}
+
 \item{legend_name}{A single character that specifies the title of the legend.}
 }
 \value{
@@ -36,11 +42,13 @@ network meta-analysis (NMA) model.
 \details{
 Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes
 the z-values (if \code{z_value = TRUE}) of the interventions that includes the corresponding
-component combination. Combinations that were not observed in the NMA model, are
-denoted by the letter "X". As a summary measure, the median is used by default (\code{median = TRUE}).
+component combination. Z-scores quantify the strength of statistical evidence. Combinations that were not
+observed in the NMA model, are denoted by the letter "X". Frequency of component combinations observed in the NMA is printed
+by default (\code{freq = TRUE}). As a summary measure, the median is used by default (\code{median = TRUE}).
 The magnitude of each z-score is reflected by the color's intensity. Estimates close to zero
-are denoted by white color, while above and below zero are denoted by warm colors (such as red)
-and cold colors (such as blue) respectively.
+are denoted by white color, and indicates lack of evidence that the corresponding component combination performs
+better than the reference intervention. In beneficial outcomes, deep green and red colors indicate strong evidence that the corresponding
+component combination performs better and worse respectively. The opposite holds for harmful outcomes.
 
 Intervention effects can be used instead of z-values by setting \code{z_value = FALSE}.
 Also, by setting \code{median = FALSE}, the mean is used instead of the median as a summary measure.

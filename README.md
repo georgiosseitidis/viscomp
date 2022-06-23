@@ -13,16 +13,19 @@ status](https://ci.appveyor.com/api/projects/status/github/georgiosseitidis/visc
 coverage](https://codecov.io/gh/georgiosseitidis/viscomp/branch/main/graph/badge.svg)](https://app.codecov.io/gh/georgiosseitidis/viscomp?branch=main)
 <!-- badges: end -->
 
-The goal of viscomp is to provide several visualization tools for
-exploring the behavior of the components in a network meta-analysis of complex interventions:
+The goal of **viscomp** is to provide several visualization tools for
+exploring the behavior of the components in a network meta-analysis of
+complex interventions:
 
- * heat plot of the two-by-two component combinations 
- * leaving one component combination out scatter plot 
- * violin plot for specific component combinations' effects
- * density plot for components' effects  
- * waterfall plot for the interventions' effects that differ by a certain component combination 
- * network graph of components
- * rank heat plot of components for multiple outcomes.
+-   components descriptive analysis
+-   heat plot of the two-by-two component combinations
+-   leaving one component combination out scatter plot
+-   violin plot for specific component combinations’ effects
+-   density plot for components’ effects  
+-   waterfall plot for the interventions’ effects that differ by a
+    certain component combination
+-   network graph of components
+-   rank heat plot of components for multiple outcomes.
 
 ## Installation
 
@@ -33,170 +36,38 @@ install.packages("devtools")
 devtools::install_github("georgiosseitidis/viscomp")
 ```
 
-## Usage
+## How to use viscomp
 
-**Part 1: One single outcome**
-
-Example of an network meta-analysis comparing the
-efficacy of multicomponent interventions for major
-adverse cardiovascular events (MACE). The network meta-analysis model
-uses the odds ratios obtained from the arm level data. The example is fictional,
-for learning purposes only.
-
-You can load the **viscomp** library
+We illustrate how to use **viscomp** in the vignette:
 
 ``` r
-library(viscomp)
+vignette("viscomp", package = "viscomp")
+#> Warning: vignette 'viscomp' not found
 ```
 
-Load the MACE dataset from **viscomp** package and conduct network
-meta-analysis.
+## How to cite **viscomp**
 
 ``` r
-data(MACE, package = "viscomp")
-
-library(netmeta)
-
-data_NMA <- pairwise(studlab = Study, 
-                      treat = list(treat1, treat2, treat3, treat4),
-                      n = list(n1, n2, n3, n4), 
-                      event = list(event1, event2, event3, event4), 
-                      data = MACE, 
-                      sm = "OR" )
-
-net <- netmeta(TE = TE, 
-               seTE = seTE, 
-               studlab = studlab, 
-               treat1 = treat1,
-               treat2 = treat2, 
-               data = data_NMA, 
-               ref = "UC")
+citation(package = "viscomp")
+#> Warning in citation(package = "viscomp"): no date field in DESCRIPTION file of
+#> package 'viscomp'
+#> Warning in citation(package = "viscomp"): could not determine year for 'viscomp'
+#> from package DESCRIPTION file
+#> 
+#> To cite package 'viscomp' in publications use:
+#> 
+#>   Seitidis G, Tsokani S, Christogiannis C, Kontouli K, Fyraridis A,
+#>   Nikolakopoulos S, Veroniki A, Mavridis D (????). _viscomp: Visualize
+#>   Multi-component Interventions in Network Meta-Analysis_.
+#>   https://github.com/georgiosseitidis/viscomp,
+#>   https://georgiosseitidis.github.io/viscomp/.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {viscomp: Visualize Multi-component Interventions in Network Meta-Analysis},
+#>     author = {Georgios Seitidis and Sofia Tsokani and Christos Christogiannis and Katerina Maria Kontouli and Alexandros Fyraridis and Stavros Nikolakopoulos and Areti Angeliki Veroniki and Dimitris Mavridis},
+#>     note = {https://github.com/georgiosseitidis/viscomp,
+#> https://georgiosseitidis.github.io/viscomp/},
+#>   }
 ```
-
-You can visualize the median z-values for all the two-by-two component
-combinations with the **heatcomp** function as follows:
-
-``` r
-heatcomp(net)
-```
-
-<img src="man/figures/heatcomp.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
-
-You can explore if the inclusion-exclusion of a specific component
-(e.g. component A) or a component combination, affects the efficacy
-of the intervention with the **loccos** function as follows:
-
-``` r
-loccos(net, combination = "A", histogram = FALSE)
-```
-
-<img src="man/figures/loccos.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
-
-You can explore the efficacy of specific components combinations
-(e.g. A, A + B, B + C) with the **specc** function as follows:
-
-``` r
-specc(net, combination = c("A", "A + B", "B + C"))
-```
-
-<img src="man/figures/specc.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
-
-You can explore if the number of components affects the efficacy of
-the intervention with the function **specc** as follows:
-
-``` r
-specc(net, components_number = TRUE)
-```
-
-<img src="man/figures/specc_2.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
-
-
-You can create density plots for the component combination of interest
-(e.g combination A + B) with the function **denscomp** as follows:
-
-``` r
-denscomp(net, combination = "A + B", z_value = FALSE)
-```
-
-<img src="man/figures/denscomp.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
-
-You can also explore if the inclusion-exclusion of a specific component
-(e.g. component A) or a component combination, affects the efficacy
-of the intervention with the **watercomp** function as follows:
-
-``` r
-watercomp(net, combination = "A")
-```
-
-<img src="man/figures/watercomp.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
-
-
-You can visualize the 10 most frequent components’ combinations found in
-the network with the **compGraph** function as follows:
-
-``` r
-compGraph(net, mostF = 10, title = NULL)
-```
-
-<img src="man/figures/compGraph.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
-
-
-
-**Part 2: Multiple outcomes**
-
-Example of two artificial network meta-analysis models
-
-Construct the network meta-analysis models
-
-``` r
-t1 <- c("A", "B", "C", "A+B", "A+C", "B+C", "A")
-t2 <- c("C", "A", "A+C", "B+C", "A", "B", "B+C")
-
-TE1 <- c(2.12, 3.24, 5.65, -0.60, 0.13, 0.66, 3.28)
-TE2 <- c(4.69, 2.67, 2.73, -3.41, 1.79, 2.93, 2.51)
-
-seTE1 <- rep(0.1, 7)
-seTE2 <- rep(0.2, 7)
-
-study <- paste0("study_", 1:7)
-
-data1 <- data.frame("TE" = TE1, 
-                    "seTE" = seTE1, 
-                    "treat1" = t1, 
-                    "treat2" = t2, 
-                    "studlab" = study,
-                    stringsAsFactors = FALSE)
-
-data2 <- data.frame("TE" = TE2, 
-                    "seTE" = seTE2, 
-                    "treat1" = t1, 
-                    "treat2" = t2, 
-                    "studlab" = study,
-                    stringsAsFactors = FALSE)
-
-net1 <- netmeta(TE = TE, 
-                seTE = seTE, 
-                studlab = studlab, 
-                treat1 = treat1,
-                treat2 = treat2, 
-                data = data1, 
-                ref = "A")
-
-net2 <- netmeta::netmeta(TE = TE, 
-                         seTE = seTE, 
-                         studlab = studlab, 
-                         treat1 = treat1,
-                         treat2 = treat2, 
-                         data = data2, 
-                         ref = "A")
-```
-
-You can visualize the p-scores of the components in both outcomes with
-the function **rankheatplot** as follows:
-
-``` r
-rankheatplot(list(net1, net2))
-```
-
-<img src="man/figures/rankheatplot.png" width=720 style="margin-left: auto; margin-right: auto; display: block;"/>
-

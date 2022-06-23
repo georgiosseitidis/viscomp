@@ -1,8 +1,8 @@
 # Prepare Heat Data
-phd <- function(components, mean_eff, median, sep) {
+phd <- function(components, mean_eff, median, sep, freq) {
 
-  # Dataframe to store estimates
-  df <- data.frame(matrix(nrow = length(components), ncol = length(components)))
+  # Dataframes to store estimates
+  df <- freq_tb <- data.frame(matrix(nrow = length(components), ncol = length(components)))
   colnames(df) <- rownames(df) <- components
   dat <- matrix(mean_eff, nrow = 1)
 
@@ -24,8 +24,10 @@ phd <- function(components, mean_eff, median, sep) {
       # Calculate the mean estimate
       if (length(as.vector(dat[, ind])) == 0) { # The comparison was not observed
         df[i, j] <- NaN
+        freq_tb[i, j] <- NaN
       } else { # The comparison was observed
         df[i, j] <- apply(matrix(dat[, ind], ncol = 1), 2, FUN = eval(parse(text = funct)))
+        freq_tb[i, j] <- length(matrix(dat[, ind], ncol = 1))
       }
     }
   }
@@ -34,8 +36,19 @@ phd <- function(components, mean_eff, median, sep) {
   df[upper.tri(df)] <- NA
   melted_data <- reshape2::melt(as.matrix(df))
 
+  freq_tb[upper.tri(freq_tb)] <- NA
+  melted_freq <- reshape2::melt(as.matrix(freq_tb))
+
   # Text to be printed
-  txt <- paste(format(round(melted_data$value, 2), nsmall = 2))
+  if (freq) {
+    txt <- paste(
+      paste(format(round(melted_data$value, 2), nsmall = 2)), "\n",
+      paste0("(", melted_freq$value, ")")
+    )
+  } else {
+    txt <- paste(paste(format(round(melted_data$value, 2), nsmall = 2)))
+  }
+
 
   # For the non observed comparisons print "X"
   txt[is.na(round(melted_data$value))] <- NA
