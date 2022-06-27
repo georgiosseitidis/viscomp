@@ -16,9 +16,7 @@ knitr::opts_chunk$set(
 # viscomp
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/georgiosseitidis/viscomp.svg?branch=main)](https://app.travis-ci.com/github/georgiosseitidis/viscomp)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/georgiosseitidis/viscomp?branch=main&svg=true)](https://ci.appveyor.com/project/georgiosseitidis/viscomp)
-[![Codecov test coverage](https://codecov.io/gh/georgiosseitidis/viscomp/branch/main/graph/badge.svg)](https://app.codecov.io/gh/georgiosseitidis/viscomp?branch=main)
 <!-- badges: end -->
 
 The goal of **viscomp** is to provide several visualization tools for exploring the behavior of the components in a network meta-analysis of complex interventions: 
@@ -52,6 +50,15 @@ vignette("viscomp", package = "viscomp")
 
 ## How to cite viscomp
 
-```{r}
-citation(package = "viscomp")
-```
+**APA**
+
+Seitidis, G., Tsokani, S., Christogiannis, C., Kontouli, K. M., Fyraridis, A., Nikolakopoulos, S., Veroniki, A. A., & Mavridis, D. (2022). viscomp: Visualize Multi-component Interventions in Network Meta-Analysis (Version 0.1.0). https://github.com/georgiosseitidis/viscomp
+
+**BibTeX**
+
+@manual{Seitidis_viscomp_Visualize_Multi-component_2022,
+author = {Seitidis, Georgios and Tsokani, Sofia and Christogiannis, Christos and Kontouli, Katerina Maria and Fyraridis, Alexandros and Nikolakopoulos, Stavros and Veroniki, Areti Angeliki and Mavridis, Dimitris},
+title = {{viscomp: Visualize Multi-component Interventions in Network Meta-Analysis}},
+url = {https://github.com/georgiosseitidis/viscomp},
+year = {2022}
+}

@@ -5,12 +5,8 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.com/georgiosseitidis/viscomp.svg?branch=main)](https://app.travis-ci.com/github/georgiosseitidis/viscomp)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/georgiosseitidis/viscomp?branch=main&svg=true)](https://ci.appveyor.com/project/georgiosseitidis/viscomp)
-[![Codecov test
-coverage](https://codecov.io/gh/georgiosseitidis/viscomp/branch/main/graph/badge.svg)](https://app.codecov.io/gh/georgiosseitidis/viscomp?branch=main)
 <!-- badges: end -->
 
 The goal of **viscomp** is to provide several visualization tools for
@@ -42,32 +38,25 @@ We illustrate how to use **viscomp** in the vignette:
 
 ``` r
 vignette("viscomp", package = "viscomp")
-#> Warning: vignette 'viscomp' not found
+#> starting httpd help server ... done
 ```
 
 ## How to cite viscomp
 
-``` r
-citation(package = "viscomp")
-#> Warning in citation(package = "viscomp"): no date field in DESCRIPTION file of
-#> package 'viscomp'
-#> Warning in citation(package = "viscomp"): could not determine year for 'viscomp'
-#> from package DESCRIPTION file
-#> 
-#> To cite package 'viscomp' in publications use:
-#> 
-#>   Seitidis G, Tsokani S, Christogiannis C, Kontouli K, Fyraridis A,
-#>   Nikolakopoulos S, Veroniki A, Mavridis D (????). _viscomp: Visualize
-#>   Multi-component Interventions in Network Meta-Analysis_.
-#>   https://github.com/georgiosseitidis/viscomp,
-#>   https://georgiosseitidis.github.io/viscomp/.
-#> 
-#> A BibTeX entry for LaTeX users is
-#> 
-#>   @Manual{,
-#>     title = {viscomp: Visualize Multi-component Interventions in Network Meta-Analysis},
-#>     author = {Georgios Seitidis and Sofia Tsokani and Christos Christogiannis and Katerina Maria Kontouli and Alexandros Fyraridis and Stavros Nikolakopoulos and Areti Angeliki Veroniki and Dimitris Mavridis},
-#>     note = {https://github.com/georgiosseitidis/viscomp,
-#> https://georgiosseitidis.github.io/viscomp/},
-#>   }
-```
+**APA**
+
+Seitidis, G., Tsokani, S., Christogiannis, C., Kontouli, K. M.,
+Fyraridis, A., Nikolakopoulos, S., Veroniki, A. A., & Mavridis, D.
+(2022). viscomp: Visualize Multi-component Interventions in Network
+Meta-Analysis (Version 0.1.0).
+<https://github.com/georgiosseitidis/viscomp>
+
+**BibTeX**
+
+@manual{Seitidis_viscomp_Visualize_Multi-component_2022, author =
+{Seitidis, Georgios and Tsokani, Sofia and Christogiannis, Christos and
+Kontouli, Katerina Maria and Fyraridis, Alexandros and Nikolakopoulos,
+Stavros and Veroniki, Areti Angeliki and Mavridis, Dimitris}, title =
+{{viscomp: Visualize Multi-component Interventions in Network
+Meta-Analysis}}, url = {<https://github.com/georgiosseitidis/viscomp>},
+year = {2022} }
