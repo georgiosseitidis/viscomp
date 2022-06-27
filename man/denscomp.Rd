@@ -49,6 +49,7 @@ instead of the z-values, by setting \code{z_value = FALSE}.
 }
 \note{
 The efficacy of the components could be explored via violins plots instead of density plots, by setting \code{violin = TRUE}.
+Also, in the case of dichotomous outcomes, the log-scale is used.
 }
 \examples{
 data(MACE)

@@ -45,7 +45,7 @@ vignette("viscomp", package = "viscomp")
 #> Warning: vignette 'viscomp' not found
 ```
 
-## How to cite **viscomp**
+## How to cite viscomp
 
 ``` r
 citation(package = "viscomp")

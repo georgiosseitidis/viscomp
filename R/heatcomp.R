@@ -12,12 +12,16 @@
 #' by default (\code{freq = TRUE}). As a summary measure, the median is used by default (\code{median = TRUE}).
 #' The magnitude of each z-score is reflected by the color's intensity. Estimates close to zero
 #' are denoted by white color, and indicates lack of evidence that the corresponding component combination performs
-#' better than the reference intervention. In beneficial outcomes, deep green and red colors indicate strong evidence that the corresponding
-#' component combination performs better and worse respectively. The opposite holds for harmful outcomes.
+#' better than the reference intervention. Deep green and red colors indicate strong evidence that the corresponding
+#' component combination performs better and worse respectively. Argument \code{outcome} controls the
+#' outcomes nature (beneficial or harmful). For harmful outcomes small values are considered as good whereas the
+#' opposite holds for beneficial outcomes.
 #'
 #' Intervention effects can be used instead of z-values by setting \code{z_value = FALSE}.
 #' Also, by setting \code{median = FALSE}, the mean is used instead of the median as a summary measure.
 #'
+#' @note
+#' In the case of dichotomous outcomes, the log-scale is used.
 #'
 #' @param model An object of class \code{\link[netmeta]{netmeta}}.
 #' @param sep A single character that defines the separator between interventions components.

@@ -66,7 +66,7 @@ net <- netmeta(TE = TE,
 
 ## Descriptive analysis of components with `compdesc`
 
-`compdesc` performs a descriptive analysis for the components observed in the network. It provides 3 items as an output. Item `crosstable` contains a cross-table with the frequency of the components. Diagonal elements refer to the components, while off-diagonal elements to the components combinations. Each cell represents the number of arms where the corresponding component (combination) was observed. Item `heatmat` visualizes the item \code{crosstable}. The intensity of the color is proportional to the frequency of the component combination. Item `frequency` provides usefull descriptive charactericts about the component's frequency. In addition, it reports:
+`compdesc` performs a descriptive analysis for the components observed in the network. It provides 3 items as an output. Item `crosstable` contains a cross-table with the frequency of the components. Diagonal elements refer to the components, while off-diagonal elements to the components combinations. Each cell represents the number of arms where the corresponding component (combination) was observed. Item `heatmat` visualizes the item \code{crosstable}. The intensity of the color is proportional to the frequency of the component combination. Item `frequency` provides useful descriptive characteristics about the component's frequency. In addition, it reports:
 
 * the number of arms where the component was observed (column *Frequency*)
 * the number of studies in which the corresponding component was included in all arms (column *A*)
@@ -104,7 +104,7 @@ compGraph(net, mostF = 10, title = "", excl = "UC")
 
 `heatcomp()` creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes the efficacy of the interventions (obtained from the NMA model) that includes the corresponding component combination. The frequency of the components combinations found in the NMA model is printed by default (`freq = TRUE`). Combinations that were not observed in the NMA model are denoted by the letter "X". The function by default uses the z-scores (`z_value = TRUE`) and the median as a summary measure (`median = TRUE`). 
 
-Z-scores quantify the strength of statistical evidence. The magnitude of the evidence is reflected by the color's intensity. Estimates close to zero are denoted by white color, and indicates lack of evidence that the corresponding component combination performs better than the reference intervention. In beneficial outcomes, deep green and red colors indicate strong evidence that the corresponding component combination performs better and worse respectively. The opposite holds for harmful outcomes. The nature of the outcome (beneficial, harmful) is controlled by the argument `outcome`.
+Z-scores quantify the strength of statistical evidence. The magnitude of the evidence is reflected by the color's intensity. Estimates close to zero are denoted by white color, and indicates lack of evidence that the corresponding component combination performs better than the reference intervention. Deep green and red colors indicate strong evidence that the corresponding component combination performs better and worse respectively. The nature of the outcome (beneficial, harmful) is controlled by the argument `outcome`.
 
 \
 

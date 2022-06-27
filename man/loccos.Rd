@@ -53,6 +53,9 @@ The function by default uses the z-values estimates from the NMA model (\code{z_
 for the nodes that include and not include the component combination could be added to the scatter plot,
 by setting the argument \code{histogram = TRUE}.
 }
+\note{
+In the case of dichotomous outcomes, the log-scale is used.
+}
 \examples{
 data(MACE)
 NMAdata <- netmeta::pairwise(

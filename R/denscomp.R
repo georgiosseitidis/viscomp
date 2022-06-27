@@ -21,6 +21,7 @@
 #'
 #' @note
 #' The efficacy of the components could be explored via violins plots instead of density plots, by setting \code{violin = TRUE}.
+#' Also, in the case of dichotomous outcomes, the log-scale is used.
 #'
 #'
 #' @param model An object of class \code{\link[netmeta]{netmeta}}.
@@ -109,10 +110,23 @@ denscomp <- function(model, sep = "+", combination, violin = FALSE, random = TRU
 
   if (sum(is.na(as.numeric(nma_sm$SM))) != 0) {
     non_num <- which(is.na(as.numeric(nma_sm$SM)))
-    if (length(non_num) == 1) {
-      warning(paste0("Node ", nma_sm$Node[non_num], " was excluded since the ", tolower(xlabel), " could not be determined"))
-    } else {
-      warning(paste0("Nodes ", paste0(nma_sm$Node[non_num], collapse = ", "), " were excluded since the ", tolower(xlabel), " could not be determined for these nodes"))
+
+    ref_exc <- which(nma_sm$Node[non_num] == ref)
+
+    if(length(ref_exc)!=0){ #reference included
+
+      if(length(non_num) > 1){
+        warning(paste0("Nodes ", paste0(nma_sm$Node[non_num[-ref_exc]], collapse = ", "), " were excluded since the ", tolower(xlabel), " could not be determined for these nodes"))
+      }
+    }else{ #reference not included
+
+      if (length(non_num) == 1) {
+        warning(paste0("Node ", nma_sm$Node[non_num], " was excluded since the ", tolower(xlabel), " could not be determined"))
+      } else {
+
+        warning(paste0("Nodes ", paste0(nma_sm$Node[non_num], collapse = ", "), " were excluded since the ", tolower(xlabel), " could not be determined for these nodes"))
+      }
+
     }
 
     nma_sm <- nma_sm[-non_num, ]

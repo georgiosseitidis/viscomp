@@ -36,6 +36,9 @@ function visualizes the interventions that differ by one component (\code{combin
 If for example \code{combination = "A+B"}, the function plots the interventions that differ
 by "A+B".
 }
+\note{
+In the case of dichotomous outcomes, the log-scale is used.
+}
 \examples{
 data(MACE)
 NMAdata <- netmeta::pairwise(

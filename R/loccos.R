@@ -21,6 +21,9 @@
 #' for the nodes that include and not include the component combination could be added to the scatter plot,
 #' by setting the argument \code{histogram = TRUE}.
 #'
+#' @note
+#' In the case of dichotomous outcomes, the log-scale is used.
+#'
 #'
 #' @param model An object of class \code{\link[netmeta]{netmeta}}.
 #' @param sep A single character that defines the separator between interventions components.

@@ -18,6 +18,9 @@
 #' If for example \code{combination = "A+B"}, the function plots the interventions that differ
 #' by "A+B".
 #'
+#' @note
+#' In the case of dichotomous outcomes, the log-scale is used.
+#'
 #' @param model An object of class \code{\link[netmeta]{netmeta}}.
 #' @param sep  A single character that defines the separator between interventions components.
 #' @param combination A single character that specifies the component combination of interest.
