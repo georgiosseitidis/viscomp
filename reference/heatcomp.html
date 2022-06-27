@@ -118,10 +118,16 @@ observed in the NMA model, are denoted by the letter "X". Frequency of component
 by default (<code>freq = TRUE</code>). As a summary measure, the median is used by default (<code>median = TRUE</code>).
 The magnitude of each z-score is reflected by the color's intensity. Estimates close to zero
 are denoted by white color, and indicates lack of evidence that the corresponding component combination performs
-better than the reference intervention. In beneficial outcomes, deep green and red colors indicate strong evidence that the corresponding
-component combination performs better and worse respectively. The opposite holds for harmful outcomes.</p>
+better than the reference intervention. Deep green and red colors indicate strong evidence that the corresponding
+component combination performs better and worse respectively. Argument <code>outcome</code> controls the
+outcomes nature (beneficial or harmful). For harmful outcomes small values are considered as good whereas the
+opposite holds for beneficial outcomes.</p>
 <p>Intervention effects can be used instead of z-values by setting <code>z_value = FALSE</code>.
 Also, by setting <code>median = FALSE</code>, the mean is used instead of the median as a summary measure.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p>In the case of dichotomous outcomes, the log-scale is used.</p>
     </div>
 
     <div class="section level2">
@@ -148,7 +154,7 @@ Also, by setting <code>median = FALSE</code>, the mean is used instead of the me
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>
