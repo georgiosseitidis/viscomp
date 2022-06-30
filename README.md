@@ -38,7 +38,6 @@ We illustrate how to use **viscomp** in the vignette:
 
 ``` r
 vignette("viscomp", package = "viscomp")
-#> starting httpd help server ... done
 ```
 
 ## How to cite viscomp

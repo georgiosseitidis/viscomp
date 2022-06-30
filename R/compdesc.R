@@ -30,7 +30,10 @@
 #'  \item{\code{C_percent}} {denotes the percentage of studies in which the corresponding component was not included in any arm}
 #'  \item{\code{A.B}} {denotes the ratio of columns \code{A} and \code{B}}.
 #'   }}
-#'   \item{heatmat}{An object of class \code{ggplot} that visualizes item \code{crosstable}. The intensity of the color is proportional to the frequency of the component combination.}
+#'   \item{heatmat}{An object of class \code{ggplot} that visualizes item \code{crosstable}. Diagonal elements refer to the components and in parentheses the proportion of study
+#'   arms including that component is provided, while off-diagonal elements to the frequency of component’s combinations and in parentheses the proportion of study arms with both components
+#'   out of those study arms that have the component in the column is provided. Also, the intensity of the color is proportional to the frequency of the component combination.}
+#'
 #' @export
 #'
 #' @examples
@@ -44,8 +47,7 @@
 #'   treat2 = treat2, data = NMAdata, ref = "UC"
 #' )
 #' compdesc(model = net)
-compdesc <- function(model, sep = "+", heatmap = TRUE){
-
+compdesc <- function(model, sep = "+", heatmap = TRUE) {
   if (class(model) != "netmeta") {
     stop("The class of model is not of netmeta", call. = FALSE)
   } else if (class(sep) != "character") {
@@ -59,7 +61,7 @@ compdesc <- function(model, sep = "+", heatmap = TRUE){
 
   # Get the NMA-CNMA data
   data <- model$data[, c(".studlab", ".treat1", ".treat2")]
-  names(data) <-  c("studlab", "treat1", "treat2")
+  names(data) <- c("studlab", "treat1", "treat2")
 
 
   # Find all components of the data
@@ -73,7 +75,7 @@ compdesc <- function(model, sep = "+", heatmap = TRUE){
   }
 
   # Wide to long format
-  data_long <- reshape2::melt(data = data, id.vars = "studlab", value.name ="Node")
+  data_long <- reshape2::melt(data = data, id.vars = "studlab", value.name = "Node")
 
   # Keep unique interventions
   data_long <- unique(data_long[, c("studlab", "Node")])
@@ -83,52 +85,81 @@ compdesc <- function(model, sep = "+", heatmap = TRUE){
   dum <- dummies(data_long, components, sep)
 
   # Frequency of each component
-  comp_freq <- apply(dum[,-c(1:2)], 2, sum)
+  comp_freq <- apply(dum[, -c(1:2)], 2, sum)
 
   # Additive for each component
-  comp_add <- data.frame("Component" = labels(comp_freq), "Frequency" = comp_freq, "A" = NA,
-                         "A_percent" = NA, "B" = NA, "B_percent" = NA, "C" = NA,
-                         "C_percent" = NA, "A/B" = NA)
+  comp_add <- data.frame(
+    "Component" = labels(comp_freq), "Frequency" = comp_freq, "A" = NA,
+    "A_percent" = NA, "B" = NA, "B_percent" = NA, "C" = NA,
+    "C_percent" = NA, "A/B" = NA
+  )
 
   # cross table
-  crosstab <- as.data.frame(matrix(ncol = length(components), nrow = length(components)))
-  names(crosstab) <- row.names(crosstab) <- components
+  crosstab <- cross_ratio <- as.data.frame(matrix(ncol = length(components), nrow = length(components)))
+  names(crosstab) <- names(cross_ratio) <- row.names(cross_ratio) <- row.names(crosstab) <- components
 
   studies <- split(dum, dum$studlab)
 
-  for(i in components){
-    comp_add[which(comp_add$Component == i) ,"A"] <- sum(sapply(studies, FUN = function(x){sum(x[,i]) == dim(x)[1]})) #component included in each arm
-    comp_add[which(comp_add$Component == i) ,"B"] <- sum(sapply(studies, FUN = function(x){sum(x[,i]) > 0 })) #component included in at least one arm
-    comp_add[which(comp_add$Component == i) ,"C"] <- sum(sapply(studies, FUN = function(x){sum(x[,i]) == 0 })) #component not included in any arm
+  for (i in components) {
+    comp_add[which(comp_add$Component == i), "A"] <- sum(sapply(studies, FUN = function(x) {
+      sum(x[, i]) == dim(x)[1]
+    })) # component included in each arm
+    comp_add[which(comp_add$Component == i), "B"] <- sum(sapply(studies, FUN = function(x) {
+      sum(x[, i]) > 0
+    })) # component included in at least one arm
+    comp_add[which(comp_add$Component == i), "C"] <- sum(sapply(studies, FUN = function(x) {
+      sum(x[, i]) == 0
+    })) # component not included in any arm
   }
 
-  comp_add$A_percent <- comp_add$A/length(studies)
-  comp_add$B_percent <- comp_add$B/length(studies)
-  comp_add$C_percent <- comp_add$C/length(studies)
+  comp_add$A_percent <- comp_add$A / length(studies)
+  comp_add$B_percent <- comp_add$B / length(studies)
+  comp_add$C_percent <- comp_add$C / length(studies)
 
-  comp_add$A.B <- comp_add$A/comp_add$B
+  comp_add$A.B <- comp_add$A / comp_add$B
   # Cross-tabulations for each component
-  for(i in components){
-    for(j in components){
-      crosstab[i, j] <- length(which(dum[,i] + dum[, j] == 2))
+  m_i <- 0
+  m_j <- 0
+  for (i in components) {
+    m_i <- m_i + 1
+    for (j in components) {
+      m_j <- m_j + 1
+      crosstab[i, j] <- length(which(dum[, i] + dum[, j] == 2))
+
+      if (m_i > m_j) {
+        cross_ratio[i, j] <- paste0(length(which(dum[, i] + dum[, j] == 2)), "/", length(which(dum[, i] + dum[, i] == 2)))
+      } else if (m_i < m_j) {
+        cross_ratio[i, j] <- paste0(length(which(dum[, i] + dum[, j] == 2)), "/", length(which(dum[, i] + dum[, i] == 2)))
+      } else {
+        cross_ratio[i, j] <- paste0(length(which(dum[, i] + dum[, j] == 2)), "/", dim(data_long)[1])
+      }
     }
+    m_j <- 0
   }
+
 
   exp <- list("crosstable" = crosstab, "frequency" = comp_add)
 
-  if(heatmap == TRUE){
+  if (heatmap == TRUE) {
     data_heat <- crosstab %>%
       as.data.frame() %>%
       tibble::rownames_to_column("f_id") %>%
       tidyr::pivot_longer(-c("f_id"), names_to = "samples", values_to = "counts")
 
-    p <- ggplot2::ggplot(data = NULL, ggplot2::aes(x = data_heat$f_id, y = data_heat$samples , fill = data_heat$counts)) +
-      ggplot2::geom_tile()+
-      ggplot2::scale_fill_gradient2(low = "white", high = "red", limit = c(0, max(data_heat$counts, na.rm = TRUE)))+
-      ggplot2::geom_text(ggplot2::aes(label = data_heat$counts), color = "black", size = 4) +
-      ggplot2::coord_fixed()+
-      ggplot2::xlab("")+
-      ggplot2::ylab("")+
+    ratios_heat <- cross_ratio %>%
+      as.data.frame() %>%
+      tibble::rownames_to_column("f_id") %>%
+      tidyr::pivot_longer(-c("f_id"), names_to = "samples", values_to = "counts")
+
+    ratios_heat$label <- paste(data_heat$counts, "\n", paste0("(", ratios_heat$counts, ")"))
+
+    p <- ggplot2::ggplot(data = NULL, ggplot2::aes(x = data_heat$f_id, y = data_heat$samples, fill = data_heat$counts)) +
+      ggplot2::geom_tile() +
+      ggplot2::scale_fill_gradient2(low = "white", high = "red", limit = c(0, max(data_heat$counts, na.rm = TRUE))) +
+      ggplot2::geom_text(ggplot2::aes(label = ratios_heat$label), color = "black", size = 4) +
+      ggplot2::coord_fixed() +
+      ggplot2::xlab("") +
+      ggplot2::ylab("") +
       ggplot2::guides(fill = ggplot2::guide_legend("# arms"))
 
     exp[["heatmat"]] <- p

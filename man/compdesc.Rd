@@ -27,7 +27,9 @@ A list containing three items
  \item{\code{C_percent}} {denotes the percentage of studies in which the corresponding component was not included in any arm}
  \item{\code{A.B}} {denotes the ratio of columns \code{A} and \code{B}}.
   }}
-  \item{heatmat}{An object of class \code{ggplot} that visualizes item \code{crosstable}. The intensity of the color is proportional to the frequency of the component combination.}
+  \item{heatmat}{An object of class \code{ggplot} that visualizes item \code{crosstable}. Diagonal elements refer to the components and in parentheses the proportion of study
+  arms including that component is provided, while off-diagonal elements to the frequency of component’s combinations and in parentheses the proportion of study arms with both components
+  out of those study arms that have the component in the column is provided. Also, the intensity of the color is proportional to the frequency of the component combination.}
 }
 \description{
 The function performs a descriptive analysis regarding the frequency of the component in the network meta-analysis model.
