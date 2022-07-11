@@ -32,7 +32,7 @@ A list containing three items
   out of those study arms that have the component in the column is provided. Also, the intensity of the color is proportional to the frequency of the component combination.}
 }
 \description{
-The function performs a descriptive analysis regarding the frequency of the component in the network meta-analysis model.
+The function performs a descriptive analysis regarding the frequency of the components in the network meta-analysis model.
 }
 \note{
 The function can be applied only in network meta-analysis models that contain multi-component interventions.

@@ -56,7 +56,8 @@ Intervention effects can be used instead of z-values by setting \code{z_value = 
 Also, by setting \code{median = FALSE}, the mean is used instead of the median as a summary measure.
 }
 \note{
-In the case of dichotomous outcomes, the log-scale is used.
+In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
+only in network meta-analysis models that contain multi-component interventions.
 }
 \examples{
 data(MACE)

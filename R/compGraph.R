@@ -12,6 +12,8 @@
 #' The number of the most frequent combinations can be modified from the argument \code{mostF}. The function by
 #' default plots the five most frequent components' combinations found in the network.
 #'
+#' @note
+#' The function can be applied only in network meta-analysis models that contain multi-component interventions.
 #'
 #' @param model An object of class \code{\link[netmeta]{netmeta}}.
 #' @param sep A single character that defines the separator between interventions components.

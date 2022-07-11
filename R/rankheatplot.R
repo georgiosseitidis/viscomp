@@ -12,6 +12,8 @@
 #' while green color indicates values close to 1. Intervention's p-scores are obtained from the network meta-analysis (NMA) model.
 #' By default the random-effects NMA model is used for each outcome (\code{random = TRUE}).
 #'
+#' @note
+#' The function can be applied only in network meta-analysis models that contain multi-component interventions.
 #'
 #' @param model A list of \code{\link[netmeta]{netmeta}} models.
 #' @param sep A single character that defines the separator between interventions components.

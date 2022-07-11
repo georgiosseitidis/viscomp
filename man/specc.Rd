@@ -88,7 +88,8 @@ that contain more than 5 components.
 The function by default uses z-values, but it could be adjusted to use intervention's effects by setting \code{z_value = FALSE}.
 }
 \note{
-In the case of dichotomous outcomes, the log-scale is used.
+In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
+only in network meta-analysis models that contain multi-component interventions.
 }
 \examples{
 data(MACE)

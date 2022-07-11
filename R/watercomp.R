@@ -19,7 +19,8 @@
 #' by "A+B".
 #'
 #' @note
-#' In the case of dichotomous outcomes, the log-scale is used.
+#' In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
+#' only in network meta-analysis models that contain multi-component interventions.
 #'
 #' @param model An object of class \code{\link[netmeta]{netmeta}}.
 #' @param sep  A single character that defines the separator between interventions components.

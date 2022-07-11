@@ -11,7 +11,7 @@ status](https://ci.appveyor.com/api/projects/status/github/georgiosseitidis/visc
 
 The goal of **viscomp** is to provide several visualization tools for
 exploring the behavior of the components in a network meta-analysis of
-complex interventions:
+multi-component (complex) interventions:
 
 -   components descriptive analysis
 -   heat plot of the two-by-two component combinations

@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/georgiosseitidis/viscomp?branch=main&svg=true)](https://ci.appveyor.com/project/georgiosseitidis/viscomp)
 <!-- badges: end -->
 
-The goal of **viscomp** is to provide several visualization tools for exploring the behavior of the components in a network meta-analysis of complex interventions: 
+The goal of **viscomp** is to provide several visualization tools for exploring the behavior of the components in a network meta-analysis of multi-component (complex) interventions: 
 
  * components descriptive analysis
  * heat plot of the two-by-two component combinations 

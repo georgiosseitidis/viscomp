@@ -54,7 +54,8 @@ for the nodes that include and not include the component combination could be ad
 by setting the argument \code{histogram = TRUE}.
 }
 \note{
-In the case of dichotomous outcomes, the log-scale is used.
+In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
+only in network meta-analysis models that contain multi-component interventions.
 }
 \examples{
 data(MACE)

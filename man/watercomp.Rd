@@ -37,7 +37,8 @@ If for example \code{combination = "A+B"}, the function plots the interventions 
 by "A+B".
 }
 \note{
-In the case of dichotomous outcomes, the log-scale is used.
+In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
+only in network meta-analysis models that contain multi-component interventions.
 }
 \examples{
 data(MACE)

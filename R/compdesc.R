@@ -1,7 +1,7 @@
 #' Components descriptive analysis
 #'
 #' @description
-#' The function performs a descriptive analysis regarding the frequency of the component in the network meta-analysis model.
+#' The function performs a descriptive analysis regarding the frequency of the components in the network meta-analysis model.
 #'
 #' @note
 #' The function can be applied only in network meta-analysis models that contain multi-component interventions.

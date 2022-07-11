@@ -40,7 +40,7 @@ Authors@R:
          email = "snikolakopoulos@uoi.gr",
          comment = c(ORCID = "0000-0003-1041-4592")))
 Maintainer: Georgios Seitidis <g.seitidis@uoi.gr>
-Description: A set of functions providing several visualization tools for exploring the behavior of the components in a network meta-analysis of complex interventions: 
+Description: A set of functions providing several visualization tools for exploring the behavior of the components in a network meta-analysis of multi-component (complex) interventions: 
    - components descriptive analysis
    - heat plot of the two-by-two component combinations 
    - leaving one component combination out scatter plot 

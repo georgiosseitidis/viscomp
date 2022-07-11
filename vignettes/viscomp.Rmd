@@ -23,13 +23,13 @@ body {
 text-align: justify}
 </style>
 
-When multicomponent (complex) interventions are present in a network meta-analysis model we usually interested on: 
+When multi-component (complex) interventions are present in a network meta-analysis model we usually interested on: 
 
  * identifying the most efficacious components
  * identifying which component combination works better
  * understanding the behavior of the components
 
-The **viscomp** package provides several visualization tools to address these issues. This document makes an introduction to viscomp’s set of tools, and shows you how to apply them on network meta-analysis when multicomponent (complex) interventions are included.
+The **viscomp** package provides several visualization tools to address these issues. This document makes an introduction to viscomp’s set of tools, and shows you how to apply them on network meta-analysis when multi-component (complex) interventions are included.
 
 \
  

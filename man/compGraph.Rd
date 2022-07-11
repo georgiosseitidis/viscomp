@@ -44,6 +44,9 @@ found in the network of interventions. Edges’ thickness indicates the frequenc
 The number of the most frequent combinations can be modified from the argument \code{mostF}. The function by
 default plots the five most frequent components' combinations found in the network.
 }
+\note{
+The function can be applied only in network meta-analysis models that contain multi-component interventions.
+}
 \examples{
 data(MACE)
 NMAdata <- netmeta::pairwise(
