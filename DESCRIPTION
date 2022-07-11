@@ -1,7 +1,7 @@
 Package: viscomp
 Type: Package
 Title: Visualize Multi-Component Interventions in Network Meta-Analysis
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: 
   c(person(given = "Georgios", 
          family = "Seitidis", 
