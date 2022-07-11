@@ -83,13 +83,13 @@
 body {
 text-align: justify}
 </style>
-<p>When multicomponent (complex) interventions are present in a network meta-analysis model we usually interested on:</p>
+<p>When multi-component (complex) interventions are present in a network meta-analysis model we usually interested on:</p>
 <ul>
 <li>identifying the most efficacious components</li>
 <li>identifying which component combination works better</li>
 <li>understanding the behavior of the components</li>
 </ul>
-<p>The <strong>viscomp</strong> package provides several visualization tools to address these issues. This document makes an introduction to viscomp’s set of tools, and shows you how to apply them on network meta-analysis when multicomponent (complex) interventions are included.</p>
+<p>The <strong>viscomp</strong> package provides several visualization tools to address these issues. This document makes an introduction to viscomp’s set of tools, and shows you how to apply them on network meta-analysis when multi-component (complex) interventions are included.</p>
 <p><br></p>
 <div class="section level2">
 <h2 id="single-outcome">Single outcome<a class="anchor" aria-label="anchor" href="#single-outcome"></a>
@@ -99,25 +99,25 @@ text-align: justify}
 </h3>
 <p>Load the MACE data of the viscomp package</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/georgiosseitidis/viscomp" class="external-link">viscomp</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MACE"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/georgiosseitidis/viscomp" class="external-link">viscomp</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MACE"</span><span class="op">)</span></span></code></pre></div>
 <p>Network meta-analysis (NMA) model is applied using the R-package <code>netmeta</code>. MACE is a dichotomous harmful outcome and the NMA model is constructed using the odds ratios (OR) as effect size.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/guido-s/netmeta" class="external-link">netmeta</a></span><span class="op">)</span>
-<span class="va">data_NMA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/pairwise.html" class="external-link">pairwise</a></span><span class="op">(</span>studlab <span class="op">=</span> <span class="va">Study</span>, 
-                      treat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">treat1</span>, <span class="va">treat2</span>, <span class="va">treat3</span>, <span class="va">treat4</span><span class="op">)</span>,
-                      n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">n1</span>, <span class="va">n2</span>, <span class="va">n3</span>, <span class="va">n4</span><span class="op">)</span>, 
-                      event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">event1</span>, <span class="va">event2</span>, <span class="va">event3</span>, <span class="va">event4</span><span class="op">)</span>, 
-                      data <span class="op">=</span> <span class="va">MACE</span>, 
-                      sm <span class="op">=</span> <span class="st">"OR"</span> <span class="op">)</span>
-
-<span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/netmeta.html" class="external-link">netmeta</a></span><span class="op">(</span>TE <span class="op">=</span> <span class="va">TE</span>, 
-               seTE <span class="op">=</span> <span class="va">seTE</span>, 
-               studlab <span class="op">=</span> <span class="va">studlab</span>, 
-               treat1 <span class="op">=</span> <span class="va">treat1</span>,
-               treat2 <span class="op">=</span> <span class="va">treat2</span>, 
-               data <span class="op">=</span> <span class="va">data_NMA</span>, 
-               ref <span class="op">=</span> <span class="st">"UC"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/guido-s/netmeta" class="external-link">netmeta</a></span><span class="op">)</span></span>
+<span><span class="va">data_NMA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/pairwise.html" class="external-link">pairwise</a></span><span class="op">(</span>studlab <span class="op">=</span> <span class="va">Study</span>, </span>
+<span>                      treat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">treat1</span>, <span class="va">treat2</span>, <span class="va">treat3</span>, <span class="va">treat4</span><span class="op">)</span>,</span>
+<span>                      n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">n1</span>, <span class="va">n2</span>, <span class="va">n3</span>, <span class="va">n4</span><span class="op">)</span>, </span>
+<span>                      event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">event1</span>, <span class="va">event2</span>, <span class="va">event3</span>, <span class="va">event4</span><span class="op">)</span>, </span>
+<span>                      data <span class="op">=</span> <span class="va">MACE</span>, </span>
+<span>                      sm <span class="op">=</span> <span class="st">"OR"</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/netmeta.html" class="external-link">netmeta</a></span><span class="op">(</span>TE <span class="op">=</span> <span class="va">TE</span>, </span>
+<span>               seTE <span class="op">=</span> <span class="va">seTE</span>, </span>
+<span>               studlab <span class="op">=</span> <span class="va">studlab</span>, </span>
+<span>               treat1 <span class="op">=</span> <span class="va">treat1</span>,</span>
+<span>               treat2 <span class="op">=</span> <span class="va">treat2</span>, </span>
+<span>               data <span class="op">=</span> <span class="va">data_NMA</span>, </span>
+<span>               ref <span class="op">=</span> <span class="st">"UC"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="descriptive-analysis-of-components-with-compdesc">Descriptive analysis of components with <code>compdesc</code><a class="anchor" aria-label="anchor" href="#descriptive-analysis-of-components-with-compdesc"></a>
@@ -138,28 +138,28 @@ text-align: justify}
 </ul>
 <p>We can perform a descriptive analysis of the components with:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/compdesc.html">compdesc</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span>
-<span class="co">#&gt; $crosstable</span>
-<span class="co">#&gt;     A  B  C  D G E UC</span>
-<span class="co">#&gt; A  17  9  9  5 0 2  0</span>
-<span class="co">#&gt; B   9 18  7  5 1 2  0</span>
-<span class="co">#&gt; C   9  7 15  4 0 1  0</span>
-<span class="co">#&gt; D   5  5  4 11 0 0  0</span>
-<span class="co">#&gt; G   0  1  0  0 1 0  0</span>
-<span class="co">#&gt; E   2  2  1  0 0 3  0</span>
-<span class="co">#&gt; UC  0  0  0  0 0 0 15</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $frequency</span>
-<span class="co">#&gt;    Component Frequency A  A_percent  B  B_percent  C C_percent       A.B</span>
-<span class="co">#&gt; A          A        17 2 0.09090909 11 0.50000000 11 0.5000000 0.1818182</span>
-<span class="co">#&gt; B          B        18 3 0.13636364 13 0.59090909  9 0.4090909 0.2307692</span>
-<span class="co">#&gt; C          C        15 2 0.09090909 11 0.50000000 11 0.5000000 0.1818182</span>
-<span class="co">#&gt; D          D        11 1 0.04545455  9 0.40909091 13 0.5909091 0.1111111</span>
-<span class="co">#&gt; G          G         1 0 0.00000000  1 0.04545455 21 0.9545455 0.0000000</span>
-<span class="co">#&gt; E          E         3 0 0.00000000  3 0.13636364 19 0.8636364 0.0000000</span>
-<span class="co">#&gt; UC        UC        15 0 0.00000000 15 0.68181818  7 0.3181818 0.0000000</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $heatmat</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/compdesc.html">compdesc</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $crosstable</span></span>
+<span><span class="co">#&gt;     A  B  C  D G E UC</span></span>
+<span><span class="co">#&gt; A  17  9  9  5 0 2  0</span></span>
+<span><span class="co">#&gt; B   9 18  7  5 1 2  0</span></span>
+<span><span class="co">#&gt; C   9  7 15  4 0 1  0</span></span>
+<span><span class="co">#&gt; D   5  5  4 11 0 0  0</span></span>
+<span><span class="co">#&gt; G   0  1  0  0 1 0  0</span></span>
+<span><span class="co">#&gt; E   2  2  1  0 0 3  0</span></span>
+<span><span class="co">#&gt; UC  0  0  0  0 0 0 15</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $frequency</span></span>
+<span><span class="co">#&gt;    Component Frequency A  A_percent  B  B_percent  C C_percent       A.B</span></span>
+<span><span class="co">#&gt; A          A        17 2 0.09090909 11 0.50000000 11 0.5000000 0.1818182</span></span>
+<span><span class="co">#&gt; B          B        18 3 0.13636364 13 0.59090909  9 0.4090909 0.2307692</span></span>
+<span><span class="co">#&gt; C          C        15 2 0.09090909 11 0.50000000 11 0.5000000 0.1818182</span></span>
+<span><span class="co">#&gt; D          D        11 1 0.04545455  9 0.40909091 13 0.5909091 0.1111111</span></span>
+<span><span class="co">#&gt; G          G         1 0 0.00000000  1 0.04545455 21 0.9545455 0.0000000</span></span>
+<span><span class="co">#&gt; E          E         3 0 0.00000000  3 0.13636364 19 0.8636364 0.0000000</span></span>
+<span><span class="co">#&gt; UC        UC        15 0 0.00000000 15 0.68181818  7 0.3181818 0.0000000</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $heatmat</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-3-1.png" width="720"></p>
 </div>
 <div class="section level3">
@@ -169,11 +169,11 @@ text-align: justify}
 <p><br></p>
 <p>We can visualize the 10 most frequent component combinations with:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/compGraph.html">compGraph</a></span><span class="op">(</span><span class="va">net</span>, mostF <span class="op">=</span> <span class="fl">10</span>, title <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/compGraph.html">compGraph</a></span><span class="op">(</span><span class="va">net</span>, mostF <span class="op">=</span> <span class="fl">10</span>, title <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-4-1.png" width="720"></p>
 <p>In NMA we usually have interventions that are used as a potentially inactive reference intervention (e.g. placebo, usual care), and are not combined with other interventions. We can exclude these interventions through the argument <code>excl</code>. For example, we can exclude the usual care (UC) from the component network plot with:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/compGraph.html">compGraph</a></span><span class="op">(</span><span class="va">net</span>, mostF <span class="op">=</span> <span class="fl">10</span>, title <span class="op">=</span> <span class="st">""</span>, excl <span class="op">=</span> <span class="st">"UC"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/compGraph.html">compGraph</a></span><span class="op">(</span><span class="va">net</span>, mostF <span class="op">=</span> <span class="fl">10</span>, title <span class="op">=</span> <span class="st">""</span>, excl <span class="op">=</span> <span class="st">"UC"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-5-1.png" width="720"></p>
 </div>
 <div class="section level3">
@@ -184,7 +184,7 @@ text-align: justify}
 <p><br></p>
 <p>We can visualize the efficacy of the components, with:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/heatcomp.html">heatcomp</a></span><span class="op">(</span><span class="va">net</span>, outcome <span class="op">=</span> <span class="st">"harmful"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/heatcomp.html">heatcomp</a></span><span class="op">(</span><span class="va">net</span>, outcome <span class="op">=</span> <span class="st">"harmful"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-6-1.png" width="691.2"></p>
 <p>From the plot we see that the most intensive colors are observed for the component E, G, and the combination between components B and G. Thus, these combination seems to be the most efficacious according to the <code><a href="../reference/heatcomp.html">heatcomp()</a></code>. We also see that the frequency of component G and the combination of B and G equals one, indicating that their corresponding estimates have been obtained by a single intervention.</p>
 </div>
@@ -198,8 +198,8 @@ text-align: justify}
 <p><br></p>
 <p>We can visualize the distribution of each component in the network with:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Violin plot requires at least 2 data point</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Violin plot requires at least 2 data point</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-7-1.png" width="691.2"></p>
 <p>Note that in the plot the median estimates of the components are equal with the diagonal elements of the <code><a href="../reference/heatcomp.html">heatcomp()</a></code> function. Also, we receive a warning message because component G was included in a single intervention.</p>
 </div>
@@ -208,7 +208,7 @@ text-align: justify}
 </h4>
 <p>We can visualize the distribution of component combinations (e.g. A, A+B, A+B+C) with:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A + B"</span>, <span class="st">"A + B + C"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A + B"</span>, <span class="st">"A + B + C"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-8-1.png" width="691.2"></p>
 </div>
 <div class="section level4">
@@ -216,12 +216,12 @@ text-align: justify}
 </h4>
 <p>Often, we interested on exploring the behavior of intervention’s effect as the number of components increased. We can do that with:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span>, components_number <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span>, components_number <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-9-1.png" width="691.2"></p>
 <p><br></p>
 <p>We can also group the violins in cluster based on the number of components. For example, we can create violins for interventions that includes 1 component, 2 components, 1-2 components and more than 2 components, with</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span>, components_number <span class="op">=</span> <span class="cn">TRUE</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="st">"1-2"</span>, <span class="st">"2+"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/specc.html">specc</a></span><span class="op">(</span><span class="va">net</span>, components_number <span class="op">=</span> <span class="cn">TRUE</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="st">"1-2"</span>, <span class="st">"2+"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-10-1.png" width="691.2"></p>
 </div>
 </div>
@@ -232,12 +232,12 @@ text-align: justify}
 <p><br></p>
 <p>For example, if we interested on exploring the efficacy of the component combination A+B, we can visualize the densities of the NMA intervention estimates from the interventions that include and not include component A respectively, with</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/denscomp.html">denscomp</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="st">"A+B"</span>, z_value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/denscomp.html">denscomp</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="st">"A+B"</span>, z_value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-11-1.png" width="691.2"></p>
 <p><br></p>
 <p><code><a href="../reference/denscomp.html">denscomp()</a></code> can also compare more than two densities. If we interested for example to compare the densities of the interventions that include component A, components A+B, and components A+B+C, we can do it with</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/denscomp.html">denscomp</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A + B"</span>, <span class="st">"A + B + C"</span><span class="op">)</span>, z_value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/denscomp.html">denscomp</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A + B"</span>, <span class="st">"A + B + C"</span><span class="op">)</span>, z_value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-12-1.png" width="691.2"></p>
 </div>
 <div class="section level3">
@@ -247,7 +247,7 @@ text-align: justify}
 <p><br></p>
 <p>We can explore the impact of component A, with:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/loccos.html">loccos</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="st">"A"</span>, histogram <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/loccos.html">loccos</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="st">"A"</span>, histogram <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-13-1.png" width="691.2"></p>
 </div>
 <div class="section level3">
@@ -257,7 +257,7 @@ text-align: justify}
 <p><br></p>
 <p>We can explore the impact of component A, with:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/watercomp.html">watercomp</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/watercomp.html">watercomp</a></span><span class="op">(</span><span class="va">net</span>, combination <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-14-1.png" width="691.2"></p>
 <p><br></p>
 </div>
@@ -269,46 +269,46 @@ text-align: justify}
 <h3 id="artificial-network-meta-analysis-model-1">Artificial network meta-analysis model<a class="anchor" aria-label="anchor" href="#artificial-network-meta-analysis-model-1"></a>
 </h3>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">t1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"A+B"</span>, <span class="st">"A+C"</span>, <span class="st">"B+C"</span>, <span class="st">"A"</span><span class="op">)</span>
-<span class="va">t2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"A"</span>, <span class="st">"A+C"</span>, <span class="st">"B+C"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B+C"</span><span class="op">)</span>
-
-<span class="va">TE1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.12</span>, <span class="fl">3.24</span>, <span class="fl">5.65</span>, <span class="op">-</span><span class="fl">0.60</span>, <span class="fl">0.13</span>, <span class="fl">0.66</span>, <span class="fl">3.28</span><span class="op">)</span>
-<span class="va">TE2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4.69</span>, <span class="fl">2.67</span>, <span class="fl">2.73</span>, <span class="op">-</span><span class="fl">3.41</span>, <span class="fl">1.79</span>, <span class="fl">2.93</span>, <span class="fl">2.51</span><span class="op">)</span>
-
-<span class="va">seTE1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">7</span><span class="op">)</span>
-<span class="va">seTE2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">7</span><span class="op">)</span>
-
-<span class="va">study</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"study_"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>
-
-<span class="va">data1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"TE"</span> <span class="op">=</span> <span class="va">TE1</span>, 
-                    <span class="st">"seTE"</span> <span class="op">=</span> <span class="va">seTE1</span>, 
-                    <span class="st">"treat1"</span> <span class="op">=</span> <span class="va">t1</span>, 
-                    <span class="st">"treat2"</span> <span class="op">=</span> <span class="va">t2</span>, 
-                    <span class="st">"studlab"</span> <span class="op">=</span> <span class="va">study</span>,
-                    stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"TE"</span> <span class="op">=</span> <span class="va">TE2</span>, 
-                    <span class="st">"seTE"</span> <span class="op">=</span> <span class="va">seTE2</span>, 
-                    <span class="st">"treat1"</span> <span class="op">=</span> <span class="va">t1</span>, 
-                    <span class="st">"treat2"</span> <span class="op">=</span> <span class="va">t2</span>, 
-                    <span class="st">"studlab"</span> <span class="op">=</span> <span class="va">study</span>,
-                    stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="va">net1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/netmeta.html" class="external-link">netmeta</a></span><span class="op">(</span>TE <span class="op">=</span> <span class="va">TE</span>, 
-                seTE <span class="op">=</span> <span class="va">seTE</span>, 
-                studlab <span class="op">=</span> <span class="va">studlab</span>, 
-                treat1 <span class="op">=</span> <span class="va">treat1</span>,
-                treat2 <span class="op">=</span> <span class="va">treat2</span>, 
-                data <span class="op">=</span> <span class="va">data1</span>, 
-                ref <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span>
-
-<span class="va">net2</span> <span class="op">&lt;-</span> <span class="fu">netmeta</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/netmeta.html" class="external-link">netmeta</a></span><span class="op">(</span>TE <span class="op">=</span> <span class="va">TE</span>, 
-                         seTE <span class="op">=</span> <span class="va">seTE</span>, 
-                         studlab <span class="op">=</span> <span class="va">studlab</span>, 
-                         treat1 <span class="op">=</span> <span class="va">treat1</span>,
-                         treat2 <span class="op">=</span> <span class="va">treat2</span>, 
-                         data <span class="op">=</span> <span class="va">data2</span>, 
-                         ref <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">t1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"A+B"</span>, <span class="st">"A+C"</span>, <span class="st">"B+C"</span>, <span class="st">"A"</span><span class="op">)</span></span>
+<span><span class="va">t2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"A"</span>, <span class="st">"A+C"</span>, <span class="st">"B+C"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B+C"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">TE1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.12</span>, <span class="fl">3.24</span>, <span class="fl">5.65</span>, <span class="op">-</span><span class="fl">0.60</span>, <span class="fl">0.13</span>, <span class="fl">0.66</span>, <span class="fl">3.28</span><span class="op">)</span></span>
+<span><span class="va">TE2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4.69</span>, <span class="fl">2.67</span>, <span class="fl">2.73</span>, <span class="op">-</span><span class="fl">3.41</span>, <span class="fl">1.79</span>, <span class="fl">2.93</span>, <span class="fl">2.51</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">seTE1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="va">seTE2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">7</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">study</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"study_"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"TE"</span> <span class="op">=</span> <span class="va">TE1</span>, </span>
+<span>                    <span class="st">"seTE"</span> <span class="op">=</span> <span class="va">seTE1</span>, </span>
+<span>                    <span class="st">"treat1"</span> <span class="op">=</span> <span class="va">t1</span>, </span>
+<span>                    <span class="st">"treat2"</span> <span class="op">=</span> <span class="va">t2</span>, </span>
+<span>                    <span class="st">"studlab"</span> <span class="op">=</span> <span class="va">study</span>,</span>
+<span>                    stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"TE"</span> <span class="op">=</span> <span class="va">TE2</span>, </span>
+<span>                    <span class="st">"seTE"</span> <span class="op">=</span> <span class="va">seTE2</span>, </span>
+<span>                    <span class="st">"treat1"</span> <span class="op">=</span> <span class="va">t1</span>, </span>
+<span>                    <span class="st">"treat2"</span> <span class="op">=</span> <span class="va">t2</span>, </span>
+<span>                    <span class="st">"studlab"</span> <span class="op">=</span> <span class="va">study</span>,</span>
+<span>                    stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">net1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/netmeta.html" class="external-link">netmeta</a></span><span class="op">(</span>TE <span class="op">=</span> <span class="va">TE</span>, </span>
+<span>                seTE <span class="op">=</span> <span class="va">seTE</span>, </span>
+<span>                studlab <span class="op">=</span> <span class="va">studlab</span>, </span>
+<span>                treat1 <span class="op">=</span> <span class="va">treat1</span>,</span>
+<span>                treat2 <span class="op">=</span> <span class="va">treat2</span>, </span>
+<span>                data <span class="op">=</span> <span class="va">data1</span>, </span>
+<span>                ref <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">net2</span> <span class="op">&lt;-</span> <span class="fu">netmeta</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/netmeta.html" class="external-link">netmeta</a></span><span class="op">(</span>TE <span class="op">=</span> <span class="va">TE</span>, </span>
+<span>                         seTE <span class="op">=</span> <span class="va">seTE</span>, </span>
+<span>                         studlab <span class="op">=</span> <span class="va">studlab</span>, </span>
+<span>                         treat1 <span class="op">=</span> <span class="va">treat1</span>,</span>
+<span>                         treat2 <span class="op">=</span> <span class="va">treat2</span>, </span>
+<span>                         data <span class="op">=</span> <span class="va">data2</span>, </span>
+<span>                         ref <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="visualize-the-components-ranking-for-multiple-outcomes-with-rankheatplot">Visualize the components’ ranking for multiple outcomes with <code>rankheatplot()</code><a class="anchor" aria-label="anchor" href="#visualize-the-components-ranking-for-multiple-outcomes-with-rankheatplot"></a>
@@ -317,7 +317,7 @@ text-align: justify}
 <p><br></p>
 <p>We can visualize the p-scores for the two outcomes (assuming that the first outcome is beneficial while the second is harmful), with:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/rankheatplot.html">rankheatplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">net1</span>, <span class="va">net2</span><span class="op">)</span>, small.values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"good"</span>, <span class="st">"bad"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rankheatplot.html">rankheatplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">net1</span>, <span class="va">net2</span><span class="op">)</span>, small.values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"good"</span>, <span class="st">"bad"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="viscomp_files/figure-html/unnamed-chunk-16-1.png" width="691.2"></p>
 <div class="section level4">
 <h4 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
