@@ -46,17 +46,17 @@ compGraph <- function(model, sep = "+", mostF = 5, excl = NULL, title = "Most fr
   ##
   # Check arguments
   ##
-  if (class(model) != "netmeta") {
+  if (inherits(model, "netmeta") == FALSE) {
     stop("The class of model is not of netmeta", call. = FALSE)
   } else if (model$reference.group == "") {
     stop("The netmeta model must have a reference group", call. = FALSE)
-  } else if (class(sep) != "character") {
-    stop("The class of sep is not logical", call. = FALSE)
+  } else if (inherits(sep, "character") == FALSE) {
+    stop("The class of sep is not character", call. = FALSE)
   } else if (length(sep) > 1) {
     stop("The length of sep must be one", call. = FALSE)
   } else if (sep == "") {
     stop("Argument sep must be diffent than ''", call. = FALSE)
-  } else if (!class(mostF) %in% c("numeric", "integer")) {
+  } else if (inherits(mostF, c("numeric", "integer")) == FALSE) {
     stop("The class of mostF must be numeric or integer", call. = FALSE)
   } else if (length(mostF) > 1) {
     stop("The length of mostF must be one", call. = FALSE)
@@ -65,18 +65,18 @@ compGraph <- function(model, sep = "+", mostF = 5, excl = NULL, title = "Most fr
   } else if (mostF %% 1 != 0) {
     stop("mostF must be an interger number", call. = FALSE)
   } else if (!is.null(excl)) {
-    if (class(excl) != "character") {
+    if (inherits(excl, "character") == FALSE) {
       stop("The class of excl is not character", call. = FALSE)
     }
-  } else if (class(title) != "character") {
+  } else if (inherits(title, "character") == FALSE) {
     stop("The class of title is not character", call. = FALSE)
   } else if (length(title) > 1) {
     stop("The length of title must be one", call. = FALSE)
-  } else if (class(print_legend) != "logical") {
+  } else if (inherits(print_legend, "logical") == FALSE) {
     stop("The class of print_legend is not logical", call. = FALSE)
   } else if (length(print_legend) > 1) {
     stop("The length of print_legend must be one", call. = FALSE)
-  } else if (!class(size_legend) %in% c("numeric", "integer")) {
+  } else if (inherits(size_legend, c("numeric", "integer")) == FALSE) {
     stop("The class of size_legend must be numeric or integer", call. = FALSE)
   } else if (length(size_legend) > 1) {
     stop("The length of size_legend must be one", call. = FALSE)

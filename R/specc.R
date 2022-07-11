@@ -73,28 +73,28 @@ specc <- function(model, sep = "+", combination = NULL, components_number = FALS
   # Check arguments
   ##
 
-  if (class(model) != "netmeta") {
+  if (inherits(model, "netmeta") == FALSE) {
     stop("The class of model is not of netmeta", call. = FALSE)
   } else if (model$reference.group == "") {
     stop("The netmeta model must have a reference group", call. = FALSE)
-  } else if (class(sep) != "character") {
-    stop("The class of sep is not logical", call. = FALSE)
+  } else if (inherits(sep, "character") == FALSE) {
+    stop("The class of sep is not character", call. = FALSE)
   } else if (length(sep) > 1) {
     stop("The length of sep must be one", call. = FALSE)
   } else if (sep == "") {
     stop("Argument sep must be diffent than ''", call. = FALSE)
   } else if (!is.null(combination)) {
-    if (class(combination) != "character") {
+    if (inherits(combination, "character") == FALSE) {
       stop("The class of combination is not character", call. = FALSE)
     }
 
     combination <- unique.combinations(combination, sep) # unique combinations
-  } else if (class(components_number) != "logical") {
+  } else if (inherits(components_number, "logical") == FALSE) {
     stop("The class of components_number is not logical", call. = FALSE)
   } else if (length(components_number) > 1) {
     stop("The length of components_number must be one", call. = FALSE)
   } else if (components_number == TRUE & is.null(groups) == FALSE) {
-    if (class(groups) != "character") {
+    if (inherits(groups, "character") == FALSE) {
       stop("The class of groups is not character", call. = FALSE)
     }
 
@@ -105,23 +105,23 @@ specc <- function(model, sep = "+", combination = NULL, components_number = FALS
     if (check.groups(groups) == FALSE) {
       stop("The elements of groups must be either integer (string) values, or either a range (e.g 1-2), or greiter than an integer number (e.g 5+)", call. = FALSE)
     }
-  } else if (class(random) != "logical") {
+  } else if (inherits(random, "logical") == FALSE) {
     stop("The class of random is not logical", call. = FALSE)
   } else if (length(random) > 1) {
     stop("The length of random must be one", call. = FALSE)
-  } else if (class(z_value) != "logical") {
+  } else if (inherits(z_value, "logical") == FALSE) {
     stop("The class of z_value is not logical", call. = FALSE)
   } else if (length(z_value) > 1) {
     stop("The length of z_value must be one", call. = FALSE)
-  } else if (class(boxplot) != "logical") {
+  } else if (inherits(boxplot, "logical") == FALSE) {
     stop("The class of boxplot is not logical", call. = FALSE)
   } else if (length(boxplot) > 1) {
     stop("The length of boxplot must be one", call. = FALSE)
-  } else if (class(dots) != "logical") {
+  } else if (inherits(dots, "logical") == FALSE) {
     stop("The class of dots is not logical", call. = FALSE)
   } else if (length(dots) > 1) {
     stop("The length of dots must be one", call. = FALSE)
-  } else if (class(values) != "logical") {
+  } else if (inherits(values, "logical") == FALSE) {
     stop("The class of values is not logical", call. = FALSE)
   } else if (length(values) > 1) {
     stop("The length of values must be one", call. = FALSE)

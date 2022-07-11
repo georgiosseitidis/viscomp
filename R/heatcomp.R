@@ -62,34 +62,34 @@ heatcomp <-
     # Check arguments
     ##
 
-    if (class(model) != "netmeta") {
+    if (inherits(model, "netmeta") == FALSE) {
       stop("The class of model is not of netmeta", call. = FALSE)
     } else if (model$reference.group == "") {
       stop("The netmeta model must have a reference group", call. = FALSE)
-    } else if (class(sep) != "character") {
-      stop("The class of sep is not logical", call. = FALSE)
+    } else if (inherits(sep, "character") == FALSE) {
+      stop("The class of sep is not character", call. = FALSE)
     } else if (length(sep) > 1) {
       stop("The length of sep must be one", call. = FALSE)
     } else if (sep == "") {
       stop("Argument sep must be diffent than ''", call. = FALSE)
-    } else if (class(median) != "logical") {
+    } else if (inherits(median, "logical") == FALSE) {
       stop("The class of median is not logical", call. = FALSE)
     } else if (length(median) > 1) {
       stop("The length of median must be one", call. = FALSE)
-    } else if (class(random) != "logical") {
+    } else if (inherits(random, "logical") == FALSE) {
       stop("The class of random is not logical", call. = FALSE)
     } else if (length(random) > 1) {
       stop("The length of random must be one", call. = FALSE)
-    } else if (class(z_value) != "logical") {
+    } else if (inherits(z_value, "logical") == FALSE) {
       stop("The class of z_value is not logical", call. = FALSE)
     } else if (length(z_value) > 1) {
       stop("The length of z_value must be one", call. = FALSE)
-    } else if (class(freq) != "logical") {
+    } else if (inherits(freq, "logical") == FALSE) {
       stop("The class of freq is not logical", call. = FALSE)
     } else if (length(freq) > 1) {
       stop("The length of freq must be one", call. = FALSE)
-    } else if (class(outcome) != "character") {
-      stop("The class of outcome is not logical", call. = FALSE)
+    } else if (inherits(outcome, "character") == FALSE) {
+      stop("The class of outcome is not character", call. = FALSE)
     } else if (length(outcome) > 1) {
       stop("The length of outcome must be one", call. = FALSE)
     } else if (!outcome %in% c("beneficial", "harmful")) {

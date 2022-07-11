@@ -48,10 +48,10 @@
 #' )
 #' compdesc(model = net)
 compdesc <- function(model, sep = "+", heatmap = TRUE) {
-  if (class(model) != "netmeta") {
+  if (inherits(model, "netmeta") == FALSE) {
     stop("The class of model is not of netmeta", call. = FALSE)
-  } else if (class(sep) != "character") {
-    stop("The class of sep is not logical", call. = FALSE)
+  } else if (inherits(sep, "character") == FALSE) {
+    stop("The class of sep is not character", call. = FALSE)
   } else if (length(sep) > 1) {
     stop("The length of sep must be one", call. = FALSE)
   } else if (sep == "") {

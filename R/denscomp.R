@@ -60,27 +60,27 @@ denscomp <- function(model, sep = "+", combination, violin = FALSE, random = TRU
   # Check arguments
   ##
 
-  if (class(model) != "netmeta") {
+  if (inherits(model, "netmeta") == FALSE) {
     stop("The class of model is not of netmeta", call. = FALSE)
   } else if (model$reference.group == "") {
     stop("The netmeta model must have a reference group", call. = FALSE)
-  } else if (class(sep) != "character") {
-    stop("The class of sep is not logical", call. = FALSE)
+  } else if (inherits(sep, "character") == FALSE) {
+    stop("The class of sep is not character", call. = FALSE)
   } else if (length(sep) > 1) {
     stop("The length of sep must be one", call. = FALSE)
   } else if (sep == "") {
     stop("Argument sep must be diffent than ''", call. = FALSE)
-  } else if (class(combination) != "character") {
+  } else if (inherits(combination, "character") == FALSE) {
     stop("The class of combination is not character", call. = FALSE)
-  } else if (class(violin) != "logical") {
+  } else if (inherits(violin, "logical") == FALSE) {
     stop("The class of violin is not logical", call. = FALSE)
   } else if (length(violin) > 1) {
     stop("The length of violin must be one", call. = FALSE)
-  } else if (class(random) != "logical") {
+  } else if (inherits(random, "logical") == FALSE) {
     stop("The class of random is not logical", call. = FALSE)
   } else if (length(random) > 1) {
     stop("The length of random must be one", call. = FALSE)
-  } else if (class(z_value) != "logical") {
+  } else if (inherits(z_value, "logical") == FALSE) {
     stop("The class of z_value is not logical", call. = FALSE)
   } else if (length(z_value) > 1) {
     stop("The length of z_value must be one", call. = FALSE)
