@@ -8,7 +8,7 @@ message: 'To cite package "viscomp" in publications use:'
 type: software
 license: GPL-3.0-or-later
 title: 'viscomp: Visualize Multi-component Interventions in Network Meta-Analysis'
-version: 0.1.0
+version: 1.0.0
 abstract: 'A set of functions providing several visualization tools for exploring
   the behavior of the components in a network meta-analysis of complex interventions:
   - components descriptive analysis - heat plot of the two-by-two component combinations
