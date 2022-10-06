@@ -2,7 +2,7 @@
 # CITATION file created with {cffr} R package, v0.2.2
 # See also: https://docs.ropensci.org/cffr/
 # -----------------------------------------------------------
- 
+
 cff-version: 1.2.0
 message: 'To cite package "viscomp" in publications use:'
 type: software
@@ -77,7 +77,7 @@ preferred-citation:
     given-names: Dimitris
     email: snikolakopoulos@uoi.gr
     orcid: https://orcid.org/0000-0003-1041-4592
-  version: 0.1.0
+  version: 1.0.0
   abstract: 'A set of functions providing several visualization tools for exploring
     the behavior of the components in a network meta-analysis of complex interventions:
     - components descriptive analysis - heat plot of the two-by-two component combinations
