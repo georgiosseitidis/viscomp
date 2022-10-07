@@ -52,7 +52,7 @@ vignette("viscomp", package = "viscomp")
 
 **APA**
 
-Seitidis, G., Tsokani, S., Christogiannis, C., Kontouli, K. M., Fyraridis, A., Nikolakopoulos, S., Veroniki, A. A., & Mavridis, D. (2022). viscomp: Visualize Multi-component Interventions in Network Meta-Analysis (Version 0.1.0). https://github.com/georgiosseitidis/viscomp
+Seitidis, G., Tsokani, S., Christogiannis, C., Kontouli, K. M., Fyraridis, A., Nikolakopoulos, S., Veroniki, A. A., & Mavridis, D. (2022). viscomp: Visualize Multi-component Interventions in Network Meta-Analysis (Version 1.0.0). https://github.com/georgiosseitidis/viscomp
 
 **BibTeX**
 
