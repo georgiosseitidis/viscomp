@@ -52,7 +52,7 @@ data_NMA <- pairwise(studlab = Study,
                       treat = list(treat1, treat2, treat3, treat4),
                       n = list(n1, n2, n3, n4), 
                       event = list(event1, event2, event3, event4), 
-                      data = MACE, 
+                      data = MACE,
                       sm = "OR" )
 
 net <- netmeta(TE = TE, 
@@ -61,6 +61,7 @@ net <- netmeta(TE = TE,
                treat1 = treat1,
                treat2 = treat2, 
                data = data_NMA, 
+               small.values = "good",
                ref = "UC")
 ```
 
@@ -70,7 +71,7 @@ net <- netmeta(TE = TE,
 
 Item `crosstable` contains a cross-table with the frequency of the components. Diagonal elements refer to the components, while off-diagonal elements to the components combinations. Each cell represents the number of arms where the corresponding component (combination) was observed.
 
-Item `heatmat` visualizes the item \code{crosstable}. Diagonal elements refer to the components and in parentheses the proportion of study arms including that component is provided, while off-diagonal elements to the frequency of component’s combinations and in parentheses the proportion of study arms with both components out of those study arms that have the component in the column is provided. Also, the intensity of the color is proportional to the frequency of the component combination.
+Item `heatmat` visualizes the item \code{crosstable}. Diagonal elements refer to the components and in parentheses the proportion of study arms including that component is provided, while off-diagonal elements to the frequency of component’s combinations and in parentheses the proportion of study arms with both components out of those study arms that have the component in the row is provided. Also, the intensity of the color is proportional to the relative frequency of the component combination.
 
 Item `frequency` provides useful descriptive characteristics about the component's frequency. In addition, it reports:
 
@@ -108,41 +109,45 @@ compGraph(net, mostF = 10, title = "", excl = "UC")
 
 ## Explore the efficacy of the two-by-two components combinations with `heatcomp()`
 
-`heatcomp()` creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes the efficacy of the interventions (obtained from the NMA model) that includes the corresponding component combination. The frequency of the components combinations found in the NMA model is printed by default (`freq = TRUE`). Combinations that were not observed in the NMA model are denoted by the letter "X". The function by default uses the z-scores (`z_value = TRUE`) and the median as a summary measure (`median = TRUE`). 
+`heatcomp()` creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes the efficacy of the interventions (obtained from the NMA model) that includes the corresponding component combination. The frequency of the components combinations found in the NMA model is printed by default (`freq = TRUE`). Combinations that were not observed in the NMA model are denoted by the letter "X". The function by default uses the relative effects and the median as a summary measure (`median = TRUE`). The magnitude of the evidence is reflected by the color's intensity. Dark green or red colors indicate a large impact on the outcome. Outcomes nature (beneficial or harmful) is defined in the \code{netmeta} model. The uncertainty around the NMA estimates is reflected by the size of the grey boxes. The bigger the box, the more precise the estimate.
 
-Z-scores quantify the strength of statistical evidence. The magnitude of the evidence is reflected by the color's intensity. Estimates close to zero are denoted by white color, and indicates lack of evidence that the corresponding component combination performs better than the reference intervention. Deep green and red colors indicate strong evidence that the corresponding component combination performs better and worse respectively. The nature of the outcome (beneficial, harmful) is controlled by the argument `outcome`.
+
+The function can be also adjusted to include z-scores by setting the argument \code{z_value = TRUE}.
+Z-scores quantify the strength of statistical evidence.Thus, dark green (or red) indicates strong statistical evidence that the corresponding component (or combination of components) performs better (or worse) than the reference intervention. The nature of the outcome (beneficial, harmful) is controlled by the argument `outcome`.
 
 \
 
 We can visualize the efficacy of the components, with:
 
 ```{r, fig.width = 7.2, fig.height = 6}
-heatcomp(net, outcome = "harmful")
+heatcomp(net)
 ```
 
-From the plot we see that the most intensive colors are observed for the component E, G, and the combination between components B and G. Thus, these combination seems to be the most efficacious according to the `heatcomp()`. We also see that the frequency of component G and the combination of B and G equals one, indicating that their corresponding estimates have been obtained by a single intervention.
+From the plot we see that the most intensive colors are observed for the component E, B, G, and the combination between components B and G. Thus, these combination seems to be the most efficacious according to the `heatcomp()`. We also see that the frequency of components B, G and the combination of B and G equals one, indicating that their corresponding estimates have been obtained by the same single intervention. Note also that the size for the majority of the grey boxes is large, indicating that the corresponding NMA estimates are precise.
 
 ## Explore the efficacy of the components with `specc()`
 
 ### Components
 
-`specc()` works similarly to `heatcomp()` except that instead of visualizing the two-by-two component combinations, it can visualize combinations with more than two components. The function by default produces violin plots based on the components z-values.
+`specc()` works similarly to `heatcomp()` except that instead of visualizing the two-by-two component combinations, it can visualize combinations with more than two components. The function by default produces violin plots based on the components' relative effects.
 
 \
 
 We can visualize the distribution of each component in the network with:
 
-```{r, fig.width = 7.2, fig.height = 6}
+```{r, fig.width=10, out.width="100%", fig.height = 6}
 specc(net)
 ```
 
-Note that in the plot the median estimates of the components are equal with the diagonal elements of the `heatcomp()` function. Also, we receive a warning message because component G was included in a single intervention.
+Note that in the plot the median estimates of the components are equal with the diagonal elements of the `heatcomp()` function. Moreover, the size of the dots is proportional to precision of the NMA estimates. Larger dots denote more precise estimates.
+
+Note also that we receive a warning message because component G was included in a single intervention.
 
 ### Components combinations
 
 We can visualize the distribution of component combinations (e.g. A, A+B, A+B+C) with:
 
-```{r, fig.width = 7.2, fig.height = 6}
+```{r, fig.width = 8, out.width="100%", fig.height = 6}
 specc(net, combination = c("A", "A + B", "A + B + C"))
 ```
 
@@ -168,10 +173,10 @@ The efficacy of a component (or component combination) can be explored by compar
 
 \
 
-For example, if we interested on exploring the efficacy of the component combination A+B, we can visualize the densities of the NMA intervention estimates from the interventions that include and not include component A respectively, with
+For example, if we interested on exploring the efficacy of the component combination A+B, we can visualize the densities of the NMA relative effect estimates from the interventions that include and not include component A respectively, with
 
 ```{r, fig.width = 7.2, fig.height = 6}
-denscomp(net, combination = "A+B", z_value = FALSE)
+denscomp(net, combination = "A+B")
 ```
 
 \
@@ -179,7 +184,7 @@ denscomp(net, combination = "A+B", z_value = FALSE)
 `denscomp()` can also compare more than two densities. If we interested for example to compare the densities of the interventions that include component A, components A+B, and components A+B+C, we can do it with
 
 ```{r, fig.width = 7.2, fig.height = 6}
-denscomp(net, combination = c("A", "A + B", "A + B + C"), z_value = FALSE)
+denscomp(net, combination = c("A", "A + B", "A + B + C"))
 ```
 
 ## Leaving one component out scatter plot with `loccos()`
@@ -261,10 +266,10 @@ net2 <- netmeta::netmeta(TE = TE,
 
 \
 
-We can visualize the p-scores for the two outcomes (assuming that the first outcome is beneficial while the second is harmful), with:
+We can visualize the p-scores for the two outcomes, with:
 
 ```{r, fig.width = 7.2, fig.height = 6}
-rankheatplot(list(net1, net2), small.values = c("good", "bad"))
+rankheatplot(list(net1, net2))
 ```
 
 

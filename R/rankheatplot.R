@@ -18,8 +18,7 @@
 #' @param model A list of \code{\link[netmeta]{netmeta}} models.
 #' @param sep A single character that defines the separator between interventions components.
 #' @param median \code{logical}. If \code{TRUE} the median is used as a summary measure instead of the mean.
-#' @param random \code{logical}. If \code{TRUE} the random-effects NMA model is used instead of the fixed-effects NMA model.
-#' @param small.values A \code{character} vector that specifies whether small intervention effects indicate a beneficial (\code{small.values = "good"}) or a harmful (\code{small.values = "bad"}) effect. If \code{small.values = NULL} small values assumed \code{good} for each outcome.
+#' @param random A \code{logical} vector that specifies the NMA model for each outcome. If \code{TRUE} the random-effects NMA model is used instead of the fixed-effects NMA model.
 #' @param outcomeNames A character vector that specifies the names of the outcomes.
 #' @param cex_components Font size of components' names.
 #' @param cex_values Font size of p-scores.
@@ -69,23 +68,27 @@
 #' # Rank heat plot
 #'
 #' rankheatplot(model = list(net1, net2))
-rankheatplot <- function(model, sep = "+", median = TRUE, random = TRUE, small.values = NULL, outcomeNames = c("Outcome 1", "Outcome 2"),
+rankheatplot <- function(model, sep = "+", median = TRUE, random = TRUE, outcomeNames = NULL,
                          cex_components = NULL, cex_values = NULL, cex_outcomes = NULL) {
 
   ##
   # Check arguments
   ##
-  random <- check.arguments(model, median, random, small.values, outcomeNames, cex_components, cex_values, cex_outcomes)
+  numOfOutcomes <- length(model)
+
+  if (is.null(outcomeNames)) {
+    outcomeNames <- paste0("Outcome ", 1:numOfOutcomes)
+  }
+  random <- check.arguments(model, median, random, outcomeNames, cex_components, cex_values, cex_outcomes)
 
   ##
   # Build all components of the network
   ##
 
-  if (is.null(small.values)) {
-    small.values <- rep("good", length(model))
+  small.values <- NULL
+  for (i in 1:numOfOutcomes) {
+    small.values <- c(small.values, model[[i]]$small.values)
   }
-
-  numOfOutcomes <- length(model)
 
   listcomponents <- list()
   stop_fun <- NULL
@@ -95,15 +98,19 @@ rankheatplot <- function(model, sep = "+", median = TRUE, random = TRUE, small.v
 
     nodes <- gsub(" ", "", nodes)
     # Components of the network
-    uniquecomponents <- unique(unlist(strsplit(nodes, split = paste("[", sep, "]", sep = ""), perl = TRUE)))
+    uniquecomponents <- strsplit(nodes, split = paste("[", sep, "]", sep = ""), perl = TRUE)
+    comp_find <- sum(sapply(uniquecomponents, FUN = function(x) {
+      length(x) > 1
+    }))
+    uniquecomponents <- unique(unlist(uniquecomponents))
     # save components in list
     listcomponents[outcome] <- list(uniquecomponents)
 
-    stop_fun <- c(stop_fun, length(uniquecomponents) == length(nodes))
+    stop_fun <- c(stop_fun, comp_find)
   }
   components <- unique(do.call(c, listcomponents))
 
-  if (sum(stop_fun) > 0) {
+  if (sum(stop_fun == 0) > 0) {
     stop("No additive treatments are included in the NMA model", call. = FALSE)
   }
 
@@ -112,6 +119,10 @@ rankheatplot <- function(model, sep = "+", median = TRUE, random = TRUE, small.v
   ##
   # Draw the donughts of the rankheatplot
   ##
+
+  oldpar <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(oldpar))
+
   cex <- drawDonughts(outcomeNames, results$components, cex_components)
 
   ##

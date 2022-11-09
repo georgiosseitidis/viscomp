@@ -15,9 +15,9 @@
 #' the interventions that includes components \code{"A"} and \code{"B"}, the interventions that include components \code{"B"} and \code{"C"} and
 #' interventions that includes component \code{"A"}, respectively.
 #'
-#' The function by default uses the intervention's z-values \code{z_value = TRUE} obtained from the random-effects network
-#' meta-analysis (NMA) model (\code{random = TRUE}). It could be also adjusted to use the intervention's effect estimates
-#' instead of the z-values, by setting \code{z_value = FALSE}.
+#' The function by default uses the intervention's relative effects (\code{z_value = FALSE}) obtained from the random-effects network
+#' meta-analysis (NMA) model (\code{random = TRUE}). It can be also adjusted to use the intervention's z-values
+#' instead of the relative effects, by setting \code{z_value = TRUE}.
 #'
 #' @note
 #' The efficacy of the components could be explored via violins plots instead of density plots, by setting \code{violin = TRUE}.
@@ -38,23 +38,16 @@
 #'
 #' @export
 #'
-#' @importFrom ggplot2 ggplot aes `%+%` geom_density theme_classic xlab ylab xlim labs scale_fill_discrete
+#' @importFrom ggplot2 ggplot aes `%+%` geom_density theme_classic xlab ylab xlim labs scale_fill_discrete scale_x_log10
 #' @importFrom stats density
 #' @importFrom plyr mapvalues
 #'
 #'
 #' @examples
-#' data(MACE)
-#' NMAdata <- netmeta::pairwise(
-#'   studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-#'   n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-#' )
-#' net <- netmeta::netmeta(
-#'   TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-#'   treat2 = treat2, data = NMAdata, ref = "UC"
-#' )
-#' denscomp(model = net, combination = "C")
-denscomp <- function(model, sep = "+", combination, violin = FALSE, random = TRUE, z_value = TRUE) {
+#' data(nmaMACE)
+#' denscomp(model = nmaMACE, combination = "C")
+#'
+denscomp <- function(model, sep = "+", combination, violin = FALSE, random = TRUE, z_value = FALSE) {
 
   ##
   # Check arguments
@@ -133,11 +126,16 @@ denscomp <- function(model, sep = "+", combination, violin = FALSE, random = TRU
   }
 
   # Components of the network
-  comp_network <- unique(unlist(strsplit(nma_sm$Node, split = paste("[", sep, "]", sep = ""), perl = TRUE)))
+  comp_network <- strsplit(nma_sm$Node, split = paste("[", sep, "]", sep = ""), perl = TRUE)
 
-  if (length(comp_network) == length(nma_sm$Node)) {
+  if (sum(sapply(comp_network, FUN = function(x) {
+    length(x) > 1
+  })) == 0) {
     stop("No additive treatments are included in the NMA model", call. = FALSE)
+  } else {
+    comp_network <- unique(unlist(comp_network))
   }
+
 
   # Check if combination's components are included in network's components
   component_elements <- strsplit(combination, split = paste("[", sep, "]", sep = ""), perl = TRUE)
@@ -254,6 +252,10 @@ denscomp <- function(model, sep = "+", combination, violin = FALSE, random = TRU
   # Plot
   ##
 
+  if (model$sm %in% c("OR", "RR") & z_value == FALSE) { # dichotomous outcomes
+    plot.data$SM <- exp(plot.data$SM)
+  }
+
 
   if (violin) {
     p <- ggplot2::ggplot(
@@ -284,14 +286,14 @@ denscomp <- function(model, sep = "+", combination, violin = FALSE, random = TRU
       ggplot2::geom_density(alpha = 0.7, color = NA) +
       ggplot2::xlab(xlabel) +
       ggplot2::ylab("Density") +
-      ggplot2::xlim(
-        min(select_comp) - 0.5,
-        max(select_comp) + 0.5
-      ) +
       ggplot2::scale_fill_discrete(labels = lab) +
       ggplot2::theme_classic() +
       ggplot2::labs(fill = "") +
       ggplot2::theme(legend.position = "bottom")
+  }
+
+  if (model$sm %in% c("OR", "RR") & z_value == FALSE) {
+    p <- p + ggplot2::scale_x_log10()
   }
 
   p

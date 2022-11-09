@@ -31,10 +31,14 @@ build.data <- function(model, median, random, small.values, numOfOutcomes, compo
       }
 
       # select median OR mean
-      if (median == TRUE) {
-        result <- median(val)
+      if (!is.null(val)) {
+        if (median == TRUE) {
+          result <- median(val)
+        } else {
+          result <- mean(val)
+        }
       } else {
-        result <- mean(val)
+        result <- NULL
       }
 
 

@@ -30,16 +30,9 @@
 #' @export
 #'
 #' @examples
-#' data(MACE)
-#' NMAdata <- netmeta::pairwise(
-#'   studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-#'   n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-#' )
-#' net <- netmeta::netmeta(
-#'   TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-#'   treat2 = treat2, data = NMAdata, ref = "A"
-#' )
-#' compGraph(model = net)
+#' data(nmaMACE)
+#' compGraph(model = nmaMACE)
+#'
 compGraph <- function(model, sep = "+", mostF = 5, excl = NULL, title = "Most frequent combinations of components",
                       print_legend = TRUE, size_legend = 0.825) {
 
@@ -61,9 +54,9 @@ compGraph <- function(model, sep = "+", mostF = 5, excl = NULL, title = "Most fr
   } else if (length(mostF) > 1) {
     stop("The length of mostF must be one", call. = FALSE)
   } else if (mostF <= 0) {
-    stop("mostF must be positive number", call. = FALSE)
+    stop("Argument mostF must be positive number", call. = FALSE)
   } else if (mostF %% 1 != 0) {
-    stop("mostF must be an interger number", call. = FALSE)
+    stop("Argument mostF must be an interger number", call. = FALSE)
   } else if (!is.null(excl)) {
     if (inherits(excl, "character") == FALSE) {
       stop("The class of excl is not character", call. = FALSE)
@@ -114,7 +107,7 @@ compGraph <- function(model, sep = "+", mostF = 5, excl = NULL, title = "Most fr
     }
   }
 
-  if (mostF >= length(comp.freq) - 1) {
+  if (mostF > length(comp.freq)) {
     stop(paste("mostF must be smaller than the number of treatments in the network"), .call = FALSE)
   }
   ntwrk <- sort(comp.freq[!(names(comp.freq) %in% excl)], decreasing = TRUE)[1:mostF]
@@ -123,6 +116,11 @@ compGraph <- function(model, sep = "+", mostF = 5, excl = NULL, title = "Most fr
   Weights <- as.numeric(ntwrk)
 
   res1 <- strsplit(Combs, split = paste("[", sep, "]", sep = ""), perl = TRUE)
+  if (sum(sapply(res1, FUN = function(x) {
+    length(x) > 1
+  })) == 0) {
+    stop("No additive treatments are included in the selected most frequent combinations", call. = FALSE)
+  }
 
   # tables to be merged
   res4 <- lapply(res1, FromTo)
@@ -143,13 +141,20 @@ compGraph <- function(model, sep = "+", mostF = 5, excl = NULL, title = "Most fr
 
   # Colors vector
 
-  clrs <- grDevices::palette.colors(n = mostF, palette = "Tableau")
+  if (mostF > 10) {
+    clrs <- 1:mostF
+  } else {
+    clrs <- grDevices::palette.colors(n = mostF, palette = "Tableau")
+  }
 
   CLRS <- unlist(mapply(rep, x = clrs, each = groups))
 
   ##
   # plot
   ##
+  oldpar <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(oldpar))
+
   graphics::par(cex = 0.75, mai = c(0.1, 0.1, 1, 0.1) + 1)
   graphics::par(fig = c(0, 0.75, 0, 1))
   qgraph::qgraph(E,

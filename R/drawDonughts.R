@@ -5,8 +5,8 @@ drawDonughts <- function(outcomeNames, components, cex_components = NULL) {
     cex_c <- 0.65
   }
 
+
   circlize::circos.clear()
-  # par(mar = c(0, 0, 0,0))
   no <- length(outcomeNames)
   addComponent <- c("Outcomes", components)
   circlize::circos.par(points.overflow.warning = FALSE, track.margin = c(0, 0), start.degree = 100)

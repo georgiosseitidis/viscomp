@@ -31,6 +31,12 @@ You can install the development version of **viscomp** like so:
 install.packages("devtools")
 devtools::install_github("georgiosseitidis/viscomp")
 ```
+or alternative:
+
+``` r
+install.packages("remotes")
+remotes::install_github("georgiosseitidis/viscomp")
+```
 
 ## How to use viscomp
 

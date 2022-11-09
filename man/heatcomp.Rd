@@ -9,9 +9,8 @@ heatcomp(
   sep = "+",
   median = TRUE,
   random = TRUE,
-  z_value = TRUE,
+  z_value = FALSE,
   freq = TRUE,
-  outcome = "beneficial",
   legend_name = NULL
 )
 }
@@ -28,8 +27,6 @@ heatcomp(
 
 \item{freq}{\code{logical}. If \code{TRUE} the frequency of component combinations are printed.}
 
-\item{outcome}{A single character that defines the outcome's nature. Either \code{beneficial}, or \code{harmful} can be abbreviated.}
-
 \item{legend_name}{A single character that specifies the title of the legend.}
 }
 \value{
@@ -40,34 +37,29 @@ The function creates a heat plot based on the two-by-two component combinations,
 network meta-analysis (NMA) model.
 }
 \details{
-Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes
-the z-values (if \code{z_value = TRUE}) of the interventions that includes the corresponding
-component combination. Z-scores quantify the strength of statistical evidence. Combinations that were not
-observed in the NMA model, are denoted by the letter "X". Frequency of component combinations observed in the NMA is printed
-by default (\code{freq = TRUE}). As a summary measure, the median is used by default (\code{median = TRUE}).
-The magnitude of each z-score is reflected by the color's intensity. Estimates close to zero
-are denoted by white color, and indicates lack of evidence that the corresponding component combination performs
-better than the reference intervention. Deep green and red colors indicate strong evidence that the corresponding
-component combination performs better and worse respectively. Argument \code{outcome} controls the
-outcomes nature (beneficial or harmful). For harmful outcomes small values are considered as good whereas the
-opposite holds for beneficial outcomes.
+Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes by default
+the NMA relative effects (\code{z_value = FALSE}) of the interventions that includes the corresponding
+component combination. Combinations that were not observed in the NMA model, are denoted by the letter "X".
+Frequency of component combinations observed in the NMA is printed by default (\code{freq = TRUE}). As a summary measure,
+the median is used by default (\code{median = TRUE}). The magnitude of each relative effect is reflected by the color's intensity.
+Estimates close to zero are denoted by white color, and indicates a small magnitude of the corresponding component combination, while
+deep green and red colors indicate a large magnitude of the corresponding component combination.
+Outcomes nature (beneficial or harmful) is defined in the \code{netmeta} model.
 
-Intervention effects can be used instead of z-values by setting \code{z_value = FALSE}.
-Also, by setting \code{median = FALSE}, the mean is used instead of the median as a summary measure.
+The function can be also adjusted to include z-scores by setting the argument \code{z_value = TRUE}.
+Z-scores quantify the strength of statistical evidence. Thus, dark green (or red) indicates strong statistical evidence that
+the corresponding component (or combination of components) performs better (or worse) than the reference intervention.
 }
 \note{
-In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
-only in network meta-analysis models that contain multi-component interventions.
+In the case where the NMA relative effects are used, the uncertainty of the NMA estimates are reflected by the size of the grey boxes.
+The bigger the box, the more precise the estimate.
+
+By setting \code{median = FALSE}, the mean is used instead of the median as a summary measure.
+
+The function can be applied only in network meta-analysis models that contain multi-component interventions.
 }
 \examples{
-data(MACE)
-NMAdata <- netmeta::pairwise(
-  studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-  n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-)
-net <- netmeta::netmeta(
-  TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-  treat2 = treat2, data = NMAdata, ref = "UC"
-)
-heatcomp(model = net)
+data(nmaMACE)
+heatcomp(model = nmaMACE)
+
 }

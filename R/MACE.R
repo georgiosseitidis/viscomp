@@ -1,6 +1,6 @@
 #' @title Major Adverse Cardiovascular Event
 #'
-#' @description  An artificial network meta-analysis compering the effectiveness of a number of interventions for major
+#' @description  An artificial network meta-analysis data compering the effectiveness of a number of interventions for major
 #' adverse cardiovascular events.
 #'
 #' @format A \code{data.frame} with the following columns

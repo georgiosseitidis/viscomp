@@ -4,7 +4,7 @@
 \alias{compdesc}
 \title{Components descriptive analysis}
 \usage{
-compdesc(model, sep = "+", heatmap = TRUE)
+compdesc(model, sep = "+", heatmap = TRUE, percentage = TRUE, digits = 2)
 }
 \arguments{
 \item{model}{An object of class \code{\link[netmeta]{netmeta}}.}
@@ -12,6 +12,10 @@ compdesc(model, sep = "+", heatmap = TRUE)
 \item{sep}{A single character that defines the separator between interventions components.}
 
 \item{heatmap}{\code{logical}. If \code{TRUE} a heat matrix of the component's frequency is plotted.}
+
+\item{percentage}{\code{logical}. If \code{TRUE} combinations' percentages are printed as a number instead of fraction value in the \code{heatmap}.}
+
+\item{digits}{A single integer value that specifies the percentages' decimal places in the \code{heatmap}.}
 }
 \value{
 A list containing three items
@@ -29,7 +33,7 @@ A list containing three items
   }}
   \item{heatmat}{An object of class \code{ggplot} that visualizes item \code{crosstable}. Diagonal elements refer to the components and in parentheses the proportion of study
   arms including that component is provided, while off-diagonal elements to the frequency of component’s combinations and in parentheses the proportion of study arms with both components
-  out of those study arms that have the component in the column is provided. Also, the intensity of the color is proportional to the frequency of the component combination.}
+  out of those study arms that have the component in the row is provided. Also, the intensity of the color is proportional to the relative frequency of the component combination.}
 }
 \description{
 The function performs a descriptive analysis regarding the frequency of the components in the network meta-analysis model.
@@ -38,14 +42,7 @@ The function performs a descriptive analysis regarding the frequency of the comp
 The function can be applied only in network meta-analysis models that contain multi-component interventions.
 }
 \examples{
-data(MACE)
-NMAdata <- netmeta::pairwise(
-  studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-  n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-)
-net <- netmeta::netmeta(
-  TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-  treat2 = treat2, data = NMAdata, ref = "UC"
-)
-compdesc(model = net)
+data(nmaMACE)
+compdesc(model = nmaMACE)
+
 }

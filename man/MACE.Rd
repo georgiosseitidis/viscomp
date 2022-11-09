@@ -17,7 +17,7 @@ A \code{data.frame} with the following columns
 MACE
 }
 \description{
-An artificial network meta-analysis compering the effectiveness of a number of interventions for major
+An artificial network meta-analysis data compering the effectiveness of a number of interventions for major
 adverse cardiovascular events.
 }
 \keyword{datasets}

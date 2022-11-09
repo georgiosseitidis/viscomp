@@ -9,6 +9,7 @@ nmares <- function(model, random) {
   results <- data.frame(
     "Node" = as.character(rownames(summ_NMA[[type]][["TE"]])),
     "TE" = summ_NMA[[type]][["TE"]][, ref],
+    "seTE" = summ_NMA[[type]][["seTE"]][, ref],
     "lb" = summ_NMA[[type]][["lower"]][, ref],
     "ub" = summ_NMA[[type]][["upper"]][, ref],
     "z_stat" = summ_NMA[[type]][["statistic"]][, ref]

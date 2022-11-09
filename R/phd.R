@@ -1,5 +1,5 @@
 # Prepare Heat Data
-phd <- function(components, mean_eff, median, sep, freq) {
+phd <- function(components, mean_eff, median, sep, freq, exponen) {
 
   # Dataframes to store estimates
   df <- freq_tb <- data.frame(matrix(nrow = length(components), ncol = length(components)))
@@ -38,6 +38,10 @@ phd <- function(components, mean_eff, median, sep, freq) {
 
   freq_tb[upper.tri(freq_tb)] <- NA
   melted_freq <- reshape2::melt(as.matrix(freq_tb))
+
+  if (exponen == TRUE) {
+    melted_data$value <- exp(melted_data$value)
+  }
 
   # Text to be printed
   if (freq) {

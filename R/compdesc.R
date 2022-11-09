@@ -10,7 +10,8 @@
 #' @param model An object of class \code{\link[netmeta]{netmeta}}.
 #' @param sep A single character that defines the separator between interventions components.
 #' @param heatmap \code{logical}. If \code{TRUE} a heat matrix of the component's frequency is plotted.
-#'
+#' @param percentage \code{logical}. If \code{TRUE} combinations' percentages are printed as a number instead of fraction value in the \code{heatmap}.
+#' @param digits A single integer value that specifies the percentages' decimal places in the \code{heatmap}.
 #'
 #' @importFrom tibble rownames_to_column
 #' @importFrom tidyr pivot_longer
@@ -32,22 +33,15 @@
 #'   }}
 #'   \item{heatmat}{An object of class \code{ggplot} that visualizes item \code{crosstable}. Diagonal elements refer to the components and in parentheses the proportion of study
 #'   arms including that component is provided, while off-diagonal elements to the frequency of component’s combinations and in parentheses the proportion of study arms with both components
-#'   out of those study arms that have the component in the column is provided. Also, the intensity of the color is proportional to the frequency of the component combination.}
+#'   out of those study arms that have the component in the row is provided. Also, the intensity of the color is proportional to the relative frequency of the component combination.}
 #'
 #' @export
 #'
 #' @examples
-#' data(MACE)
-#' NMAdata <- netmeta::pairwise(
-#'   studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-#'   n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-#' )
-#' net <- netmeta::netmeta(
-#'   TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-#'   treat2 = treat2, data = NMAdata, ref = "UC"
-#' )
-#' compdesc(model = net)
-compdesc <- function(model, sep = "+", heatmap = TRUE) {
+#' data(nmaMACE)
+#' compdesc(model = nmaMACE)
+#'
+compdesc <- function(model, sep = "+", heatmap = TRUE, percentage = TRUE, digits = 2) {
   if (inherits(model, "netmeta") == FALSE) {
     stop("The class of model is not of netmeta", call. = FALSE)
   } else if (inherits(sep, "character") == FALSE) {
@@ -56,6 +50,22 @@ compdesc <- function(model, sep = "+", heatmap = TRUE) {
     stop("The length of sep must be one", call. = FALSE)
   } else if (sep == "") {
     stop("Argument sep must be diffent than ''", call. = FALSE)
+  } else if (inherits(heatmap, "logical") == FALSE) {
+    stop("The class of heatmap is not logical", call. = FALSE)
+  } else if (length(heatmap) > 1) {
+    stop("The length of heatmap must be one", call. = FALSE)
+  } else if (inherits(percentage, "logical") == FALSE) {
+    stop("The class of percentage is not logical", call. = FALSE)
+  } else if (length(percentage) > 1) {
+    stop("The length of percentage must be one", call. = FALSE)
+  } else if (inherits(digits, c("numeric", "integer")) == FALSE) {
+    stop("The class of digits is not integer", call. = FALSE)
+  } else if (length(digits) > 1) {
+    stop("The length of digits must be one", call. = FALSE)
+  } else if (digits < 0) {
+    stop("Argument digits must be a non-negative number", call. = FALSE)
+  } else if (digits %% 1 != 0) {
+    stop("Argument digits must be an interger number", call. = FALSE)
   }
 
 
@@ -68,10 +78,14 @@ compdesc <- function(model, sep = "+", heatmap = TRUE) {
   nodes <- unique(c(model$treat1, model$treat2))
   nodes <- gsub(" ", "", nodes)
 
-  components <- unique(unlist(strsplit(nodes, split = paste("[", sep, "]", sep = ""), perl = TRUE)))
+  components <- strsplit(nodes, split = paste("[", sep, "]", sep = ""), perl = TRUE)
 
-  if (length(components) == length(nodes)) {
+  if (sum(sapply(components, FUN = function(x) {
+    length(x) > 1
+  })) == 0) {
     stop("No additive treatments are included in the NMA model", call. = FALSE)
+  } else {
+    components <- unique(unlist(components))
   }
 
   # Wide to long format
@@ -141,26 +155,43 @@ compdesc <- function(model, sep = "+", heatmap = TRUE) {
   exp <- list("crosstable" = crosstab, "frequency" = comp_add)
 
   if (heatmap == TRUE) {
-    data_heat <- crosstab %>%
+    data_heat <- t(crosstab) %>%
       as.data.frame() %>%
       tibble::rownames_to_column("f_id") %>%
       tidyr::pivot_longer(-c("f_id"), names_to = "samples", values_to = "counts")
 
-    ratios_heat <- cross_ratio %>%
+    ratios_heat <- t(cross_ratio) %>%
       as.data.frame() %>%
       tibble::rownames_to_column("f_id") %>%
       tidyr::pivot_longer(-c("f_id"), names_to = "samples", values_to = "counts")
 
-    ratios_heat$label <- paste(data_heat$counts, "\n", paste0("(", ratios_heat$counts, ")"))
+    # Calculate percentage
+    data_heat$perc <- round(100 * sapply(ratios_heat$counts, FUN = function(x) {
+      eval(parse(text = x))
+    }), digits = digits)
 
-    p <- ggplot2::ggplot(data = NULL, ggplot2::aes(x = data_heat$f_id, y = data_heat$samples, fill = data_heat$counts)) +
+    if (percentage == TRUE) {
+      ratios_heat$label <- paste(data_heat$counts, "\n", paste0("(", data_heat$perc, "%)"))
+      cap <- paste0("Total number of study arms: ", dim(data_long)[1])
+    } else {
+      ratios_heat$label <- paste(data_heat$counts, "\n", paste0("(", ratios_heat$counts, ")"))
+      cap <- NULL
+    }
+
+    p <- ggplot2::ggplot(data = NULL, ggplot2::aes(x = data_heat$f_id, y = data_heat$samples, fill = data_heat$perc)) +
       ggplot2::geom_tile() +
-      ggplot2::scale_fill_gradient2(low = "white", high = "red", limit = c(0, max(data_heat$counts, na.rm = TRUE))) +
+      ggplot2::scale_fill_gradient(low = "white", high = "red", limit = c(0, 100)) +
       ggplot2::geom_text(ggplot2::aes(label = ratios_heat$label), color = "black", size = 4) +
       ggplot2::coord_fixed() +
       ggplot2::xlab("") +
       ggplot2::ylab("") +
-      ggplot2::guides(fill = ggplot2::guide_legend("# arms"))
+      ggplot2::labs(caption = cap) +
+      ggplot2::guides(fill = ggplot2::guide_legend("% arms")) +
+      ggplot2::theme(
+        axis.text = ggplot2::element_text(size = 12, face = "bold", color = "black"),
+        plot.caption = ggplot2::element_text(size = 14),
+        legend.title = ggplot2::element_text(size = 12, face = "bold")
+      )
 
     exp[["heatmat"]] <- p
   }

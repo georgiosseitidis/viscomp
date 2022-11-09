@@ -11,13 +11,14 @@ specc(
   components_number = FALSE,
   groups = NULL,
   random = TRUE,
-  z_value = TRUE,
+  z_value = FALSE,
+  prop_size = TRUE,
   fill_violin = "lightblue",
   color_violin = "lightblue",
   adj_violin = 1,
   width_violin = 1,
   boxplot = TRUE,
-  width_boxplot = 0.3,
+  width_boxplot = 0.5,
   errorbar_type = 5,
   dots = TRUE,
   jitter_shape = 16,
@@ -39,6 +40,8 @@ specc(
 \item{random}{\code{logical}. If \code{TRUE} the random-effects NMA model is used instead of the fixed-effect NMA model.}
 
 \item{z_value}{\code{logical}. If \code{TRUE} z-values are used instead of interventions effects.}
+
+\item{prop_size}{\code{logical}. If \code{TRUE} in the case where \code{z_value == FALSE}, the size of the dots is proportional to the precision of the estimates.}
 
 \item{fill_violin}{fill color of the violin. See \code{\link[ggplot2]{geom_violin}} for more details.}
 
@@ -85,21 +88,16 @@ example if \code{components_number = TRUE} and \code{groups = c("1-3", 4, "5+")}
 interventions that contain less than 3 components, one for the interventions that contain 4 components and one for those
 that contain more than 5 components.
 
-The function by default uses z-values, but it could be adjusted to use intervention's effects by setting \code{z_value = FALSE}.
+The function by default uses the NMA relative effects, but it could be adjusted to use intervention's z-scores by setting \code{z_value = TRUE}.
+In the case where the NMA relative effects, the size of dots reflects the precision of the estimates. Larger dots indicates
+more precise NMA estimates.
 }
 \note{
-In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
+In the case of dichotomous outcomes, the log-scale is used in axis y. Also, the function can be applied
 only in network meta-analysis models that contain multi-component interventions.
 }
 \examples{
-data(MACE)
-NMAdata <- netmeta::pairwise(
-  studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-  n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-)
-net <- netmeta::netmeta(
-  TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-  treat2 = treat2, data = NMAdata, ref = "UC"
-)
-specc(model = net, combination = c("B", "C", "B + C"))
+data(nmaMACE)
+specc(model = nmaMACE, combination = c("B", "C", "B + C"))
+
 }

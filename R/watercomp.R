@@ -5,7 +5,7 @@
 #' by one specific component combination.
 #'
 #' @details
-#' The function based on the intervention's z-values obtained from the network meta-analysis (NMA) model
+#' The function based on the intervention's z-values (default choice) obtained from the network meta-analysis (NMA) model
 #' visualizes all the observed interventions that differ by one specific component
 #' combination, in order to explore if the one extra component combination from every comparison
 #' has a positive or negative impact. Bars above or below of the \eqn{y = 0} line,
@@ -19,13 +19,15 @@
 #' by "A+B".
 #'
 #' @note
-#' In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
+#' In the case of dichotomous outcomes, the log-scale is used in axis y. Also, the function can be applied
 #' only in network meta-analysis models that contain multi-component interventions.
 #'
 #' @param model An object of class \code{\link[netmeta]{netmeta}}.
 #' @param sep  A single character that defines the separator between interventions components.
 #' @param combination A single character that specifies the component combination of interest.
+#' @param z_value \code{logical}. If \code{TRUE} z-values are used instead of interventions effects.
 #' @param random \code{logical}. If \code{TRUE} z-values are obtained from the random-effects NMA model instead of the fixed-effect NMA model.
+#'
 #'
 #' @return An object of class \code{ggplot}.
 #' @export
@@ -33,17 +35,10 @@
 #' @importFrom ggplot2 ggplot aes `%+%` geom_bar position_dodge labs theme_classic
 #'
 #' @examples
-#' data(MACE)
-#' NMAdata <- netmeta::pairwise(
-#'   studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-#'   n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-#' )
-#' net <- netmeta::netmeta(
-#'   TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-#'   treat2 = treat2, data = NMAdata, ref = "UC"
-#' )
-#' watercomp(net)
-watercomp <- function(model, sep = "+", combination = NULL, random = TRUE) {
+#' data(nmaMACE)
+#' watercomp(nmaMACE)
+#'
+watercomp <- function(model, sep = "+", combination = NULL, z_value = FALSE, random = TRUE) {
 
   ##
   # Check arguments
@@ -82,11 +77,16 @@ watercomp <- function(model, sep = "+", combination = NULL, random = TRUE) {
   ref <- as.character(model$reference.group)
 
   # Components of the network
-  comp_network <- unique(unlist(strsplit(nma_est$Node, split = paste("[", sep, "]", sep = ""), perl = TRUE)))
+  comp_network <- strsplit(nma_est$Node, split = paste("[", sep, "]", sep = ""), perl = TRUE)
 
-  if (length(comp_network) == length(nma_est$Node)) {
+  if (sum(sapply(comp_network, FUN = function(x) {
+    length(x) > 1
+  })) == 0) {
     stop("No additive treatments are included in the NMA model", call. = FALSE)
+  } else {
+    comp_network <- unique(unlist(comp_network))
   }
+
 
   ##
   # Writing nodes as a combination of component's dummy variables
@@ -141,45 +141,60 @@ watercomp <- function(model, sep = "+", combination = NULL, random = TRUE) {
   # Calculate variances
   ##
 
-  ifelse(random, covmat <- model$Cov.random, covmat <- model$Cov.fixed) # Covariance matrix
-  colnames(covmat) <- rownames(covmat) <- gsub(" ", "", colnames(covmat))
-  v <- NULL
+  colm <- "diff" # column for TE
+  if (z_value == TRUE) {
+    colm <- "z" # column for z-values
 
-  for (i in 1:dim(data_plot)[1]) {
+    ifelse(random, covmat <- model$Cov.random, covmat <- model$Cov.fixed) # Covariance matrix
+    colnames(covmat) <- rownames(covmat) <- gsub(" ", "", colnames(covmat))
+    v <- NULL
 
-    # Calculate Covariance
-    a <- which(rownames(covmat) == paste(data_plot$V1[i], ref, sep = ":"))
-    b <- which(colnames(covmat) == paste(data_plot$V2[i], ref, sep = ":"))
-    ##
-    if (length(a) == 0 | length(b) == 0) { # ref vs ref
+    for (i in 1:dim(data_plot)[1]) {
 
-      r <- which(row.names(covmat) %in% c(
-        paste(data_plot$V1[i], data_plot$V2[i], sep = ":"),
-        paste(data_plot$V2[i], data_plot$V1[i], sep = ":")
-      ))
-      v[i] <- covmat[r, r]
-    } else {
-      covariance <- covmat[a, b]
-      var_a <- which(colnames(covmat) == paste(data_plot$V1[i], ref, sep = ":"))
-      var_b <- which(colnames(covmat) == paste(data_plot$V2[i], ref, sep = ":"))
+      # Calculate Covariance
+      a <- which(rownames(covmat) == paste(data_plot$V1[i], ref, sep = ":"))
+      b <- which(colnames(covmat) == paste(data_plot$V2[i], ref, sep = ":"))
       ##
-      v[i] <- covmat[var_a, var_a] + covmat[var_b, var_b] - 2 * covariance
+      if (length(a) == 0 | length(b) == 0) { # ref vs ref
+
+        r <- which(row.names(covmat) %in% c(
+          paste(data_plot$V1[i], data_plot$V2[i], sep = ":"),
+          paste(data_plot$V2[i], data_plot$V1[i], sep = ":")
+        ))
+        v[i] <- covmat[r, r]
+      } else {
+        covariance <- covmat[a, b]
+        var_a <- which(colnames(covmat) == paste(data_plot$V1[i], ref, sep = ":"))
+        var_b <- which(colnames(covmat) == paste(data_plot$V2[i], ref, sep = ":"))
+        ##
+        v[i] <- covmat[var_a, var_a] + covmat[var_b, var_b] - 2 * covariance
+      }
     }
+
+    # Calculate Z-values
+    data_plot$z <- data_plot$diff / v
   }
 
-  # Calculate Z-values
-  data_plot$z <- data_plot$diff / v
   data_plot$compar <- paste(data_plot$V2, data_plot$V1, sep = " vs ")
 
   ##
   #  Plot
   ##
+  if (z_value == TRUE) {
+    lab_y <- "Standardized change"
+  } else {
+    lab_y <- "TE change"
+
+    if (model$sm %in% c("OR", "RR")) {
+      data_plot$diff <- exp(data_plot$diff) # TE is on log scale
+    }
+  }
 
   p <- ggplot2::ggplot(
     data = NULL,
     ggplot2::aes(
       x = data_plot$compar,
-      y = data_plot$z
+      y = data_plot[, colm]
     )
   ) +
     ggplot2::geom_bar(
@@ -190,9 +205,13 @@ watercomp <- function(model, sep = "+", combination = NULL, random = TRUE) {
     ) +
     ggplot2::labs(
       x = "Comparison",
-      y = "Standardized change"
+      y = lab_y
     ) +
     ggplot2::theme_classic()
+
+  if (model$sm %in% c("OR", "RR") & z_value == FALSE) {
+    p <- p + ggplot2::scale_y_log10()
+  }
 
   p
 }

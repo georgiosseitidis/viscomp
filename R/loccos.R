@@ -17,12 +17,12 @@
 #' function plots all the interventions that differ by the component \code{"A"}. If \code{combination = NULL}, all interventions
 #' that differ by one component are plotted.
 #'
-#' The function by default uses the z-values estimates from the NMA model (\code{z_value = TRUE}). Histograms
-#' for the nodes that include and not include the component combination could be added to the scatter plot,
+#' The function by default uses the NMA relative effects estimates, but it can be adjusted to use the z-values by setting the argument \code{z_value = TRUE}.
+#' Histograms for the nodes that include and not include the component combination can be added to the scatter plot,
 #' by setting the argument \code{histogram = TRUE}.
 #'
 #' @note
-#' In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
+#' In the case of dichotomous outcomes, the log-scale is used for both axis. Also, the function can be applied
 #' only in network meta-analysis models that contain multi-component interventions.
 #'
 #'
@@ -34,24 +34,17 @@
 #' @param histogram \code{logical}. If \code{TRUE} histograms are added to the plot.
 #' @param histogram.color A single character that specifies the color of the histogram. See \code{\link[ggExtra]{ggMarginal}} for more details.
 #'
-#' @importFrom ggplot2 ggplot aes `%+%` geom_point geom_line labs
+#' @importFrom ggplot2 ggplot aes geom_hline labs `%+%` geom_point geom_line theme_minimal scale_y_log10 scale_x_log10 theme
 #' @importFrom ggExtra ggMarginal
 #'
 #' @return An object of class \code{\link[ggplot2]{ggplot}}.
 #' @export
 #'
 #' @examples
-#' data(MACE)
-#' NMAdata <- netmeta::pairwise(
-#'   studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-#'   n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-#' )
-#' net <- netmeta::netmeta(
-#'   TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-#'   treat2 = treat2, data = NMAdata, ref = "UC"
-#' )
-#' loccos(model = net, combination = c("B"))
-loccos <- function(model, sep = "+", combination = NULL, random = TRUE, z_value = TRUE, histogram = TRUE, histogram.color = "blue") {
+#' data(nmaMACE)
+#' loccos(model = nmaMACE, combination = c("B"))
+#'
+loccos <- function(model, sep = "+", combination = NULL, random = TRUE, z_value = FALSE, histogram = TRUE, histogram.color = "blue") {
 
   ##
   # Check arguments
@@ -98,18 +91,23 @@ loccos <- function(model, sep = "+", combination = NULL, random = TRUE, z_value 
   z_nma$Node <- row.names(z_nma) <- gsub(" ", "", z_nma$Node)
 
   if (z_value) {
-    z_nma <- z_nma[, c(1, dim(z_nma)[2])] # z_values
+    z_nma <- z_nma[, c("Node", "z_stat")] # z_values
   } else {
-    z_nma <- z_nma[, c(1:2)] # TE estimates
+    z_nma <- z_nma[, c("Node", "TE")] # TE estimates
   }
 
 
   # Find the components of the network
-  comp_network <- unique(unlist(strsplit(z_nma$Node, split = paste0("[", sep, "]"), perl = TRUE)))
+  comp_network <- strsplit(z_nma$Node, split = paste("[", sep, "]", sep = ""), perl = TRUE)
 
-  if (length(comp_network) == length(z_nma$Node)) {
+  if (sum(sapply(comp_network, FUN = function(x) {
+    length(x) > 1
+  })) == 0) {
     stop("No additive treatments are included in the NMA model", call. = FALSE)
+  } else {
+    comp_network <- unique(unlist(comp_network))
   }
+
 
   ##
   # Writing nodes as a combination of component's dummy variables
@@ -191,15 +189,22 @@ loccos <- function(model, sep = "+", combination = NULL, random = TRUE, z_value 
     }
   }
 
+
+  ##
+  # Plot
+  ##
+
   # Limits of the plot
   lim <- data.frame(
     y = c(max(data_plot$z_V1, data_plot$z_V2), min(data_plot$z_V1, data_plot$z_V2)),
     x = c(max(data_plot$z_V1, data_plot$z_V2), min(data_plot$z_V1, data_plot$z_V2))
   )
 
-  ##
-  # Plot
-  ##
+  if (model$sm %in% c("OR", "RR") & z_value == FALSE) {
+    lim <- exp(lim)
+    data_plot$z_V1 <- exp(data_plot$z_V1)
+    data_plot$z_V2 <- exp(data_plot$z_V2)
+  }
 
   p <- ggplot2::ggplot(
     data = NULL
@@ -215,7 +220,12 @@ loccos <- function(model, sep = "+", combination = NULL, random = TRUE, z_value 
     ggplot2::labs(
       x = paste("Nodes including", combination),
       y = paste("Nodes not including", combination)
-    )
+    ) +
+    ggplot2::theme(aspect.ratio = 1)
+
+  if (model$sm %in% c("OR", "RR") & z_value == FALSE) {
+    p <- p + ggplot2::scale_y_log10() + ggplot2::scale_x_log10()
+  }
 
   if (histogram) {
     p <- ggExtra::ggMarginal(p, type = "histogram", fill = histogram.color)

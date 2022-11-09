@@ -9,7 +9,7 @@ loccos(
   sep = "+",
   combination = NULL,
   random = TRUE,
-  z_value = TRUE,
+  z_value = FALSE,
   histogram = TRUE,
   histogram.color = "blue"
 )
@@ -49,23 +49,16 @@ The component combination of interest is specified by the argument \code{combina
 function plots all the interventions that differ by the component \code{"A"}. If \code{combination = NULL}, all interventions
 that differ by one component are plotted.
 
-The function by default uses the z-values estimates from the NMA model (\code{z_value = TRUE}). Histograms
-for the nodes that include and not include the component combination could be added to the scatter plot,
+The function by default uses the NMA relative effects estimates, but it can be adjusted to use the z-values by setting the argument \code{z_value = TRUE}.
+Histograms for the nodes that include and not include the component combination can be added to the scatter plot,
 by setting the argument \code{histogram = TRUE}.
 }
 \note{
-In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
+In the case of dichotomous outcomes, the log-scale is used for both axis. Also, the function can be applied
 only in network meta-analysis models that contain multi-component interventions.
 }
 \examples{
-data(MACE)
-NMAdata <- netmeta::pairwise(
-  studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-  n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-)
-net <- netmeta::netmeta(
-  TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-  treat2 = treat2, data = NMAdata, ref = "UC"
-)
-loccos(model = net, combination = c("B"))
+data(nmaMACE)
+loccos(model = nmaMACE, combination = c("B"))
+
 }

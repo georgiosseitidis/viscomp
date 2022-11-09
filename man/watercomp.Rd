@@ -4,7 +4,7 @@
 \alias{watercomp}
 \title{Waterfall plot}
 \usage{
-watercomp(model, sep = "+", combination = NULL, random = TRUE)
+watercomp(model, sep = "+", combination = NULL, z_value = FALSE, random = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{\link[netmeta]{netmeta}}.}
@@ -12,6 +12,8 @@ watercomp(model, sep = "+", combination = NULL, random = TRUE)
 \item{sep}{A single character that defines the separator between interventions components.}
 
 \item{combination}{A single character that specifies the component combination of interest.}
+
+\item{z_value}{\code{logical}. If \code{TRUE} z-values are used instead of interventions effects.}
 
 \item{random}{\code{logical}. If \code{TRUE} z-values are obtained from the random-effects NMA model instead of the fixed-effect NMA model.}
 }
@@ -23,7 +25,7 @@ The function produces a waterfall plot based on the z-values from the interventi
 by one specific component combination.
 }
 \details{
-The function based on the intervention's z-values obtained from the network meta-analysis (NMA) model
+The function based on the intervention's z-values (default choice) obtained from the network meta-analysis (NMA) model
 visualizes all the observed interventions that differ by one specific component
 combination, in order to explore if the one extra component combination from every comparison
 has a positive or negative impact. Bars above or below of the \eqn{y = 0} line,
@@ -37,18 +39,11 @@ If for example \code{combination = "A+B"}, the function plots the interventions 
 by "A+B".
 }
 \note{
-In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
+In the case of dichotomous outcomes, the log-scale is used in axis y. Also, the function can be applied
 only in network meta-analysis models that contain multi-component interventions.
 }
 \examples{
-data(MACE)
-NMAdata <- netmeta::pairwise(
-  studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-  n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-)
-net <- netmeta::netmeta(
-  TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-  treat2 = treat2, data = NMAdata, ref = "UC"
-)
-watercomp(net)
+data(nmaMACE)
+watercomp(nmaMACE)
+
 }

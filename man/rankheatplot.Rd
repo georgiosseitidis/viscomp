@@ -9,8 +9,7 @@ rankheatplot(
   sep = "+",
   median = TRUE,
   random = TRUE,
-  small.values = NULL,
-  outcomeNames = c("Outcome 1", "Outcome 2"),
+  outcomeNames = NULL,
   cex_components = NULL,
   cex_values = NULL,
   cex_outcomes = NULL
@@ -23,9 +22,7 @@ rankheatplot(
 
 \item{median}{\code{logical}. If \code{TRUE} the median is used as a summary measure instead of the mean.}
 
-\item{random}{\code{logical}. If \code{TRUE} the random-effects NMA model is used instead of the fixed-effects NMA model.}
-
-\item{small.values}{A \code{character} vector that specifies whether small intervention effects indicate a beneficial (\code{small.values = "good"}) or a harmful (\code{small.values = "bad"}) effect. If \code{small.values = NULL} small values assumed \code{good} for each outcome.}
+\item{random}{A \code{logical} vector that specifies the NMA model for each outcome. If \code{TRUE} the random-effects NMA model is used instead of the fixed-effects NMA model.}
 
 \item{outcomeNames}{A character vector that specifies the names of the outcomes.}
 

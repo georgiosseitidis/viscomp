@@ -10,7 +10,7 @@ denscomp(
   combination,
   violin = FALSE,
   random = TRUE,
-  z_value = TRUE
+  z_value = FALSE
 )
 }
 \arguments{
@@ -43,9 +43,9 @@ For example, if \code{combination = c("A + B", "B + C", "A")} the function will 
 the interventions that includes components \code{"A"} and \code{"B"}, the interventions that include components \code{"B"} and \code{"C"} and
 interventions that includes component \code{"A"}, respectively.
 
-The function by default uses the intervention's z-values \code{z_value = TRUE} obtained from the random-effects network
-meta-analysis (NMA) model (\code{random = TRUE}). It could be also adjusted to use the intervention's effect estimates
-instead of the z-values, by setting \code{z_value = FALSE}.
+The function by default uses the intervention's relative effects (\code{z_value = FALSE}) obtained from the random-effects network
+meta-analysis (NMA) model (\code{random = TRUE}). It can be also adjusted to use the intervention's z-values
+instead of the relative effects, by setting \code{z_value = TRUE}.
 }
 \note{
 The efficacy of the components could be explored via violins plots instead of density plots, by setting \code{violin = TRUE}.
@@ -54,14 +54,7 @@ Also, in the case of dichotomous outcomes, the log-scale is used.
 The function can be applied only in network meta-analysis models that contain multi-component interventions.
 }
 \examples{
-data(MACE)
-NMAdata <- netmeta::pairwise(
-  studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-  n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-)
-net <- netmeta::netmeta(
-  TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-  treat2 = treat2, data = NMAdata, ref = "UC"
-)
-denscomp(model = net, combination = "C")
+data(nmaMACE)
+denscomp(model = nmaMACE, combination = "C")
+
 }

@@ -48,14 +48,7 @@ default plots the five most frequent components' combinations found in the netwo
 The function can be applied only in network meta-analysis models that contain multi-component interventions.
 }
 \examples{
-data(MACE)
-NMAdata <- netmeta::pairwise(
-  studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-  n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-)
-net <- netmeta::netmeta(
-  TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-  treat2 = treat2, data = NMAdata, ref = "A"
-)
-compGraph(model = net)
+data(nmaMACE)
+compGraph(model = nmaMACE)
+
 }

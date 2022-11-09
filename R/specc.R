@@ -20,10 +20,12 @@
 #' interventions that contain less than 3 components, one for the interventions that contain 4 components and one for those
 #' that contain more than 5 components.
 #'
-#' The function by default uses z-values, but it could be adjusted to use intervention's effects by setting \code{z_value = FALSE}.
+#' The function by default uses the NMA relative effects, but it could be adjusted to use intervention's z-scores by setting \code{z_value = TRUE}.
+#' In the case where the NMA relative effects, the size of dots reflects the precision of the estimates. Larger dots indicates
+#' more precise NMA estimates.
 #'
 #' @note
-#' In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
+#' In the case of dichotomous outcomes, the log-scale is used in axis y. Also, the function can be applied
 #' only in network meta-analysis models that contain multi-component interventions.
 #'
 #'
@@ -34,6 +36,7 @@
 #' @param groups A character vector that contains the clusters of the number of components. Elements of the vector must be integer numbers (e.g. 5 or "5"), or range values (e.g. "3-4" ), or in the "xx+" format (e.g "5+").
 #' @param random \code{logical}. If \code{TRUE} the random-effects NMA model is used instead of the fixed-effect NMA model.
 #' @param z_value \code{logical}. If \code{TRUE} z-values are used instead of interventions effects.
+#' @param prop_size \code{logical}. If \code{TRUE} in the case where \code{z_value == FALSE}, the size of the dots is proportional to the precision of the estimates.
 #' @param fill_violin fill color of the violin. See \code{\link[ggplot2]{geom_violin}} for more details.
 #' @param color_violin color of the violin. See \code{\link[ggplot2]{geom_violin}} for more details.
 #' @param adj_violin adjustment of the violin. See \code{\link[ggplot2]{geom_violin}} for more details.
@@ -47,26 +50,19 @@
 #' @param values \code{logical}. If \code{TRUE} median value of each violin is printed.
 #'
 #' @importFrom stats median
-#' @importFrom ggplot2 ggplot aes `%+%` geom_violin geom_boxplot geom_jitter position_jitter geom_text stat_boxplot labs scale_x_discrete
+#' @importFrom ggplot2 ggplot aes `%+%` geom_violin geom_boxplot geom_jitter position_jitter geom_text stat_boxplot labs scale_x_discrete scale_y_log10 guides
 #' @importFrom Hmisc all.is.numeric
 #'
 #' @return An object of class \code{ggplot}.
 #' @export
 #'
 #' @examples
-#' data(MACE)
-#' NMAdata <- netmeta::pairwise(
-#'   studlab = Study, treat = list(treat1, treat2, treat3, treat4),
-#'   n = list(n1, n2, n3, n4), event = list(event1, event2, event3, event4), data = MACE, sm = "OR"
-#' )
-#' net <- netmeta::netmeta(
-#'   TE = TE, seTE = seTE, studlab = studlab, treat1 = treat1,
-#'   treat2 = treat2, data = NMAdata, ref = "UC"
-#' )
-#' specc(model = net, combination = c("B", "C", "B + C"))
-specc <- function(model, sep = "+", combination = NULL, components_number = FALSE, groups = NULL, random = TRUE, z_value = TRUE,
-                  fill_violin = "lightblue", color_violin = "lightblue", adj_violin = 1, width_violin = 1,
-                  boxplot = TRUE, width_boxplot = 0.3, errorbar_type = 5, dots = TRUE,
+#' data(nmaMACE)
+#' specc(model = nmaMACE, combination = c("B", "C", "B + C"))
+#'
+specc <- function(model, sep = "+", combination = NULL, components_number = FALSE, groups = NULL, random = TRUE, z_value = FALSE,
+                  prop_size = TRUE, fill_violin = "lightblue", color_violin = "lightblue", adj_violin = 1, width_violin = 1,
+                  boxplot = TRUE, width_boxplot = 0.5, errorbar_type = 5, dots = TRUE,
                   jitter_shape = 16, jitter_position = 0.01, values = TRUE) {
 
   ##
@@ -137,9 +133,14 @@ specc <- function(model, sep = "+", combination = NULL, components_number = FALS
 
 
   # Components of the network
-  comp_network <- unique(unlist(strsplit(nma_est$Node, split = paste0("[", sep, "]"), perl = TRUE)))
-  if (length(comp_network) == length(nma_est$Node)) {
+  comp_network <- strsplit(nma_est$Node, split = paste("[", sep, "]", sep = ""), perl = TRUE)
+
+  if (sum(sapply(comp_network, FUN = function(x) {
+    length(x) > 1
+  })) == 0) {
     stop("No additive treatments are included in the NMA model", call. = FALSE)
+  } else {
+    comp_network <- unique(unlist(comp_network))
   }
 
   ##
@@ -156,7 +157,7 @@ specc <- function(model, sep = "+", combination = NULL, components_number = FALS
     # Data for the number of components
     ##
 
-    dummy$n_comp <- apply(dummy[, 6:(dim(dummy)[2])], 1, sum)
+    dummy$n_comp <- apply(dummy[, (which(names(dummy) == "z_stat") + 1):(dim(dummy)[2])], 1, sum)
 
     if (!is.null(groups)) {
 
@@ -302,7 +303,10 @@ specc <- function(model, sep = "+", combination = NULL, components_number = FALS
         data_plot <- rbind(data_plot, data_j)
       }
       # Exclude the reference category
-      data_plot <- data_plot[-which(data_plot$Combination == model$reference.group), ]
+      ref_exc <- which(data_plot$Combination == model$reference.group)
+      if (length(ref_exc) > 0) {
+        data_plot <- data_plot[-ref_exc, ]
+      }
     }
   }
 
@@ -310,9 +314,43 @@ specc <- function(model, sep = "+", combination = NULL, components_number = FALS
   if (z_value == TRUE) {
     mes <- "z_stat"
     yax <- "Standardized effects"
+
+    # exclude NaN or NA
+    if (sum(is.nan(data_plot$z_stat)) > 0 | sum(is.na(data_plot$z_stat)) > 0) {
+      ex_z <- which(is.nan(data_plot$z_stat) == TRUE | is.na(data_plot$z_stat) == TRUE)
+      data_plot <- data_plot[-ex_z, ]
+    }
+
+    data_plot$size <- 1
+    a <- 1
   } else {
     mes <- "TE"
+    a <- 0.3
+
+    if (model$sm %in% c("OR", "RR")) { # dichotomous outcomes
+      data_plot[, mes] <- exp(data_plot[, mes])
+    }
     yax <- "Treatment effects"
+
+    # dots size
+    if (prop_size == TRUE) {
+      data_plot$size <- (1 / data_plot$seTE - 0.1) / (10 - 0.1) # scale 0.1 - 10
+
+      over1 <- which(data_plot$size > 1)
+      if (length(over1) > 0) {
+        data_plot$size[over1] <- 1
+      }
+
+      zeros <- which(round(data_plot$size, 1) == 0)
+      if (length(zeros) > 0) {
+        data_plot$size[zeros] <- 0.2
+      }
+
+      data_plot$size <- 8 * data_plot$size
+    } else {
+      data_plot$size <- 1
+      a <- 1
+    }
   }
 
   ##
@@ -327,16 +365,18 @@ specc <- function(model, sep = "+", combination = NULL, components_number = FALS
     r <- which(!data_plot$Combination %in% no_violin)
   }
 
+  data_plot$Combination <- as.character(data_plot$Combination)
+
   p <- ggplot2::ggplot(
     data = NULL,
     ggplot2::aes(
-      x = as.character(data_plot$Combination),
+      x = data_plot$Combination,
       y = data_plot[, mes]
     )
   ) +
     ggplot2::geom_violin(
       ggplot2::aes(
-        x = as.character(data_plot$Combination[r]),
+        x = data_plot$Combination[r],
         y = data_plot[r, mes]
       ),
       trim = TRUE,
@@ -350,13 +390,17 @@ specc <- function(model, sep = "+", combination = NULL, components_number = FALS
       fill = ""
     ) +
     ggplot2::scale_x_discrete(name = axis_x) +
-    ggplot2::theme(legend.position = "bottom")
+    ggplot2::theme(
+      legend.position = "bottom",
+      axis.title = ggplot2::element_text(size = 12)
+    ) +
+    ggplot2::guides(fill = guide_legend(nrow = 1))
 
   if (boxplot) {
     p <- p + ggplot2::geom_boxplot(
       width = width_boxplot,
       outlier.shape = NA,
-      ggplot2::aes(fill = as.character(data_plot$Combination))
+      ggplot2::aes(fill = data_plot$Combination)
     ) +
       ggplot2::stat_boxplot(
         geom = "errorbar",
@@ -366,6 +410,7 @@ specc <- function(model, sep = "+", combination = NULL, components_number = FALS
 
   if (dots) {
     p <- p + ggplot2::geom_jitter(
+      size = data_plot$size, alpha = a,
       shape = jitter_shape,
       position = ggplot2::position_jitter(jitter_position)
     )
@@ -380,13 +425,17 @@ specc <- function(model, sep = "+", combination = NULL, components_number = FALS
       ggplot2::aes(
         x = p_meds$combination,
         y = round(p_meds$med, 2),
-        label = p_meds$med
+        label = format(p_meds$med, n.small = 2)
       ),
       color = "red",
-      size = 4,
-      hjust = 1.5,
-      vjust = 0
+      size = 5,
+      hjust = 2.2,
+      vjust = -0.6
     )
+  }
+
+  if (model$sm %in% c("OR", "RR") & z_value == FALSE) {
+    p <- p + ggplot2::scale_y_log10()
   }
 
   p
