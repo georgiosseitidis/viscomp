@@ -3,7 +3,7 @@ title: "An introduction to network meta-analysis using the viscomp package"
 author: "Georgios Seitidis"
 output: rmarkdown::html_vignette
 description: > 
-  This document introduces you to viscomp’s set of tools, and shows you how to apply them on network meta-analysis model when multicomponent interventions (complex data) are present.
+  This document introduces you to viscomp’s set of tools and presents how to apply them on network meta-analysis model when multicomponent interventions (complex data) are present.
 vignette: >
   %\VignetteIndexEntry{An introduction to network meta-analysis using the viscomp package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -29,7 +29,7 @@ When multi-component (complex) interventions are present in a network meta-analy
  * identifying which component combination works better
  * understanding the behavior of the components
 
-The **viscomp** package provides several visualization tools to address these issues. This document makes an introduction to viscomp’s set of tools, and shows you how to apply them on network meta-analysis when multi-component (complex) interventions are included.
+The **viscomp** package provides several visualization tools to address these issues. This document makes an introduction to viscomp’s set of tools and presents how to apply them on network meta-analysis when multi-component (complex) interventions are included.
 
 \
  
@@ -71,7 +71,7 @@ net <- netmeta(TE = TE,
 
 Item `crosstable` contains a cross-table with the frequency of the components. Diagonal elements refer to the components, while off-diagonal elements to the components combinations. Each cell represents the number of arms where the corresponding component (combination) was observed.
 
-Item `heatmat` visualizes the item \code{crosstable}. Diagonal elements refer to the components and in parentheses the proportion of study arms including that component is provided, while off-diagonal elements to the frequency of component’s combinations and in parentheses the proportion of study arms with both components out of those study arms that have the component in the row is provided. Also, the intensity of the color is proportional to the relative frequency of the component combination.
+Item `heatmat` visualizes the item *crosstable*. Diagonal elements refer to the components and in parentheses the proportion of study arms including that component is provided, while off-diagonal elements to the frequency of component’s combinations and in parentheses the proportion of study arms with both components out of those study arms that have the component in the row is provided. Also, the intensity of the color is proportional to the relative frequency of the component combination.
 
 Item `frequency` provides useful descriptive characteristics about the component's frequency. In addition, it reports:
 
@@ -84,8 +84,8 @@ Item `frequency` provides useful descriptive characteristics about the component
 * the percentage of studies in which the corresponding component was not included in any arm (column *C_percent*)
 * the ratio of columns *A* and *B* (column *A.B*).
 
-We  can perform a descriptive analysis of the components with:
-```{r, fig.width = 7.5, fig.height = 6}
+We can perform a descriptive analysis of the components with:
+```{r, fig.width = 8.5, fig.height = 6, out.width="100%"}
 compdesc(net)
 ```
 
@@ -95,7 +95,7 @@ compdesc(net)
 
 \
 
-We  can visualize the 10 most frequent component combinations with:
+We can visualize the 10 most frequent component combinations with:
 
 ```{r, fig.width = 7.5, fig.height = 6}
 compGraph(net, mostF = 10, title = "")
@@ -109,11 +109,11 @@ compGraph(net, mostF = 10, title = "", excl = "UC")
 
 ## Explore the efficacy of the two-by-two components combinations with `heatcomp()`
 
-`heatcomp()` creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes the efficacy of the interventions (obtained from the NMA model) that includes the corresponding component combination. The frequency of the components combinations found in the NMA model is printed by default (`freq = TRUE`). Combinations that were not observed in the NMA model are denoted by the letter "X". The function by default uses the relative effects and the median as a summary measure (`median = TRUE`). The magnitude of the evidence is reflected by the color's intensity. Dark green or red colors indicate a large impact on the outcome. Outcomes nature (beneficial or harmful) is defined in the \code{netmeta} model. The uncertainty around the NMA estimates is reflected by the size of the grey boxes. The bigger the box, the more precise the estimate.
+`heatcomp()` creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes the efficacy of the interventions (obtained from the NMA model) that includes the corresponding component combination. The frequency of the components combinations found in the NMA model is printed by default (`freq = TRUE`). Combinations that were not observed in the NMA model are denoted by the letter "X". The function by default uses the relative effects and the median as a summary measure (`median = TRUE`). The magnitude of the evidence is reflected by the color's intensity. Dark green or red colors indicate a large impact on the outcome. Outcomes nature (beneficial or harmful) is defined in the *netmeta* model. The uncertainty around the NMA estimates is reflected by the size of the grey boxes. The bigger the box, the more precise the estimate.
 
 
-The function can be also adjusted to include z-scores by setting the argument \code{z_value = TRUE}.
-Z-scores quantify the strength of statistical evidence.Thus, dark green (or red) indicates strong statistical evidence that the corresponding component (or combination of components) performs better (or worse) than the reference intervention. The nature of the outcome (beneficial, harmful) is controlled by the argument `outcome`.
+The function can be also adjusted to include z-scores by setting the argument `z_value = TRUE`.
+Z-scores quantify the strength of statistical evidence. Thus, dark green (or red) indicates strong statistical evidence that the corresponding component (or combination of components) performs better (or worse) than the reference intervention. The nature of the outcome (beneficial, harmful) is controlled by the argument `outcome`.
 
 \
 
