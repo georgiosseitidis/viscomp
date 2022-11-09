@@ -60,7 +60,7 @@
 <span>  <span class="va">combination</span>,</span>
 <span>  violin <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  random <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  z_value <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  z_value <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -106,9 +106,9 @@ the argument <code>combination</code>, and each density is based on the interven
 For example, if <code>combination = c("A + B", "B + C", "A")</code> the function will produce 3 density plots that are based on
 the interventions that includes components <code>"A"</code> and <code>"B"</code>, the interventions that include components <code>"B"</code> and <code>"C"</code> and
 interventions that includes component <code>"A"</code>, respectively.</p>
-<p>The function by default uses the intervention's z-values <code>z_value = TRUE</code> obtained from the random-effects network
-meta-analysis (NMA) model (<code>random = TRUE</code>). It could be also adjusted to use the intervention's effect estimates
-instead of the z-values, by setting <code>z_value = FALSE</code>.</p>
+<p>The function by default uses the intervention's relative effects (<code>z_value = FALSE</code>) obtained from the random-effects network
+meta-analysis (NMA) model (<code>random = TRUE</code>). It can be also adjusted to use the intervention's z-values
+instead of the relative effects, by setting <code>z_value = TRUE</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
@@ -119,17 +119,10 @@ Also, in the case of dichotomous outcomes, the log-scale is used.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">MACE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">NMAdata</span> <span class="op">&lt;-</span> <span class="fu">netmeta</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/pairwise.html" class="external-link">pairwise</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  studlab <span class="op">=</span> <span class="va">Study</span>, treat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">treat1</span>, <span class="va">treat2</span>, <span class="va">treat3</span>, <span class="va">treat4</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">n1</span>, <span class="va">n2</span>, <span class="va">n3</span>, <span class="va">n4</span><span class="op">)</span>, event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">event1</span>, <span class="va">event2</span>, <span class="va">event3</span>, <span class="va">event4</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">MACE</span>, sm <span class="op">=</span> <span class="st">"OR"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu">netmeta</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/netmeta.html" class="external-link">netmeta</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  TE <span class="op">=</span> <span class="va">TE</span>, seTE <span class="op">=</span> <span class="va">seTE</span>, studlab <span class="op">=</span> <span class="va">studlab</span>, treat1 <span class="op">=</span> <span class="va">treat1</span>,</span></span>
-<span class="r-in"><span>  treat2 <span class="op">=</span> <span class="va">treat2</span>, data <span class="op">=</span> <span class="va">NMAdata</span>, ref <span class="op">=</span> <span class="st">"UC"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">denscomp</span><span class="op">(</span>model <span class="op">=</span> <span class="va">net</span>, combination <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">nmaMACE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">denscomp</span><span class="op">(</span>model <span class="op">=</span> <span class="va">nmaMACE</span>, combination <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="denscomp-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

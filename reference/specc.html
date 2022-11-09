@@ -64,13 +64,14 @@ component combinations of interest.</p>
 <span>  components_number <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  groups <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  random <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  z_value <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  z_value <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  prop_size <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  fill_violin <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
 <span>  color_violin <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
 <span>  adj_violin <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  width_violin <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  boxplot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  width_boxplot <span class="op">=</span> <span class="fl">0.3</span>,</span>
+<span>  width_boxplot <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  errorbar_type <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  dots <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  jitter_shape <span class="op">=</span> <span class="fl">16</span>,</span>
@@ -107,6 +108,10 @@ component combinations of interest.</p>
 
 <dt>z_value</dt>
 <dd><p><code>logical</code>. If <code>TRUE</code> z-values are used instead of interventions effects.</p></dd>
+
+
+<dt>prop_size</dt>
+<dd><p><code>logical</code>. If <code>TRUE</code> in the case where <code>z_value == FALSE</code>, the size of the dots is proportional to the precision of the estimates.</p></dd>
 
 
 <dt>fill_violin</dt>
@@ -174,27 +179,22 @@ The number of components could be also categorized in groups by the argument <co
 example if <code>components_number = TRUE</code> and <code>groups = c("1-3", 4, "5+")</code>, 3 violins will be created. One for the
 interventions that contain less than 3 components, one for the interventions that contain 4 components and one for those
 that contain more than 5 components.</p>
-<p>The function by default uses z-values, but it could be adjusted to use intervention's effects by setting <code>z_value = FALSE</code>.</p>
+<p>The function by default uses the NMA relative effects, but it could be adjusted to use intervention's z-scores by setting <code>z_value = TRUE</code>.
+In the case where the NMA relative effects, the size of dots reflects the precision of the estimates. Larger dots indicates
+more precise NMA estimates.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p>In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
+    <p>In the case of dichotomous outcomes, the log-scale is used in axis y. Also, the function can be applied
 only in network meta-analysis models that contain multi-component interventions.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">MACE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">NMAdata</span> <span class="op">&lt;-</span> <span class="fu">netmeta</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/pairwise.html" class="external-link">pairwise</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  studlab <span class="op">=</span> <span class="va">Study</span>, treat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">treat1</span>, <span class="va">treat2</span>, <span class="va">treat3</span>, <span class="va">treat4</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">n1</span>, <span class="va">n2</span>, <span class="va">n3</span>, <span class="va">n4</span><span class="op">)</span>, event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">event1</span>, <span class="va">event2</span>, <span class="va">event3</span>, <span class="va">event4</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">MACE</span>, sm <span class="op">=</span> <span class="st">"OR"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu">netmeta</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/netmeta.html" class="external-link">netmeta</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  TE <span class="op">=</span> <span class="va">TE</span>, seTE <span class="op">=</span> <span class="va">seTE</span>, studlab <span class="op">=</span> <span class="va">studlab</span>, treat1 <span class="op">=</span> <span class="va">treat1</span>,</span></span>
-<span class="r-in"><span>  treat2 <span class="op">=</span> <span class="va">treat2</span>, data <span class="op">=</span> <span class="va">NMAdata</span>, ref <span class="op">=</span> <span class="st">"UC"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">specc</span><span class="op">(</span>model <span class="op">=</span> <span class="va">net</span>, combination <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"B + C"</span><span class="op">)</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">nmaMACE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">specc</span><span class="op">(</span>model <span class="op">=</span> <span class="va">nmaMACE</span>, combination <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"B + C"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="specc-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

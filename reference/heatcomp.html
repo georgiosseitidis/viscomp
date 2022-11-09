@@ -62,9 +62,8 @@ network meta-analysis (NMA) model.</p>
 <span>  sep <span class="op">=</span> <span class="st">"+"</span>,</span>
 <span>  median <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  random <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  z_value <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  z_value <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  freq <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  outcome <span class="op">=</span> <span class="st">"beneficial"</span>,</span>
 <span>  legend_name <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -95,10 +94,6 @@ network meta-analysis (NMA) model.</p>
 <dd><p><code>logical</code>. If <code>TRUE</code> the frequency of component combinations are printed.</p></dd>
 
 
-<dt>outcome</dt>
-<dd><p>A single character that defines the outcome's nature. Either <code>beneficial</code>, or <code>harmful</code> can be abbreviated.</p></dd>
-
-
 <dt>legend_name</dt>
 <dd><p>A single character that specifies the title of the legend.</p></dd>
 
@@ -111,39 +106,33 @@ network meta-analysis (NMA) model.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes
-the z-values (if <code>z_value = TRUE</code>) of the interventions that includes the corresponding
-component combination. Z-scores quantify the strength of statistical evidence. Combinations that were not
-observed in the NMA model, are denoted by the letter "X". Frequency of component combinations observed in the NMA is printed
-by default (<code>freq = TRUE</code>). As a summary measure, the median is used by default (<code>median = TRUE</code>).
-The magnitude of each z-score is reflected by the color's intensity. Estimates close to zero
-are denoted by white color, and indicates lack of evidence that the corresponding component combination performs
-better than the reference intervention. Deep green and red colors indicate strong evidence that the corresponding
-component combination performs better and worse respectively. Argument <code>outcome</code> controls the
-outcomes nature (beneficial or harmful). For harmful outcomes small values are considered as good whereas the
-opposite holds for beneficial outcomes.</p>
-<p>Intervention effects can be used instead of z-values by setting <code>z_value = FALSE</code>.
-Also, by setting <code>median = FALSE</code>, the mean is used instead of the median as a summary measure.</p>
+    <p>Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes by default
+the NMA relative effects (<code>z_value = FALSE</code>) of the interventions that includes the corresponding
+component combination. Combinations that were not observed in the NMA model, are denoted by the letter "X".
+Frequency of component combinations observed in the NMA is printed by default (<code>freq = TRUE</code>). As a summary measure,
+the median is used by default (<code>median = TRUE</code>). The magnitude of each relative effect is reflected by the color's intensity.
+Estimates close to zero are denoted by white color, and indicates a small magnitude of the corresponding component combination, while
+deep green and red colors indicate a large magnitude of the corresponding component combination.
+Outcomes nature (beneficial or harmful) is defined in the <code>netmeta</code> model.</p>
+<p>The function can be also adjusted to include z-scores by setting the argument <code>z_value = TRUE</code>.
+Z-scores quantify the strength of statistical evidence. Thus, dark green (or red) indicates strong statistical evidence that
+the corresponding component (or combination of components) performs better (or worse) than the reference intervention.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p>In the case of dichotomous outcomes, the log-scale is used. Also, the function can be applied
-only in network meta-analysis models that contain multi-component interventions.</p>
+    <p>In the case where the NMA relative effects are used, the uncertainty of the NMA estimates are reflected by the size of the grey boxes.
+The bigger the box, the more precise the estimate.</p>
+<p>By setting <code>median = FALSE</code>, the mean is used instead of the median as a summary measure.</p>
+<p>The function can be applied only in network meta-analysis models that contain multi-component interventions.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">MACE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">NMAdata</span> <span class="op">&lt;-</span> <span class="fu">netmeta</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/pairwise.html" class="external-link">pairwise</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  studlab <span class="op">=</span> <span class="va">Study</span>, treat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">treat1</span>, <span class="va">treat2</span>, <span class="va">treat3</span>, <span class="va">treat4</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">n1</span>, <span class="va">n2</span>, <span class="va">n3</span>, <span class="va">n4</span><span class="op">)</span>, event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">event1</span>, <span class="va">event2</span>, <span class="va">event3</span>, <span class="va">event4</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">MACE</span>, sm <span class="op">=</span> <span class="st">"OR"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu">netmeta</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/netmeta/man/netmeta.html" class="external-link">netmeta</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  TE <span class="op">=</span> <span class="va">TE</span>, seTE <span class="op">=</span> <span class="va">seTE</span>, studlab <span class="op">=</span> <span class="va">studlab</span>, treat1 <span class="op">=</span> <span class="va">treat1</span>,</span></span>
-<span class="r-in"><span>  treat2 <span class="op">=</span> <span class="va">treat2</span>, data <span class="op">=</span> <span class="va">NMAdata</span>, ref <span class="op">=</span> <span class="st">"UC"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">heatcomp</span><span class="op">(</span>model <span class="op">=</span> <span class="va">net</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">nmaMACE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">heatcomp</span><span class="op">(</span>model <span class="op">=</span> <span class="va">nmaMACE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 5 rows containing missing values (`geom_tile()`).</span>
 <span class="r-plt img"><img src="heatcomp-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

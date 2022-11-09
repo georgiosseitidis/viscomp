@@ -59,8 +59,7 @@
 <span>  sep <span class="op">=</span> <span class="st">"+"</span>,</span>
 <span>  median <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  random <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  small.values <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  outcomeNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Outcome 1"</span>, <span class="st">"Outcome 2"</span><span class="op">)</span>,</span>
+<span>  outcomeNames <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cex_components <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cex_values <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cex_outcomes <span class="op">=</span> <span class="cn">NULL</span></span>
@@ -82,11 +81,7 @@
 
 
 <dt>random</dt>
-<dd><p><code>logical</code>. If <code>TRUE</code> the random-effects NMA model is used instead of the fixed-effects NMA model.</p></dd>
-
-
-<dt>small.values</dt>
-<dd><p>A <code>character</code> vector that specifies whether small intervention effects indicate a beneficial (<code>small.values = "good"</code>) or a harmful (<code>small.values = "bad"</code>) effect. If <code>small.values = NULL</code> small values assumed <code>good</code> for each outcome.</p></dd>
+<dd><p>A <code>logical</code> vector that specifies the NMA model for each outcome. If <code>TRUE</code> the random-effects NMA model is used instead of the fixed-effects NMA model.</p></dd>
 
 
 <dt>outcomeNames</dt>
