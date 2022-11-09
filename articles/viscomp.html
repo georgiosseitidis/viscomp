@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="This document introduces you to viscomp’s set of tools, and shows you how to apply them on network meta-analysis model when multicomponent interventions (complex data) are present.
+<meta name="description" content="This document introduces you to viscomp’s set of tools and presents how to apply them on network meta-analysis model when multicomponent interventions (complex data) are present.
 ">
 <title>An introduction to network meta-analysis using the viscomp package • viscomp</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,7 +13,7 @@
 <script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="An introduction to network meta-analysis using the viscomp package">
-<meta property="og:description" content="This document introduces you to viscomp’s set of tools, and shows you how to apply them on network meta-analysis model when multicomponent interventions (complex data) are present.
+<meta property="og:description" content="This document introduces you to viscomp’s set of tools and presents how to apply them on network meta-analysis model when multicomponent interventions (complex data) are present.
 ">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -89,7 +89,7 @@ text-align: justify}
 <li>identifying which component combination works better</li>
 <li>understanding the behavior of the components</li>
 </ul>
-<p>The <strong>viscomp</strong> package provides several visualization tools to address these issues. This document makes an introduction to viscomp’s set of tools, and shows you how to apply them on network meta-analysis when multi-component (complex) interventions are included.</p>
+<p>The <strong>viscomp</strong> package provides several visualization tools to address these issues. This document makes an introduction to viscomp’s set of tools and presents how to apply them on network meta-analysis when multi-component (complex) interventions are included.</p>
 <p><br></p>
 <div class="section level2">
 <h2 id="single-outcome">Single outcome<a class="anchor" aria-label="anchor" href="#single-outcome"></a>
@@ -125,7 +125,7 @@ text-align: justify}
 </h3>
 <p><code>compdesc</code> performs a descriptive analysis for the components observed in the network. It provides 3 items as an output.</p>
 <p>Item <code>crosstable</code> contains a cross-table with the frequency of the components. Diagonal elements refer to the components, while off-diagonal elements to the components combinations. Each cell represents the number of arms where the corresponding component (combination) was observed.</p>
-<p>Item <code>heatmat</code> visualizes the item . Diagonal elements refer to the components and in parentheses the proportion of study arms including that component is provided, while off-diagonal elements to the frequency of component’s combinations and in parentheses the proportion of study arms with both components out of those study arms that have the component in the row is provided. Also, the intensity of the color is proportional to the relative frequency of the component combination.</p>
+<p>Item <code>heatmat</code> visualizes the item <em>crosstable</em>. Diagonal elements refer to the components and in parentheses the proportion of study arms including that component is provided, while off-diagonal elements to the frequency of component’s combinations and in parentheses the proportion of study arms with both components out of those study arms that have the component in the row is provided. Also, the intensity of the color is proportional to the relative frequency of the component combination.</p>
 <p>Item <code>frequency</code> provides useful descriptive characteristics about the component’s frequency. In addition, it reports:</p>
 <ul>
 <li>the number of arms where the component was observed (column <em>Frequency</em>)</li>
@@ -161,7 +161,7 @@ text-align: justify}
 <span><span class="co">#&gt; UC        UC        15 0 0.00000000 15 0.68181818  7 0.3181818 0.0000000</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $heatmat</span></span></code></pre></div>
-<p><img src="viscomp_files/figure-html/unnamed-chunk-3-1.png" width="720"></p>
+<p><img src="viscomp_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="explore-components-geometry-with-compgraph">Explore components geometry with <code>compGraph()</code><a class="anchor" aria-label="anchor" href="#explore-components-geometry-with-compgraph"></a>
@@ -180,8 +180,8 @@ text-align: justify}
 <div class="section level3">
 <h3 id="explore-the-efficacy-of-the-two-by-two-components-combinations-with-heatcomp">Explore the efficacy of the two-by-two components combinations with <code>heatcomp()</code><a class="anchor" aria-label="anchor" href="#explore-the-efficacy-of-the-two-by-two-components-combinations-with-heatcomp"></a>
 </h3>
-<p><code><a href="../reference/heatcomp.html">heatcomp()</a></code> creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components’ combinations. Each element summarizes the efficacy of the interventions (obtained from the NMA model) that includes the corresponding component combination. The frequency of the components combinations found in the NMA model is printed by default (<code>freq = TRUE</code>). Combinations that were not observed in the NMA model are denoted by the letter “X”. The function by default uses the relative effects and the median as a summary measure (<code>median = TRUE</code>). The magnitude of the evidence is reflected by the color’s intensity. Dark green or red colors indicate a large impact on the outcome. Outcomes nature (beneficial or harmful) is defined in the  model. The uncertainty around the NMA estimates is reflected by the size of the grey boxes. The bigger the box, the more precise the estimate.</p>
-<p>The function can be also adjusted to include z-scores by setting the argument . Z-scores quantify the strength of statistical evidence.Thus, dark green (or red) indicates strong statistical evidence that the corresponding component (or combination of components) performs better (or worse) than the reference intervention. The nature of the outcome (beneficial, harmful) is controlled by the argument <code>outcome</code>.</p>
+<p><code><a href="../reference/heatcomp.html">heatcomp()</a></code> creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components’ combinations. Each element summarizes the efficacy of the interventions (obtained from the NMA model) that includes the corresponding component combination. The frequency of the components combinations found in the NMA model is printed by default (<code>freq = TRUE</code>). Combinations that were not observed in the NMA model are denoted by the letter “X”. The function by default uses the relative effects and the median as a summary measure (<code>median = TRUE</code>). The magnitude of the evidence is reflected by the color’s intensity. Dark green or red colors indicate a large impact on the outcome. Outcomes nature (beneficial or harmful) is defined in the <em>netmeta</em> model. The uncertainty around the NMA estimates is reflected by the size of the grey boxes. The bigger the box, the more precise the estimate.</p>
+<p>The function can be also adjusted to include z-scores by setting the argument <code>z_value = TRUE</code>. Z-scores quantify the strength of statistical evidence. Thus, dark green (or red) indicates strong statistical evidence that the corresponding component (or combination of components) performs better (or worse) than the reference intervention. The nature of the outcome (beneficial, harmful) is controlled by the argument <code>outcome</code>.</p>
 <p><br></p>
 <p>We can visualize the efficacy of the components, with:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
