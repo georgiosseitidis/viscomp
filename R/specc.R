@@ -254,7 +254,10 @@ specc <- function(model, sep = "+", combination = NULL, components_number = FALS
     }
 
     # Exclude the reference rows
-    data_plot <- data_plot[-which(data_plot$Node == model$reference.group), ]
+    ex_ref <- which(data_plot$Node == model$reference.group)
+    if(length(ex_ref) > 0){
+      data_plot <- data_plot[-which(data_plot$Node == model$reference.group), ]
+    }
     axis_x <- "Number of components"
   } else {
 
