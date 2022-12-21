@@ -25,19 +25,16 @@ multi-component (complex) interventions:
 -   network graph of components
 -   rank heat plot of components for multiple outcomes.
 
-\
 
 ## Reference
 
 [Seitidis, G., Tsokani, S., Christogiannis, C., Kontouli, K.-M., Fyraridis, A., Nikolakopoulos, S., Veroniki, A.A. and Mavridis, D. (2022), Graphical tools for visualizing the results of network meta-analysis of multicomponent interventions. Res Syn Meth. Accepted Author Manuscript.](https://doi.org/10.1002/jrsm.1617)
 
-\
 
 ## Installation
 
 ### Current development version on GitHub:
 
-\
 
 Installation using R package
 [**devtools**](https://cran.r-project.org/package=devtools):
@@ -46,7 +43,7 @@ Installation using R package
 install.packages("devtools")
 devtools::install_github("georgiosseitidis/viscomp")
 ```
-\
+
 
 Installation using R package
 [**remotes**](https://cran.r-project.org/package=remotes):
@@ -56,7 +53,6 @@ install.packages("remotes")
 remotes::install_github("georgiosseitidis/viscomp")
 ```
 
-\
 
 ## How to use viscomp
 
@@ -66,7 +62,6 @@ We illustrate how to use **viscomp** in the vignette:
 vignette("viscomp", package = "viscomp")
 ```
 
-\
 
 ## How to cite viscomp
 
