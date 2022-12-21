@@ -46,7 +46,7 @@ data("MACE")
 
 Network meta-analysis (NMA) model is applied using the R-package `netmeta`. MACE is a dichotomous harmful outcome and the NMA model is constructed using the odds ratios (OR) as effect size.
 
-```{r, message = FALSE}
+```{r, message = FALSE, warning=FALSE}
 library(netmeta)
 data_NMA <- pairwise(studlab = Study, 
                       treat = list(treat1, treat2, treat3, treat4),
@@ -91,29 +91,29 @@ compdesc(net)
 
 ## Explore components geometry with `compGraph()`
 
-`compGraph()` is meant to visualize the frequency of components’ combinations found in the network. The function resembles a network plot where nodes represent the individual components found in the network and edges represent the combination of components found in at least one treatment arm of the trials included in the network meta-analysis model. Each edge’s color represents one of the unique interventions (components’ combination) found in the network of interventions. Edges’ thickness indicates the frequency by which each intervention (combination of components) was observed in the network (number of arms in which the combination was assigned). The number of the most frequent combinations can be modified from the argument `mostF`.
+`compGraph()` is meant to visualize the frequency of components’ combinations found in the network. The function resembles a network plot where nodes represent the individual components found in the network, while edges represent the combination of components found in at least one treatment arm of the trials included in the NMA model. Each edge’s color represents one of the unique interventions (components’ combination) found in the network of interventions. Edges’ thickness indicates the frequency by which each intervention (combination of components) was observed in the network (number of arms in which the combination was assigned). The number of the most frequent combinations can be modified from the argument `mostF`.
 
 \
 
 We can visualize the 10 most frequent component combinations with:
 
-```{r, fig.width = 7.5, fig.height = 6}
+```{r, fig.width = 7.5, fig.height = 6, out.width="100%"}
 compGraph(net, mostF = 10, title = "")
 ```
 
 In NMA we usually have interventions that are used as a potentially inactive reference intervention (e.g. placebo, usual care), and are not combined with other interventions. We can exclude these interventions through the argument `excl`. For example, we can exclude the usual care (UC) from the component network plot with:
 
-```{r, fig.width = 7.5, fig.height = 6}
+```{r, fig.width = 7.5, fig.height = 6, out.width="100%"}
 compGraph(net, mostF = 10, title = "", excl = "UC")
 ```
 
 ## Explore the efficacy of the two-by-two components combinations with `heatcomp()`
 
-`heatcomp()` creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes the efficacy of the interventions (obtained from the NMA model) that includes the corresponding component combination. The frequency of the components combinations found in the NMA model is printed by default (`freq = TRUE`). Combinations that were not observed in the NMA model are denoted by the letter "X". The function by default uses the relative effects and the median as a summary measure (`median = TRUE`). The magnitude of the evidence is reflected by the color's intensity. Dark green or red colors indicate a large impact on the outcome. Outcomes nature (beneficial or harmful) is defined in the *netmeta* model. The uncertainty around the NMA estimates is reflected by the size of the grey boxes. The bigger the box, the more precise the estimate.
+`heatcomp()` creates a heat plot comparing the two-by-two component combinations to the reference intervention. Diagonal elements refer to components, while off-diagonal to components' combinations. Each element summarizes the efficacy of the interventions (obtained from the NMA model) that includes the corresponding component combination. The frequency of the components combinations found in the NMA model is printed by default (`freq = TRUE`). Combinations that were not observed in the NMA model are denoted by the letter "X". The function by default uses the relative effects and the median as a summary measure (`median = TRUE`). The uncertainty around the NMA estimates is reflected by the size of the grey boxes. The bigger the box, the more precise the estimate. Moreover, the magnitude of the evidence is reflected by the color's intensity. Dark green or red colors indicate a large impact on the outcome. Outcomes nature (beneficial or harmful) is defined in the *netmeta* model (argument *small.values*).
 
 
 The function can be also adjusted to include z-scores by setting the argument `z_value = TRUE`.
-Z-scores quantify the strength of statistical evidence. Thus, dark green (or red) indicates strong statistical evidence that the corresponding component (or combination of components) performs better (or worse) than the reference intervention. The nature of the outcome (beneficial, harmful) is controlled by the argument `outcome`.
+Z-scores quantify the strength of statistical evidence. Thus, dark green (or red) indicates strong statistical evidence that the corresponding component (or combination of components) performs better (or worse) than the reference intervention.
 
 \
 
@@ -129,13 +129,13 @@ From the plot we see that the most intensive colors are observed for the compone
 
 ### Components
 
-`specc()` works similarly to `heatcomp()` except that instead of visualizing the two-by-two component combinations, it can visualize combinations with more than two components. The function by default produces violin plots based on the components' relative effects.
+`specc()` works similarly to `heatcomp()` except that instead of visualizing the two-by-two component combinations, it can visualize combinations with more than two components. The function by default produces violin plots based on the components' relative effects (`z_value = FALSE`).
 
 \
 
 We can visualize the distribution of each component in the network with:
 
-```{r, fig.width=10, out.width="100%", fig.height = 6}
+```{r, fig.width=10, out.width="100%", fig.height = 7.5}
 specc(net)
 ```
 
@@ -147,7 +147,7 @@ Note also that we receive a warning message because component G was included in 
 
 We can visualize the distribution of component combinations (e.g. A, A+B, A+B+C) with:
 
-```{r, fig.width = 8, out.width="100%", fig.height = 6}
+```{r, fig.width = 8, out.width="100%", fig.height = 7.5}
 specc(net, combination = c("A", "A + B", "A + B + C"))
 ```
 
@@ -155,25 +155,25 @@ specc(net, combination = c("A", "A + B", "A + B + C"))
 
 Often, we interested on exploring the behavior of intervention's effect as the number of components increased. We can do that with:
 
-```{r, fig.width = 7.2, fig.height = 6}
+```{r, fig.width = 7.2, fig.height = 7.5, out.width="100%"}
 specc(net, components_number = TRUE)
 ```
 
 \
 
-We can also group the violins in cluster based on the number of components. For example, we can create violins for interventions that includes 1 component, 2 components, 1-2 components and more than 2 components, with 
+We can also group the violins in clusters based on the number of components. For example, we can create violins for the interventions that includes 1 component, 2 components, 1-2 components and more than 2 components, with: 
 
-```{r, fig.width = 7.2, fig.height = 6}
+```{r, fig.width = 7.2, fig.height = 7.5, out.width="100%"}
 specc(net, components_number = TRUE, groups = c(1, 2, "1-2", "2+"))
 ```
 
 ## Explore the efficacy of the components with `denscomp()`
 
-The efficacy of a component (or component combination) can be explored by comparing the corresponding densities. `denscomp()` compares the following densities: one density is constructed by the NMA results referring to the interventions including the component (combination) of interest, while the second density refers to the interventions, not including the underlying component (combination).
+The efficacy of a component (or component combination) can be explored by comparing the corresponding densities. `denscomp()` compares the following densities: one density is constructed by the NMA results referring to the interventions including the component (combination) of interest, while the second density refers to the interventions, not including the underlying component (combination). The function by default uses the NMA relative effects, but it can be also adjusted to use z-scores by setting the argument `z_value = TRUE`.
 
 \
 
-For example, if we interested on exploring the efficacy of the component combination A+B, we can visualize the densities of the NMA relative effect estimates from the interventions that include and not include component A respectively, with
+For example, if we interested on exploring the efficacy of the component combination A+B, we can visualize the densities of the NMA relative effect estimates from the interventions that include and not include components A+B, respectively, with:
 
 ```{r, fig.width = 7.2, fig.height = 6}
 denscomp(net, combination = "A+B")
@@ -181,7 +181,7 @@ denscomp(net, combination = "A+B")
 
 \
 
-`denscomp()` can also compare more than two densities. If we interested for example to compare the densities of the interventions that include component A, components A+B, and components A+B+C, we can do it with
+`denscomp()` can also compare more than two densities. If we interested for example to compare the densities of the interventions that include component A, components A+B, and components A+B+C, we can do it with:
 
 ```{r, fig.width = 7.2, fig.height = 6}
 denscomp(net, combination = c("A", "A + B", "A + B + C"))
@@ -189,8 +189,9 @@ denscomp(net, combination = c("A", "A + B", "A + B + C"))
 
 ## Leaving one component out scatter plot with `loccos()`
 
-Exploring whether the inclusion or the exclusion of a component (combination) has a positive or negative impact on the efficacy of an intervention could be undertaken by looking at the interventions that differ by this specific component (combination). `loccos()` creates a scatter plot where the x-axis represents the z-score of the intervention that includes the component and the y-axis represents the z-score of the intervention that does not include the component. A point on the line y = x indicates that the inclusion/exclusion of the underlying component does not affect the efficacy of the interventions. Dots above the y = x line for a beneficial outcome, indicate that the inclusion of a component hampers the treatment effect while dots below this line signify a component that increases efficacy. The opposite holds for a harmful outcome.
+Exploring whether the inclusion or the exclusion of a component (combination) has a positive or negative impact on the efficacy of an intervention could be undertaken by looking at the interventions that differ by this specific component (combination). `loccos()` creates a scatter plot where the x-axis represents the NMA relative effect of the intervention that includes the  underlying component (combination), while the y-axis represents the NMA relative effect of the intervention that consists of the same components just like the one in the x-axis with the only difference that it does not include the component (combination) of interest. A point on the line y = x indicates that the inclusion/exclusion of the underlying component does not affect the efficacy of the interventions. Dots above the y = x line for a beneficial outcome, indicate that the inclusion of a component hampers the treatment effect while dots below this line signify a component that increases efficacy. The opposite holds for a harmful outcome.
 
+The function by default uses the NMA relative effects, but it can be also adjusted to use z-scores by setting the argument `z_value = TRUE`.
 \
 
 We can explore the impact of component A, with:
@@ -199,9 +200,14 @@ We can explore the impact of component A, with:
 loccos(net, combination = "A", histogram = FALSE)
 ```
 
+Note that the estimates with or without component A fall below or above the y = x line. This indicates that
+the additivity assumption might not hold for the Component NMA model. This is because additivity implies that the inclusion/exclusion of a component has the same impact on interventions that differ by this component. This is expressed visually in the scatter plot by a line parallel to y = x. 
+
 ## Waterfall plot with `watercomp()`
 
-`watercomp()` works similarly to `loccos()` except that instead of visualizing the impact of a component (combination) in a scatter plot, the impact is now visualizing in a waterfall plot. The horizontal y = 0 line represents zero impact on the intervention efficacy if an extra component is added. Bars indicate whether the inclusion of the extra component has an impact on the intervention. The interpretation of the direction of the underlying bars (positive or negative) depends on the nature of the outcome used (beneficial or harmful). 
+`watercomp()` works similarly to `loccos()` with the sole difference that instead of visualizing the impact of a component (combination) in a scatter plot, the impact is now visualized in a waterfall plot. The horizontal y = 0 line represents zero impact on the intervention efficacy if an extra component is added. Bars indicate whether the inclusion of the extra component has an impact on the intervention. The interpretation of the direction of the underlying bars (positive or negative) depends on the nature of the outcome used (beneficial or harmful) which is obtained automatically from the *netmeta* model. 
+
+The function by default uses the NMA relative effects, but it can be also adjusted to use z-scores by setting the argument `z_value = TRUE`.
 
 \
 
@@ -268,11 +274,14 @@ net2 <- netmeta::netmeta(TE = TE,
 
 We can visualize the p-scores for the two outcomes, with:
 
-```{r, fig.width = 7.2, fig.height = 6}
+```{r, fig.width = 7.2, fig.height = 6, out.width="100%"}
 rankheatplot(list(net1, net2))
 ```
 
 
 ### References
 
-* Veroniki, A. A., Straus, S. E., Fyraridis, A., & Tricco, A. C. (2016). The rank-heat plot is a novel way to present the results from a network meta-analysis including multiple outcomes. Journal of Clinical Epidemiology, 76, 193–199. <https://doi.org/10.1016/j.jclinepi.2016.02.016>
+[Seitidis, G., Tsokani, S., Christogiannis, C., Kontouli, K.-M., Fyraridis, A., Nikolakopoulos, S., Veroniki, A.A. and Mavridis, D. (2022), Graphical tools for visualizing the results of network meta-analysis of multicomponent interventions. Res Syn Meth. Accepted Author Manuscript.](https://doi.org/10.1002/jrsm.1617)
+
+
+[Veroniki, A. A., Straus, S. E., Fyraridis, A., & Tricco, A. C. (2016). The rank-heat plot is a novel way to present the results from a network meta-analysis including multiple outcomes. Journal of Clinical Epidemiology, 76, 193–199.](https://doi.org/10.1016/j.jclinepi.2016.02.016>)

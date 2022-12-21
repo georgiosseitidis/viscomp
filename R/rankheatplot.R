@@ -30,6 +30,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' # Artificial data set
 #'
 #' t1 <- c("A", "B", "C", "A+B", "A+C", "B+C", "A")
@@ -68,6 +69,8 @@
 #' # Rank heat plot
 #'
 #' rankheatplot(model = list(net1, net2))
+#' }
+#'
 rankheatplot <- function(model, sep = "+", median = TRUE, random = TRUE, outcomeNames = NULL,
                          cex_components = NULL, cex_values = NULL, cex_outcomes = NULL) {
 

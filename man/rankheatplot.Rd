@@ -51,6 +51,7 @@ By default the random-effects NMA model is used for each outcome (\code{random =
 The function can be applied only in network meta-analysis models that contain multi-component interventions.
 }
 \examples{
+\dontrun{
 # Artificial data set
 
 t1 <- c("A", "B", "C", "A+B", "A+C", "B+C", "A")
@@ -89,4 +90,6 @@ net2 <- netmeta::netmeta(
 # Rank heat plot
 
 rankheatplot(model = list(net1, net2))
+}
+
 }
