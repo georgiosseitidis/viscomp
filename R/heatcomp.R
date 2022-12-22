@@ -217,6 +217,11 @@ heatcomp <-
         weights$size[zeros] <- 0.1
       }
 
+      w_Nas <- which(is.na(weights$size) == T | is.nan(weights$size) == T)
+      if(length(w_Nas) > 0){
+        weights[w_Nas, c("value", "size")] <- 0
+      }
+
       p <- p + ggnewscale::new_scale_fill() +
         ggplot2::geom_tile(
           data = NULL, ggplot2::aes(x = weights$Var1, y = weights$Var2, height = weights$size, width = weights$size),
