@@ -28,7 +28,7 @@ multi-component (complex) interventions:
 
 ## Reference
 
-[Seitidis, G., Tsokani, S., Christogiannis, C., Kontouli, K.-M., Fyraridis, A., Nikolakopoulos, S., Veroniki, A.A. and Mavridis, D. (2022), Graphical tools for visualizing the results of network meta-analysis of multicomponent interventions. Res Syn Meth. Accepted Author Manuscript.](https://doi.org/10.1002/jrsm.1617)
+[Seitidis, G., Tsokani, S., Christogiannis, C., Kontouli, K.-M., Fyraridis, A., Nikolakopoulos, S., Veroniki, A.A. and Mavridis, D. (2023), Graphical tools for visualizing the results of network meta-analysis of multicomponent interventions. Research Synthesis Methods, 1-14.](https://doi.org/10.1002/jrsm.1617)
 
 
 ## Installation

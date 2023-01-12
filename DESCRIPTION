@@ -50,7 +50,7 @@ Description: A set of functions providing several visualization tools for explor
    - waterfall plot for the interventions' effects that differ by a certain component combination 
    - network graph of components
    - rank heat plot of components for multiple outcomes.
-   The implemented tools are described by Seitidis et al. 2022 <doi:10.1002/jrsm.1617>.
+   The implemented tools are described by Seitidis et al. 2023 <doi:10.1002/jrsm.1617>.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
