@@ -30,7 +30,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Artificial data set
 #'
 #' t1 <- c("A", "B", "C", "A+B", "A+C", "B+C", "A")

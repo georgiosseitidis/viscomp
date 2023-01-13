@@ -284,4 +284,4 @@ rankheatplot(list(net1, net2))
 [Seitidis, G., Tsokani, S., Christogiannis, C., Kontouli, K.-M., Fyraridis, A., Nikolakopoulos, S., Veroniki, A.A. and Mavridis, D. (2023), Graphical tools for visualizing the results of network meta-analysis of multicomponent interventions. Research Synthesis Methods, 1-14.](https://doi.org/10.1002/jrsm.1617)
 
 
-[Veroniki, A. A., Straus, S. E., Fyraridis, A., & Tricco, A. C. (2016). The rank-heat plot is a novel way to present the results from a network meta-analysis including multiple outcomes. Journal of Clinical Epidemiology, 76, 193–199.](https://doi.org/10.1016/j.jclinepi.2016.02.016>)
+[Veroniki, A. A., Straus, S. E., Fyraridis, A., & Tricco, A. C. (2016). The rank-heat plot is a novel way to present the results from a network meta-analysis including multiple outcomes. Journal of Clinical Epidemiology, 76, 193–199.](https://doi.org/10.1016/j.jclinepi.2016.02.016)
