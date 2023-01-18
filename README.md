@@ -3,7 +3,7 @@
 
 # viscomp
 
-# citationchaser <img src="man/figures/viscomp_logo.png" align="right" width="25%"/>
+# <img src="man/figures/viscomp_logo.png" align="right" width="25%"/>
 
 <!-- badges: start -->
 

@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 # viscomp
 
-# citationchaser <img src="man/figures/viscomp_logo.png" align="right" width="25%"/>
+# <img src="man/figures/viscomp_logo.png" align="right" width="25%"/>
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/viscomp)](https://CRAN.R-project.org/package=viscomp)
