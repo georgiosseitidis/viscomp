@@ -15,8 +15,13 @@ knitr::opts_chunk$set(
 
 # viscomp
 
+# citationchaser <img src="man/figures/viscomp_logo.png" align="right" width="25%"/>
+
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/viscomp)](https://CRAN.R-project.org/package=viscomp)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/georgiosseitidis/viscomp?branch=main&svg=true)](https://ci.appveyor.com/project/georgiosseitidis/viscomp)
+[![Monthly Downloads](https://cranlogs.r-pkg.org/badges/viscomp)](https://cranlogs.r-pkg.org/badges/viscomp)
+[![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/viscomp)](http://cranlogs.r-pkg.org/badges/grand-total/viscomp)
 <!-- badges: end -->
 
 The goal of **viscomp** is to provide several visualization tools for exploring the behavior of the components in a network meta-analysis of multi-component (complex) interventions: 
